@@ -1,17 +1,17 @@
 package hotelsearch.model;
 
-import java.awt.*;
+import java.awt.Image;
 
 public class Hotel {
-    String hotelID;
-    String name;
-    String location;
-    String numberOfStars;
-    Image image;
-    String description;
-    double roomPrice;
-    double distanceFromDowntown;
-    double distanceFromSupermarket;
+    private String hotelID;
+    private String name;
+    private String location;
+    private String numberOfStars;
+    private Image image;
+    private String description;
+    private double roomPrice;
+    private double distanceFromDowntown;
+    private double distanceFromSupermarket;
 
     /**
      * Constructor for the class Hotel.
