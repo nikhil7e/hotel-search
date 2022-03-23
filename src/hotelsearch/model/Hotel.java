@@ -1,6 +1,7 @@
 package hotelsearch.model;
 
 import java.awt.*;
+import javafx.scene.image.Image;
 
 public class Hotel {
     private String hotelID;
