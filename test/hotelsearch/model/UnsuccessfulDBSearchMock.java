@@ -20,7 +20,6 @@ public class UnsuccessfulDBSearchMock implements DatabaseService {
 
     @Override
     public void removeBooking(int bookingID) {
-
     }
 
 }
