@@ -4,10 +4,9 @@ import java.awt.*;
 import javafx.scene.image.Image;
 
 public class Hotel {
-    private String hotelID;
+    private int hotelID;
     private String name;
-    private String location;
-    private String numberOfStars;
+    private int numberOfStars;
     private Image image;
     private String description;
     private double roomPrice;
@@ -18,7 +17,6 @@ public class Hotel {
      * Constructor for the class Hotel.
      * @param hotelID The ID of the hotel.
      * @param name The name of the hotel.
-     * @param location The location of the hotel.
      * @param numberOfStars The rating of the hotel.
      * @param image An image of the hotel.
      * @param description A description of the hotel.
@@ -26,13 +24,12 @@ public class Hotel {
      * @param distanceFromDowntown The distance the hotel is from the downtown area in the city/town it is located.
      * @param distanceFromSupermarket The distance the hotel is from the nearest supermarket.
      */
-    public Hotel(String hotelID, String name, String location,
-                 String numberOfStars, Image image, String description,
+    public Hotel(int hotelID, String name,
+                 int numberOfStars, Image image, String description,
                  double roomPrice, double distanceFromDowntown,
                  double distanceFromSupermarket){
         this.hotelID = hotelID;
         this.name = name;
-        this.location = location;
         this.numberOfStars = numberOfStars;
         this.image = image;
         this.description = description;
@@ -41,7 +38,7 @@ public class Hotel {
         this.distanceFromSupermarket = distanceFromSupermarket;
     }
 
-    public String getHotelID(){
+    public int getHotelID(){
         return hotelID;
     }
 
@@ -49,11 +46,7 @@ public class Hotel {
         return name;
     }
 
-    public String getLocation(){
-        return location;
-    }
-
-    public String getNumberOfStars() {
+    public int getNumberOfStars() {
         return numberOfStars;
     }
 
