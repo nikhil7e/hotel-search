@@ -6,8 +6,7 @@ import javafx.scene.image.Image;
 public class Hotel {
     private String hotelID;
     private String name;
-    private String location;
-    private String numberOfStars;
+    private int numberOfStars;
     private Image image;
     private String description;
     private double roomPrice;
@@ -49,11 +48,7 @@ public class Hotel {
         return name;
     }
 
-    public String getLocation(){
-        return location;
-    }
-
-    public String getNumberOfStars() {
+    public int getNumberOfStars() {
         return numberOfStars;
     }
 
