@@ -1,6 +1,6 @@
 package hotelsearch.controller;
 
-import hotelsearch.model.Hotel;
+import hotelsearch.model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,35 +24,35 @@ public class HotelControllerTest {
 
     @Test(expected = SQLException.class)
     public void testFindHotelConnectionFail() {
-        DatabaseService mockDatabaseService = new NoConnectionMock();
+        DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         hotelController.findHotels();
     }
 
     @Test(expected = SQLException.class)
     public void testModifyBookingConnectionFail() {
-        DatabaseService mockDatabaseService = new NoConnectionMock();
+        DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         hotelController.findHotels();
     }
 
     @Test(expected = SQLException.class)
     public void testCancelBookingConnectionFail() {
-        DatabaseService mockDatabaseService = new NoConnectionMock();
+        DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         hotelController.findHotels();
     }
 
     @Test(expected = SQLException.class)
     public void testBookRoomConnectionFail() {
-        DatabaseService mockDatabaseService = new NoConnectionMock();
+        DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         hotelController.findHotels();
     }
 
     @Test
     public void testFindHotelsSuccess() {
-        DatabaseService mockDatabaseService = new SuccessfulSearchMock();
+        DatabaseService mockDatabaseService = new SuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         List<Hotel> hotelList = hotelController.findHotels("Reykjavík", new Date(10), new Date(11), 2);
         assertNotNull(hotelList);
@@ -60,7 +60,7 @@ public class HotelControllerTest {
 
     @Test
     public void testFindHotelsFail() {
-        DatabaseService mockDatabaseService = new UnsuccessfulSearchMock();
+        DatabaseService mockDatabaseService = new UnsuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         List<Hotel> hotelList = hotelController.findHotels("/", new Date(10), new Date(11), 2);
         assertNotNull(hotelList);
@@ -69,8 +69,7 @@ public class HotelControllerTest {
 
     @Test
     public void testOrderByPriceAscending() {
-        DatabaseService databaseService = new DatabaseService();
-        HotelController hotelController = new HotelController(databaseService);
+        HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", 5, null, "",
                 1, 1, 1));
