@@ -13,12 +13,11 @@ public class NoDBConnectionMock implements DatabaseService {
     }
 
     @Override
-    public List<Booking>  addBooking(Hotel hotel, String guestName, Date checkInDate, Date checkOutDate, int nrGuests) {
+    public List<Booking> addBooking(Hotel hotel, String guestName, Date checkInDate, Date checkOutDate, int nrGuests) {
         return null;
     }
 
     @Override
     public void removeBooking(int bookingID) {
-
     }
 }
