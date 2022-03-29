@@ -23,7 +23,7 @@ public class HotelControllerTest {
     }
 
     @Test(expected = SQLException.class)
-    public void testFindHotelConnectionFail() {
+    public void testFindHotelConnectionFail() throws SQLException {
         DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         hotelController.findHotels("", null, null, 2);
@@ -46,14 +46,14 @@ public class HotelControllerTest {
      */
 
     @Test(expected = SQLException.class)
-    public void testBookRoomConnectionFail() {
+    public void testBookRoomConnectionFail() throws SQLException {
         DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         hotelController.bookRoom(null, "", null, null, 2);
     }
 
     @Test
-    public void testFindHotelsSuccess() {
+    public void testFindHotelsSuccess() throws SQLException {
         DatabaseService mockDatabaseService = new SuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         List<Hotel> hotelList = hotelController.findHotels("Reykjavík", new Date(10), new Date(11), 2);
@@ -61,7 +61,7 @@ public class HotelControllerTest {
     }
 
     @Test
-    public void testFindHotelsFail() {
+    public void testFindHotelsFail() throws SQLException {
         DatabaseService mockDatabaseService = new UnsuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         List<Hotel> hotelList = hotelController.findHotels("/", new Date(10), new Date(11), 2);

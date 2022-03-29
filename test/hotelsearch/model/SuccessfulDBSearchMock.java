@@ -21,7 +21,7 @@ public class SuccessfulDBSearchMock implements DatabaseService {
     }
 
     @Override
-    public void removeBooking(int bookingID) {
+    public void cancelBooking(Hotel hotel, int bookingID) {
 
     }
 }
