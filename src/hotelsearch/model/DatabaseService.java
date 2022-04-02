@@ -8,8 +8,9 @@ public interface DatabaseService {
 
     List<Hotel> search(String nameOrLocation, Date checkInDate, Date checkOutDate, int nrGuests) throws SQLException;
 
-    List<Booking> addBooking(Hotel hotel, String guestName, Date checkInDate, Date checkOutDate, int nrGuests);
+    List<Booking> addBooking(Hotel hotel, String guestName, Date checkInDate, Date checkOutDate, int nrGuests)
+            throws SQLException;
 
-    void removeBooking(int bookingID);
+    void cancelBooking(Hotel hotel, int bookingID) throws SQLException;
 
 }
