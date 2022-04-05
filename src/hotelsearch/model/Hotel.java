@@ -9,7 +9,7 @@ public class Hotel {
     private int numberOfStars;
     private Image image;
     private String description;
-    private double roomPrice;
+    private double startingRoomPrice;
     private double distanceFromDowntown;
     private double distanceFromSupermarket;
 
@@ -20,20 +20,20 @@ public class Hotel {
      * @param numberOfStars The rating of the hotel.
      * @param image An image of the hotel.
      * @param description A description of the hotel.
-     * @param roomPrice The room price for a night stay in the hotel.
+     * @param startingRoomPrice The lowest room price for a night stay in the hotel.
      * @param distanceFromDowntown The distance the hotel is from the downtown area in the city/town it is located.
      * @param distanceFromSupermarket The distance the hotel is from the nearest supermarket.
      */
     public Hotel(int hotelID, String name,
                  int numberOfStars, Image image, String description,
-                 double roomPrice, double distanceFromDowntown,
+                 double startingRoomPrice, double distanceFromDowntown,
                  double distanceFromSupermarket){
         this.hotelID = hotelID;
         this.name = name;
         this.numberOfStars = numberOfStars;
         this.image = image;
         this.description = description;
-        this.roomPrice = roomPrice;
+        this.startingRoomPrice = startingRoomPrice;
         this.distanceFromDowntown = distanceFromDowntown;
         this.distanceFromSupermarket = distanceFromSupermarket;
     }
@@ -58,8 +58,8 @@ public class Hotel {
         return description;
     }
 
-    public double getRoomPrice() {
-        return roomPrice;
+    public double getStartingRoomPrice() {
+        return startingRoomPrice;
     }
 
     public double getDistanceFromDowntown() {

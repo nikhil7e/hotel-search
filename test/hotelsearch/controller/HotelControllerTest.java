@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -53,18 +53,22 @@ public class HotelControllerTest {
     }
 
     @Test
-    public void testFindHotelsSuccess() throws SQLException {
+    public void testFindHotelsSuccess() throws SQLException, ClassNotFoundException {
         DatabaseService mockDatabaseService = new SuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        List<Hotel> hotelList = hotelController.findHotels("Reykjavík", new Date(10), new Date(11), 2);
+        List<Hotel> hotelList = hotelController.findHotels("Reykjavík",
+                LocalDate.of(2022, 3, 10),
+                LocalDate.of(2022, 4, 10), 2);
         assertNotNull(hotelList);
     }
 
     @Test
-    public void testFindHotelsFail() throws SQLException {
+    public void testFindHotelsFail() throws SQLException, ClassNotFoundException {
         DatabaseService mockDatabaseService = new UnsuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        List<Hotel> hotelList = hotelController.findHotels("/", new Date(10), new Date(11), 2);
+        List<Hotel> hotelList = hotelController.findHotels("/",
+                LocalDate.of(2022, 3, 10),
+                LocalDate.of(2022, 4, 10), 2);
         assertNotNull(hotelList);
         assertEquals(0, hotelList.size());
     }
@@ -85,7 +89,7 @@ public class HotelControllerTest {
         for (int i = 1; i < orderedHotelList.size(); i++) {
             Hotel current = orderedHotelList.get(i);
             Hotel previous = orderedHotelList.get(i - 1);
-            assertTrue(current.getRoomPrice() >= previous.getRoomPrice());
+            assertTrue(current.getStartingRoomPrice() >= previous.getStartingRoomPrice());
         }
     }
 

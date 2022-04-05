@@ -5,6 +5,7 @@ import hotelsearch.model.DatabaseService;
 import hotelsearch.model.Hotel;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -16,18 +17,18 @@ public class HotelController {
         this.db = db;
     }
 
-    public List<Hotel> findHotels(String nameOrLocation, Date checkInDate, Date checkOutDate, int nrGuests)
+    public List<Hotel> findHotels(String nameOrLocation, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
             throws SQLException {
         return db.search(nameOrLocation, checkInDate, checkOutDate, nrGuests);
     }
 
-    public List<Booking> bookRoom(Hotel hotel, String guestName, Date checkInDate, Date checkOutDate, int nrGuests)
+    public List<Booking> bookRoom(Hotel hotel, String guestName, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
             throws SQLException {
         return db.addBooking(hotel, guestName, checkInDate, checkOutDate, nrGuests);
     }
 
-    public List<Booking> modifyBooking(Hotel hotel, int bookingID, String guestName, Date newCheckInDate,
-                                       Date newCheckOutDate, int newNrGuests) throws SQLException {
+    public List<Booking> modifyBooking(Hotel hotel, int bookingID, String guestName, LocalDate newCheckInDate,
+                                       LocalDate newCheckOutDate, int newNrGuests) throws SQLException {
         cancelBooking(hotel, bookingID);
         return db.addBooking(hotel, guestName, newCheckInDate, newCheckOutDate, newNrGuests);
     }
