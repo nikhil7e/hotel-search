@@ -6,8 +6,7 @@ import hotelsearch.model.Hotel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class HotelController {
 
@@ -38,23 +37,33 @@ public class HotelController {
     }
 
     public List<Hotel> orderByPriceAscending(List<Hotel> list) {
-        return null;
+        // dno why defining a new arrayList fixes everything?
+        List<Hotel> orderedList = new ArrayList<Hotel>();
+        Collections.sort(list, new Hotel.priceAscending());
+        return orderedList;
     }
-
+    // none of the following 4 have been tested ...
     public List<Hotel> orderByPriceDescending(List<Hotel> list) {
-        return null;
+        List<Hotel> orderedList = new ArrayList<Hotel>();
+        Collections.sort(list, new Hotel.priceDescending());
+        return orderedList;
     }
 
     public List<Hotel> orderByStarsDescending(List<Hotel> list) {
-        return null;
+        List<Hotel> orderedList = new ArrayList<Hotel>();
+        Collections.sort(list, new Hotel.starsDescending());
+        return orderedList;
     }
 
     public List<Hotel> orderByStarsAscending(List<Hotel> list) {
-        return null;
+        List<Hotel> orderedList = new ArrayList<Hotel>();
+        Collections.sort(list, new Hotel.starsAscending());
+        return orderedList;
     }
 
     public List<Hotel> orderByDistanceFromDowntown(List<Hotel> list) {
-        return null;
+        List<Hotel> orderedList = new ArrayList<Hotel>();
+        Collections.sort(list, new Hotel.distanceFromDowntown());
+        return orderedList;
     }
-
 }
