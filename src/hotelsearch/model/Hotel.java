@@ -1,6 +1,8 @@
 package hotelsearch.model;
 
 import java.awt.*;
+import java.util.Comparator;
+
 import javafx.scene.image.Image;
 
 public class Hotel {
@@ -68,5 +70,38 @@ public class Hotel {
 
     public double getDistanceFromSupermarket() {
         return distanceFromSupermarket;
+    }
+
+    public static class priceAscending implements Comparator<Hotel> {
+        @Override
+        public int compare(Hotel o1, Hotel o2) {
+            return (int)(o1.getStartingRoomPrice() - o2.getStartingRoomPrice());
+        }
+    }
+    public static class priceDescending implements Comparator<Hotel> {
+        @Override
+        public int compare(Hotel o1, Hotel o2) {
+            return (int)(o2.getStartingRoomPrice() - o1.getStartingRoomPrice());
+        }
+    }
+    public static class starsDescending implements Comparator<Hotel> {
+        @Override
+        public int compare(Hotel o1, Hotel o2) {
+            return o2.getNumberOfStars() - o1.getNumberOfStars();
+        }
+    }
+
+    public static class starsAscending implements Comparator<Hotel> {
+        @Override
+        public int compare(Hotel o1, Hotel o2) {
+            return o1.getNumberOfStars() - o2.getNumberOfStars();
+        }
+    }
+    public static class distanceFromDowntown implements Comparator<Hotel> {
+        // ascending (lowest diff on the top)
+        @Override
+        public int compare(Hotel o1, Hotel o2) {
+            return (int)(o1.getDistanceFromDowntown() - o2.getDistanceFromDowntown());
+        }
     }
 }

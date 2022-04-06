@@ -78,9 +78,9 @@ public class HotelControllerTest {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", 5, null, "",
-                1, 1, 1));
-        hotelList.add(new Hotel(12, "Test2", 5, null, "",
                 2, 1, 1));
+        hotelList.add(new Hotel(12, "Test2", 5, null, "",
+                1, 1, 1));
         hotelList.add(new Hotel(13, "Test3", 5, null, "",
                 3, 1, 1));
 
