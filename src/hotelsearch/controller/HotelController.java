@@ -7,6 +7,7 @@ import hotelsearch.model.Hotel;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class HotelController {
 
@@ -66,4 +67,14 @@ public class HotelController {
         Collections.sort(list, new Hotel.distanceFromDowntown());
         return orderedList;
     }
+
+    // Filters (example filter) (gæti verid of mikid fyrir minnið idno)
+    public List<Hotel> filterForRestaurants(List<Hotel> list) {
+        Stream<Hotel> stream = list.stream();
+        stream = stream.filter(restaurant -> restaurant.getTestBool());
+        list = stream.toList();
+        return list;
+    }
+    // hafa bara nokkur svona föll?
+    
 }
