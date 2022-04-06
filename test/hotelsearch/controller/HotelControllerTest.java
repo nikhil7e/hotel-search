@@ -73,16 +73,17 @@ public class HotelControllerTest {
         assertEquals(0, hotelList.size());
     }
 
+
     @Test
     public void testOrderByPriceAscending() {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", 5, null, "",
-                2, 1, 1,false));
+                2, 1, 1));
         hotelList.add(new Hotel(12, "Test2", 5, null, "",
-                1, 1, 1,false));
+                1, 1, 1));
         hotelList.add(new Hotel(13, "Test3", 5, null, "",
-                3, 1, 1,false));
+                3, 1, 1));
 
         List<Hotel> orderedHotelList = hotelController.orderByPriceAscending(hotelList);
         assertNotNull(hotelList);
@@ -92,6 +93,7 @@ public class HotelControllerTest {
             assertTrue(current.getStartingRoomPrice() >= previous.getStartingRoomPrice());
         }
     }
+  /*
     @Test
     public void testFilterForRestaurants() {
         HotelController hotelController = new HotelController(null);
@@ -107,8 +109,7 @@ public class HotelControllerTest {
         assert (filteredList.size() == 2);
         assertTrue(filteredList.get(0).getTestBool());
         assertTrue(filteredList.get(1).getTestBool());
-
-
     }
+     */
 
 }
