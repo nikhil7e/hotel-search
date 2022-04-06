@@ -1,6 +1,5 @@
 package hotelsearch.model;
 
-import java.awt.*;
 import java.util.Comparator;
 
 import javafx.scene.image.Image;
@@ -14,23 +13,23 @@ public class Hotel {
     private double startingRoomPrice;
     private double distanceFromDowntown;
     private double distanceFromSupermarket;
-    private boolean testBool;   // f.x restaurant
 
     /**
      * Constructor for the class Hotel.
-     * @param hotelID The ID of the hotel.
-     * @param name The name of the hotel.
-     * @param numberOfStars The rating of the hotel.
-     * @param image An image of the hotel.
-     * @param description A description of the hotel.
-     * @param startingRoomPrice The lowest room price for a night stay in the hotel.
-     * @param distanceFromDowntown The distance the hotel is from the downtown area in the city/town it is located.
+     *
+     * @param hotelID                 The ID of the hotel.
+     * @param name                    The name of the hotel.
+     * @param numberOfStars           The rating of the hotel.
+     * @param image                   An image of the hotel.
+     * @param description             A description of the hotel.
+     * @param startingRoomPrice       The lowest room price for a night stay in the hotel.
+     * @param distanceFromDowntown    The distance the hotel is from the downtown area in the city/town it is located.
      * @param distanceFromSupermarket The distance the hotel is from the nearest supermarket.
      */
     public Hotel(int hotelID, String name,
                  int numberOfStars, Image image, String description,
                  double startingRoomPrice, double distanceFromDowntown,
-                 double distanceFromSupermarket, boolean testBool){
+                 double distanceFromSupermarket) {
         this.hotelID = hotelID;
         this.name = name;
         this.numberOfStars = numberOfStars;
@@ -39,14 +38,13 @@ public class Hotel {
         this.startingRoomPrice = startingRoomPrice;
         this.distanceFromDowntown = distanceFromDowntown;
         this.distanceFromSupermarket = distanceFromSupermarket;
-        this.testBool = testBool;
     }
 
-    public int getHotelID(){
+    public int getHotelID() {
         return hotelID;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
@@ -74,20 +72,20 @@ public class Hotel {
         return distanceFromSupermarket;
     }
 
-    public boolean getTestBool() {return testBool;}
-
     public static class priceAscending implements Comparator<Hotel> {
         @Override
         public int compare(Hotel o1, Hotel o2) {
-            return (int)(o1.getStartingRoomPrice() - o2.getStartingRoomPrice());
+            return (int) (o1.getStartingRoomPrice() - o2.getStartingRoomPrice());
         }
     }
+
     public static class priceDescending implements Comparator<Hotel> {
         @Override
         public int compare(Hotel o1, Hotel o2) {
-            return (int)(o2.getStartingRoomPrice() - o1.getStartingRoomPrice());
+            return (int) (o2.getStartingRoomPrice() - o1.getStartingRoomPrice());
         }
     }
+
     public static class starsDescending implements Comparator<Hotel> {
         @Override
         public int compare(Hotel o1, Hotel o2) {
@@ -101,11 +99,12 @@ public class Hotel {
             return o1.getNumberOfStars() - o2.getNumberOfStars();
         }
     }
+
     public static class distanceFromDowntown implements Comparator<Hotel> {
         // ascending (lowest diff on the top)
         @Override
         public int compare(Hotel o1, Hotel o2) {
-            return (int)(o1.getDistanceFromDowntown() - o2.getDistanceFromDowntown());
+            return (int) (o1.getDistanceFromDowntown() - o2.getDistanceFromDowntown());
         }
     }
 }

@@ -6,8 +6,8 @@ import hotelsearch.model.Hotel;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HotelController {
 
@@ -22,8 +22,8 @@ public class HotelController {
         return db.search(nameOrLocation, checkInDate, checkOutDate, nrGuests);
     }
 
-    public List<Booking> bookRoom(Hotel hotel, String guestName, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
-            throws SQLException {
+    public List<Booking> bookRoom(Hotel hotel, String guestName, LocalDate checkInDate, LocalDate checkOutDate,
+                                  int nrGuests) throws SQLException {
         return db.addBooking(hotel, guestName, checkInDate, checkOutDate, nrGuests);
     }
 
@@ -38,43 +38,40 @@ public class HotelController {
     }
 
     public List<Hotel> orderByPriceAscending(List<Hotel> list) {
-        // dno why defining a new arrayList fixes everything?
-        List<Hotel> orderedList = new ArrayList<Hotel>();
-        Collections.sort(list, new Hotel.priceAscending());
-        return orderedList;
+        list.sort(new Hotel.priceAscending());
+        return list;
     }
-    // none of the following 4 have been tested ...
+
     public List<Hotel> orderByPriceDescending(List<Hotel> list) {
-        List<Hotel> orderedList = new ArrayList<Hotel>();
-        Collections.sort(list, new Hotel.priceDescending());
-        return orderedList;
+        list.sort(new Hotel.priceDescending());
+        return list;
     }
 
     public List<Hotel> orderByStarsDescending(List<Hotel> list) {
-        List<Hotel> orderedList = new ArrayList<Hotel>();
-        Collections.sort(list, new Hotel.starsDescending());
-        return orderedList;
+        list.sort(new Hotel.starsDescending());
+        return list;
     }
 
     public List<Hotel> orderByStarsAscending(List<Hotel> list) {
-        List<Hotel> orderedList = new ArrayList<Hotel>();
-        Collections.sort(list, new Hotel.starsAscending());
-        return orderedList;
+        list.sort(new Hotel.starsAscending());
+        return list;
     }
 
     public List<Hotel> orderByDistanceFromDowntown(List<Hotel> list) {
-        List<Hotel> orderedList = new ArrayList<Hotel>();
-        Collections.sort(list, new Hotel.distanceFromDowntown());
-        return orderedList;
-    }
-
-    // Filters (example filter) (gæti verid of mikid fyrir minnið idno)
-    public List<Hotel> filterForRestaurants(List<Hotel> list) {
-        Stream<Hotel> stream = list.stream();
-        stream = stream.filter(restaurant -> restaurant.getTestBool());
-        list = stream.toList();
+        list.sort(new Hotel.distanceFromDowntown());
         return list;
     }
-    // hafa bara nokkur svona föll?
+
+    public List<Hotel> filterByStars(List<Hotel> list, int stars) {
+        List<Hotel> newList = new ArrayList<>();
+
+        for (Hotel hotel : list) {
+            if (hotel.getNumberOfStars() == stars) {
+                newList.add(hotel);
+            }
+        }
+        return newList;
+    }
+
     
 }
