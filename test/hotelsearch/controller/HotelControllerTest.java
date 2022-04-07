@@ -79,11 +79,14 @@ public class HotelControllerTest {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", 5, null, "",
-                2, 1, 1));
+                2, 1, 1,
+                true,true,true,true));
         hotelList.add(new Hotel(12, "Test2", 5, null, "",
-                1, 1, 1));
+                1, 1, 1,
+                true,true,true,true));
         hotelList.add(new Hotel(13, "Test3", 5, null, "",
-                3, 1, 1));
+                3, 1, 1,
+                true,true,true,true));
 
         List<Hotel> orderedHotelList = hotelController.orderByPriceAscending(hotelList);
         assertNotNull(hotelList);
@@ -98,11 +101,14 @@ public class HotelControllerTest {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test",3,null,"",
-                2,1,1));
+                2,1,1,
+                true,true,true,true));
         hotelList.add(new Hotel(123, "Test",4,null,"",
-                2,1,1));
+                2,1,1,
+                true,true,true,true));
         hotelList.add(new Hotel(123, "Test",5,null,"",
-                2,1,1));
+                2,1,1,
+                true,true,true,true));
         List<Hotel> filteredList = hotelController.filterByStars(hotelList, 5);
         assertNotNull(hotelList);
         assert (filteredList.size() == 1);

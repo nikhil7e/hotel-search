@@ -84,5 +84,4 @@ public class HotelController {
         return newList;
     }
 
-    public List<Hotel> filterBy
 }

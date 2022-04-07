@@ -12,7 +12,7 @@ public class SuccessfulDBSearchMock implements DatabaseService {
             throws SQLException {
         List<Hotel> list = new ArrayList<>();
         list.add(new Hotel(1, "Reykjavík", 2, null, "", 1,
-                1, 1));
+                1, 1,true,true,true,true    ));
         return list;
     }
 

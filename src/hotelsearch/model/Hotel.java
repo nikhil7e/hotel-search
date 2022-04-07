@@ -13,6 +13,10 @@ public class Hotel {
     private double startingRoomPrice;
     private double distanceFromDowntown;
     private double distanceFromSupermarket;
+    private boolean restaurant;
+    private boolean breakfastIncluded;
+    private boolean bar;
+    private boolean freeWifi;
 
     /**
      * Constructor for the class Hotel.
@@ -29,7 +33,8 @@ public class Hotel {
     public Hotel(int hotelID, String name,
                  int numberOfStars, Image image, String description,
                  double startingRoomPrice, double distanceFromDowntown,
-                 double distanceFromSupermarket) {
+                 double distanceFromSupermarket, boolean restaurant,
+                 boolean breakfastIncluded, boolean bar, boolean freeWifi) {
         this.hotelID = hotelID;
         this.name = name;
         this.numberOfStars = numberOfStars;
@@ -38,6 +43,10 @@ public class Hotel {
         this.startingRoomPrice = startingRoomPrice;
         this.distanceFromDowntown = distanceFromDowntown;
         this.distanceFromSupermarket = distanceFromSupermarket;
+        this.restaurant = restaurant;
+        this.breakfastIncluded = breakfastIncluded;
+        this.bar = bar;
+        this.freeWifi = freeWifi;
     }
 
     public int getHotelID() {
@@ -71,6 +80,14 @@ public class Hotel {
     public double getDistanceFromSupermarket() {
         return distanceFromSupermarket;
     }
+
+    public boolean getRestaurant() { return restaurant; }
+
+    public boolean getBreakfastIncluded() { return breakfastIncluded; }
+
+    public boolean getBar() { return bar;}
+
+    public boolean getFreeWifi() { return freeWifi; }
 
     public static class priceAscending implements Comparator<Hotel> {
         @Override
