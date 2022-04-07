@@ -107,4 +107,7 @@ public class Hotel {
             return (int) (o1.getDistanceFromDowntown() - o2.getDistanceFromDowntown());
         }
     }
+
+
+
 }

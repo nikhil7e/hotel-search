@@ -9,7 +9,7 @@ public class Booking {
     int roomID;
     int guestID;
     String guestName;
-    Date checkInDate; // i cant remember if we decided to program this differently or not. 
+    Date checkInDate;
     Date checkOutDate;
 
     // constructor

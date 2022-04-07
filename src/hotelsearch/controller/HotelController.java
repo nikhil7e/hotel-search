@@ -73,5 +73,16 @@ public class HotelController {
         return newList;
     }
 
-    
+    public List<Hotel> filterByPrice(List<Hotel> list, int maxPrice) {
+        List<Hotel> newList = new ArrayList<>();
+
+        for(Hotel hotel : list) {
+            if (hotel.getStartingRoomPrice() <= maxPrice) {
+                newList.add(hotel);
+            }
+        }
+        return newList;
+    }
+
+    public List<Hotel> filterBy
 }

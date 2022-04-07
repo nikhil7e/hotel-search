@@ -93,23 +93,20 @@ public class HotelControllerTest {
             assertTrue(current.getStartingRoomPrice() >= previous.getStartingRoomPrice());
         }
     }
-  /*
     @Test
-    public void testFilterForRestaurants() {
+    public void testFilterByStars() {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
+        hotelList.add(new Hotel(123, "Test",3,null,"",
+                2,1,1));
+        hotelList.add(new Hotel(123, "Test",4,null,"",
+                2,1,1));
         hotelList.add(new Hotel(123, "Test",5,null,"",
-                2,1,1,true));
-        hotelList.add(new Hotel(123, "Test",5,null,"",
-                2,1,1,false));
-        hotelList.add(new Hotel(123, "Test",5,null,"",
-                2,1,1,true));
-        List<Hotel> filteredList = hotelController.filterForRestaurants(hotelList);
+                2,1,1));
+        List<Hotel> filteredList = hotelController.filterByStars(hotelList, 5);
         assertNotNull(hotelList);
-        assert (filteredList.size() == 2);
-        assertTrue(filteredList.get(0).getTestBool());
-        assertTrue(filteredList.get(1).getTestBool());
+        assert (filteredList.size() == 1);
+        assertEquals(5, filteredList.get(0).getNumberOfStars());
     }
-     */
 
 }
