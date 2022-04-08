@@ -60,7 +60,8 @@ public class HotelDB implements DatabaseService {
                     new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream(rs.getString("image")))),
                     rs.getString("description"), rs.getDouble("startingRoomPrice"),
                     rs.getDouble("distanceFromDowntown"), rs.getDouble("distanceFromSupermarket"),
-                    rs.getBoolean("true"),rs.getBoolean("true"),rs.getBoolean("true"),rs.getBoolean("true"));
+                    rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"), rs.getBoolean("bar"),
+                    rs.getBoolean("freeWifi"));
             hotelList.add(hotel);
             // TODO remove once testing is no longer needed
             System.out.println("Hotel: " + rs.getString("nameOrLocation"));

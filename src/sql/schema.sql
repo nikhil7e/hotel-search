@@ -35,12 +35,18 @@ CREATE TABLE Room
     foreign key (hotelID) references Hotel (hotelID)
 );
 
-insert into Room values (1, 1, 1, 1, 1, 1, 1);
-insert into Room values (1, 2, 1, 1, 1, 1, 1);
-insert into Room values (1, 3, 1, 1, 1, 1, 1);
-insert into Room values (2, 1, 1, 1, 1, 1, 1);
-insert into Room values (2, 2, 1, 1, 1, 1, 1);
-insert into Room values (2, 3, 1, 1, 1, 1, 1);
+insert into Room
+values (1, 1, 1, 1, 1, 1, 1);
+insert into Room
+values (1, 2, 1, 1, 1, 1, 1);
+insert into Room
+values (1, 3, 1, 1, 1, 1, 1);
+insert into Room
+values (2, 1, 1, 1, 1, 1, 1);
+insert into Room
+values (2, 2, 1, 1, 1, 1, 1);
+insert into Room
+values (2, 3, 1, 1, 1, 1, 1);
 
 CREATE TABLE Booking
 (
@@ -58,11 +64,16 @@ CREATE TABLE Booking
     foreign key (roomID, hotelID) references Room (roomID, hotelID)
 );
 
-insert into Booking values (1, 1, 1, 1, 999, 'a', 'test', date('2022-04-01'), date('2022-04-28'), 4);
-insert into Booking values (5, 2, 1, 1, 998, 'b', 'test', date('2022-04-01'), date('2022-04-28'), 4);
-insert into Booking values (2, 2, 2, 1, 997, 'c', 'test', date('2022-05-01'), date('2022-05-31'), 4);
-insert into Booking values (3, 1, 2, 2, 996, 'd', 'test', date('2022-04-16'), date('2022-04-28'), 4);
-insert into Booking values (4, 2, 3, 3, 995, 'e', 'test', date('2022-06-01'), date('2022-06-31'), 4);
+insert into Booking
+values (1, 1, 1, 1, 999, 'a', 'test', date('2022-04-01'), date('2022-04-28'), 4);
+insert into Booking
+values (5, 2, 1, 1, 998, 'b', 'test', date('2022-04-01'), date('2022-04-28'), 4);
+insert into Booking
+values (2, 2, 2, 1, 997, 'c', 'test', date('2022-05-01'), date('2022-05-31'), 4);
+insert into Booking
+values (3, 1, 2, 2, 996, 'd', 'test', date('2022-04-16'), date('2022-04-28'), 4);
+insert into Booking
+values (4, 2, 3, 3, 995, 'e', 'test', date('2022-06-01'), date('2022-06-31'), 4);
 
 
 /* SQL search query with example parameters
