@@ -1,26 +1,28 @@
 package hotelsearch.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Booking {
 
-    int bookingID;
-    int hotelID;
-    int roomID;
-    int guestID;
-    String guestName;
-    Date checkInDate;
-    Date checkOutDate;
+    private int bookingID;
+    private int hotelID;
+    private int roomID;
+    private int guestID;
+    private String guestName;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
 
     // constructor
-    public Booking (int bookid, int hotelid, int roomid, int guestid, String guestname, Date checkin, Date checkout) {
-        bookingID = bookid;
-        hotelID = hotelid;
-        roomID = roomid;
-        guestID = guestid;
-        guestName = guestname;
-        checkInDate = checkin;
-        checkOutDate = checkout;
+    public Booking (int bookingID, int hotelID, int roomID, int guestID, String guestName, LocalDate checkInDate,
+                    LocalDate checkOutDate) {
+        this.bookingID = bookingID;
+        this.hotelID = hotelID;
+        this.roomID = roomID;
+        this.guestID = guestID;
+        this.guestName = guestName;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
     }
     
     // getters
@@ -44,11 +46,11 @@ public class Booking {
         return guestName;
     }
 
-    public Date getCheckInDate() {
+    public LocalDate getCheckInDate() {
         return checkInDate;
     }
 
-    public Date getCheckOutDate() {
+    public LocalDate getCheckOutDate() {
         return checkOutDate;
     }
 
