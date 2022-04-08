@@ -53,6 +53,9 @@ public class HotelDB implements DatabaseService {
         statement.setString(7, java.sql.Date.valueOf(checkOutDate).toString());
         ResultSet rs = statement.executeQuery();
 
+        // TODO remove once testing is no longer needed
+        System.out.println("Hotel search results:");
+
         while (rs.next()) {
             // read the result set
             Hotel hotel = new Hotel(rs.getInt("hotelID"),
@@ -63,8 +66,9 @@ public class HotelDB implements DatabaseService {
                     rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"), rs.getBoolean("bar"),
                     rs.getBoolean("freeWifi"));
             hotelList.add(hotel);
+
             // TODO remove once testing is no longer needed
-            System.out.println("Hotel: " + rs.getString("nameOrLocation"));
+            System.out.println("Name/location: " + rs.getString("nameOrLocation"));
         }
 
         rs.close();
