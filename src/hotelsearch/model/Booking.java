@@ -1,29 +1,32 @@
 package hotelsearch.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Booking {
 
-    int bookingID;
-    int hotelID;
-    int roomID;
-    int guestID;
-    String guestName;
-    Date checkInDate; // i cant remember if we decided to program this differently or not. 
-    Date checkOutDate;
+    private final int bookingID;
+    private final int roomID;
+    private final int hotelID;
+    private final int bookingProcessID;
+    private final int guestID;
+    private final String guestEmail;
+    private final String guestName;
+    private final LocalDate checkInDate;
+    private final LocalDate checkOutDate;
 
-    // constructor
-    public Booking (int bookid, int hotelid, int roomid, int guestid, String guestname, Date checkin, Date checkout) {
-        bookingID = bookid;
-        hotelID = hotelid;
-        roomID = roomid;
-        guestID = guestid;
-        guestName = guestname;
-        checkInDate = checkin;
-        checkOutDate = checkout;
+    public Booking(int bookingID, int roomID, int hotelID, int bookingProcessID, int guestID, String guestEmail,
+                   String guestName, LocalDate checkInDate, LocalDate checkOutDate) {
+        this.bookingID = bookingID;
+        this.hotelID = hotelID;
+        this.roomID = roomID;
+        this.bookingProcessID = bookingProcessID;
+        this.guestID = guestID;
+        this.guestEmail = guestEmail;
+        this.guestName = guestName;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
     }
-    
-    // getters
+
     public int getBookingID() {
         return bookingID;
     }
@@ -36,24 +39,31 @@ public class Booking {
         return roomID;
     }
 
+    public int getBookingProcessID() {
+        return bookingProcessID;
+    }
+
     public int getGuestID() {
         return guestID;
+    }
+
+    public String getGuestEmail() {
+        return guestEmail;
     }
 
     public String getGuestName() {
         return guestName;
     }
 
-    public Date getCheckInDate() {
+    public LocalDate getCheckInDate() {
         return checkInDate;
     }
 
-    public Date getCheckOutDate() {
+    public LocalDate getCheckOutDate() {
         return checkOutDate;
     }
 
     public static void main(String[] args) {
-
     }
 
 }

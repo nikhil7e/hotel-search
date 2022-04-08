@@ -79,11 +79,14 @@ public class HotelControllerTest {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", 5, null, "",
-                2, 1, 1));
+                2, 1, 1,
+                true,true,true,true));
         hotelList.add(new Hotel(12, "Test2", 5, null, "",
-                1, 1, 1));
+                1, 1, 1,
+                true,true,true,true));
         hotelList.add(new Hotel(13, "Test3", 5, null, "",
-                3, 1, 1));
+                3, 1, 1,
+                true,true,true,true));
 
         List<Hotel> orderedHotelList = hotelController.orderByPriceAscending(hotelList);
         assertNotNull(hotelList);
@@ -93,23 +96,23 @@ public class HotelControllerTest {
             assertTrue(current.getStartingRoomPrice() >= previous.getStartingRoomPrice());
         }
     }
-  /*
     @Test
-    public void testFilterForRestaurants() {
+    public void testFilterByStars() {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
+        hotelList.add(new Hotel(123, "Test",3,null,"",
+                2,1,1,
+                true,true,true,true));
+        hotelList.add(new Hotel(123, "Test",4,null,"",
+                2,1,1,
+                true,true,true,true));
         hotelList.add(new Hotel(123, "Test",5,null,"",
-                2,1,1,true));
-        hotelList.add(new Hotel(123, "Test",5,null,"",
-                2,1,1,false));
-        hotelList.add(new Hotel(123, "Test",5,null,"",
-                2,1,1,true));
-        List<Hotel> filteredList = hotelController.filterForRestaurants(hotelList);
+                2,1,1,
+                true,true,true,true));
+        List<Hotel> filteredList = hotelController.filterByStars(hotelList, 5);
         assertNotNull(hotelList);
-        assert (filteredList.size() == 2);
-        assertTrue(filteredList.get(0).getTestBool());
-        assertTrue(filteredList.get(1).getTestBool());
+        assert (filteredList.size() == 1);
+        assertEquals(5, filteredList.get(0).getNumberOfStars());
     }
-     */
 
 }

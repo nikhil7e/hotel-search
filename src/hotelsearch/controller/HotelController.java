@@ -73,5 +73,54 @@ public class HotelController {
         return newList;
     }
 
-    
+    public List<Hotel> filterByPrice(List<Hotel> list, int minPrice, int maxPrice) {
+        List<Hotel> newList = new ArrayList<>();
+
+        for (Hotel hotel : list) {
+            if (hotel.getStartingRoomPrice() <= maxPrice && hotel.getStartingRoomPrice() >= minPrice) {
+                newList.add(hotel);
+            }
+        }
+        return newList;
+    }
+
+    public List<Hotel> filterByRestaurant(List<Hotel> list) {
+        List<Hotel> newList = new ArrayList<>();
+        for (Hotel hotel : list) {
+            if (hotel.getRestaurant()) {
+                newList.add(hotel);
+            }
+        }
+        return newList;
+    }
+
+    public List<Hotel> filterByBreakfast(List<Hotel> list) {
+        List<Hotel> newList = new ArrayList<>();
+        for (Hotel hotel : list) {
+            if (hotel.getBreakfastIncluded()) {
+                newList.add(hotel);
+            }
+        }
+        return newList;
+    }
+
+    public List<Hotel> filterByBar(List<Hotel> list) {
+        List<Hotel> newList = new ArrayList<>();
+        for (Hotel hotel : list) {
+            if (hotel.getBar()) {
+                newList.add(hotel);
+            }
+        }
+        return newList;
+    }
+
+    public List<Hotel> filterByWifi(List<Hotel> list) {
+        List<Hotel> newList = new ArrayList<>();
+        for (Hotel hotel : list) {
+            if (hotel.getFreeWifi()) {
+                newList.add(hotel);
+            }
+        }
+        return newList;
+    }
 }
