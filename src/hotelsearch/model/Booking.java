@@ -1,31 +1,32 @@
 package hotelsearch.model;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class Booking {
 
-    private int bookingID;
-    private int hotelID;
-    private int roomID;
-    private int guestID;
-    private String guestName;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
+    private final int bookingID;
+    private final int roomID;
+    private final int hotelID;
+    private final int bookingProcessID;
+    private final int guestID;
+    private final String guestEmail;
+    private final String guestName;
+    private final LocalDate checkInDate;
+    private final LocalDate checkOutDate;
 
-    // constructor
-    public Booking (int bookingID, int hotelID, int roomID, int guestID, String guestName, LocalDate checkInDate,
-                    LocalDate checkOutDate) {
+    public Booking(int bookingID, int roomID, int hotelID, int bookingProcessID, int guestID, String guestEmail,
+                   String guestName, LocalDate checkInDate, LocalDate checkOutDate) {
         this.bookingID = bookingID;
         this.hotelID = hotelID;
         this.roomID = roomID;
+        this.bookingProcessID = bookingProcessID;
         this.guestID = guestID;
+        this.guestEmail = guestEmail;
         this.guestName = guestName;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
     }
-    
-    // getters
+
     public int getBookingID() {
         return bookingID;
     }
@@ -38,8 +39,16 @@ public class Booking {
         return roomID;
     }
 
+    public int getBookingProcessID() {
+        return bookingProcessID;
+    }
+
     public int getGuestID() {
         return guestID;
+    }
+
+    public String getGuestEmail() {
+        return guestEmail;
     }
 
     public String getGuestName() {
@@ -55,7 +64,6 @@ public class Booking {
     }
 
     public static void main(String[] args) {
-
     }
 
 }

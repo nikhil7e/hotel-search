@@ -5,13 +5,13 @@ import java.util.Comparator;
 import javafx.scene.image.Image;
 
 public class Hotel {
-    private int hotelID;
-    private String name;
-    private int numberOfStars;
+    private final int hotelID;
+    private final String name;
+    private final int numberOfStars;
     private Image image;
     private String description;
     private double startingRoomPrice;
-    private double distanceFromDowntown;
+    private final double distanceFromDowntown;
     private double distanceFromSupermarket;
     private boolean restaurant;
     private boolean breakfastIncluded;
