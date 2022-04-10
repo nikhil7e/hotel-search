@@ -38,12 +38,13 @@ public class HotelDB implements DatabaseService {
 
             // TODO only show hotels that have a sufficient amount of available rooms for the number of guests
             PreparedStatement statement = connection.prepareStatement(
-                    "select * from Hotel where Hotel.nameOrLocation like ? and exists(" +
+                    "select * from Hotel where Hotel.nameOrLocation like ? and (" +
+                            "select SUM(nrBeds) from (" +
                             "select * from Room where Room.hotelID = Hotel.hotelID and not exists(" +
                             "select * from Booking where Booking.hotelID = Hotel.hotelID and " +
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
-                            "Booking.checkOutDate > ?)))");
+                            "Booking.checkOutDate > ?)))) >= ?");
 
             statement.clearParameters();
             statement.setString(1, options.getNameOrLocation() + "%");
@@ -53,6 +54,7 @@ public class HotelDB implements DatabaseService {
             statement.setString(5, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
             statement.setString(6, java.sql.Date.valueOf(options.getCheckInDate()).toString());
             statement.setString(7, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setInt(8, options.getNrGuests());
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
@@ -94,8 +96,8 @@ public class HotelDB implements DatabaseService {
 
     public static void main(String[] args) throws SQLException {
         HotelDB db = new HotelDB();
-        db.search(new SearchOptions("Test", LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 4));
+        db.search(new SearchOptions("Test", LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 39));
     }
 
 }
