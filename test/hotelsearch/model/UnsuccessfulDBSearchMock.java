@@ -1,17 +1,14 @@
 package hotelsearch.model;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UnsuccessfulDBSearchMock implements DatabaseService {
 
     @Override
-    public List<Hotel> search(SearchOptions options)
-            throws SQLException {
-        List<Hotel> list = new ArrayList<>();
-        return list;
+    public List<Hotel> search(SearchOptions options) throws SQLException {
+        return new ArrayList<>();
     }
 
     @Override
