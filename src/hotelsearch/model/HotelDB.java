@@ -104,7 +104,9 @@ public class HotelDB implements DatabaseService {
                             "select * from Booking where Booking.hotelID = ? and " +
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
-                            "Booking.checkOutDate > ?)) order by nrBeds desc");
+                            "Booking.checkOutDate > ?)) and (" +
+                            "select sum(nrBeds) from Room where hotelID = ? group by hotelID) >= ? " +
+                            "order by nrBeds desc");
 
             statement.clearParameters();
             statement.setInt(1, hotel.getHotelID());
@@ -115,6 +117,8 @@ public class HotelDB implements DatabaseService {
             statement.setString(6, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
             statement.setString(7, java.sql.Date.valueOf(options.getCheckInDate()).toString());
             statement.setString(8, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setInt(9, hotel.getHotelID());
+            statement.setInt(10, options.getNrGuests());
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
@@ -145,7 +149,8 @@ public class HotelDB implements DatabaseService {
 
                 // TODO remove once testing is no longer needed
                 System.out.println("Booking added: HotelID " + hotel.getHotelID() + ", roomID " +
-                        rs.getInt("roomID"));
+                        rs.getInt("roomID") + ", total nrGuests to book " + options.getNrGuests() + ", nrBeds " +
+                        rs.getInt("nrBeds"));
             }
 
             rs.close();
@@ -169,7 +174,12 @@ public class HotelDB implements DatabaseService {
                 LocalDate.of(2023, 4, 17), 3);
 
         List<Hotel> list = db.search(options);
-        if(list.size() != 0) {
+        if (list.size() != 0) {
+            db.addBooking(list.get(0), "email", "name", options);
+            db.addBooking(list.get(0), "email", "name", options);
+            db.addBooking(list.get(0), "email", "name", options);
+            db.addBooking(list.get(0), "email", "name", options);
+            db.addBooking(list.get(0), "email", "name", options);
             db.addBooking(list.get(0), "email", "name", options);
         }
     }
