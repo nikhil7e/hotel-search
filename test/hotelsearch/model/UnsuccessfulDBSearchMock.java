@@ -8,15 +8,14 @@ import java.util.List;
 public class UnsuccessfulDBSearchMock implements DatabaseService {
 
     @Override
-    public List<Hotel> search(String nameOrLocation, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
+    public List<Hotel> search(SearchOptions options)
             throws SQLException {
         List<Hotel> list = new ArrayList<>();
         return list;
     }
 
     @Override
-    public List<Booking> addBooking(Hotel hotel, String guestName, LocalDate checkInDate, LocalDate checkOutDate,
-                                    int nrGuests) {
+    public List<Booking> addBooking(Hotel hotel, String guestName, SearchOptions options) {
         return null;
     }
 

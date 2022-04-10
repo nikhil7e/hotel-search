@@ -20,7 +20,7 @@ Unix:
 public class HotelDB implements DatabaseService {
 
     @Override
-    public List<Hotel> search(String nameOrLocation, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
+    public List<Hotel> search(SearchOptions options)
             throws SQLException {
         // load the sqlite-JDBC driver using the current class loader
         try {
@@ -44,13 +44,13 @@ public class HotelDB implements DatabaseService {
                         "Booking.checkOutDate > ?)))");
 
         statement.clearParameters();
-        statement.setString(1, nameOrLocation + "%");
-        statement.setString(2, java.sql.Date.valueOf(checkInDate).toString());
-        statement.setString(3, java.sql.Date.valueOf(checkOutDate).toString());
-        statement.setString(4, java.sql.Date.valueOf(checkInDate).toString());
-        statement.setString(5, java.sql.Date.valueOf(checkOutDate).toString());
-        statement.setString(6, java.sql.Date.valueOf(checkInDate).toString());
-        statement.setString(7, java.sql.Date.valueOf(checkOutDate).toString());
+        statement.setString(1, options.getNameOrLocation() + "%");
+        statement.setString(2, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+        statement.setString(3, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+        statement.setString(4, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+        statement.setString(5, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+        statement.setString(6, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+        statement.setString(7, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
         ResultSet rs = statement.executeQuery();
 
         // TODO remove once testing is no longer needed
@@ -77,8 +77,7 @@ public class HotelDB implements DatabaseService {
     }
 
     @Override
-    public List<Booking> addBooking(Hotel hotel, String guestName, LocalDate checkInDate,
-                                    LocalDate checkOutDate, int nrGuests) throws SQLException {
+    public List<Booking> addBooking(Hotel hotel, String guestName, SearchOptions options) throws SQLException {
         return null;
     }
 
@@ -88,8 +87,8 @@ public class HotelDB implements DatabaseService {
 
     public static void main(String[] args) throws SQLException {
         HotelDB db = new HotelDB();
-        db.search("Test", LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 4);
+        db.search(new SearchOptions("Test", LocalDate.of(2022, 4, 16),
+                LocalDate.of(2022, 4, 17), 4));
     }
 
 }

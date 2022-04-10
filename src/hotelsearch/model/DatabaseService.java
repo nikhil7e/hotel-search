@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface DatabaseService {
 
-    List<Hotel> search(String nameOrLocation, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
+    List<Hotel> search(SearchOptions options)
             throws SQLException;
 
-    List<Booking> addBooking(Hotel hotel, String guestName, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
+    List<Booking> addBooking(Hotel hotel, String guestName, SearchOptions options)
             throws SQLException;
 
     void cancelBooking(Hotel hotel, int bookingID) throws SQLException;
