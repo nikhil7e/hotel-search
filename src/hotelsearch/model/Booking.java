@@ -7,20 +7,18 @@ public class Booking {
     private final int bookingID;
     private final int roomID;
     private final int hotelID;
-    private final int bookingProcessID;
-    private final int guestID;
+    private final int bookingTransactionID;
     private final String guestEmail;
     private final String guestName;
     private final LocalDate checkInDate;
     private final LocalDate checkOutDate;
 
-    public Booking(int bookingID, int roomID, int hotelID, int bookingProcessID, int guestID, String guestEmail,
+    public Booking(int hotelID, int roomID, int bookingID, int bookingProcessID, String guestEmail,
                    String guestName, LocalDate checkInDate, LocalDate checkOutDate) {
         this.bookingID = bookingID;
         this.hotelID = hotelID;
         this.roomID = roomID;
-        this.bookingProcessID = bookingProcessID;
-        this.guestID = guestID;
+        this.bookingTransactionID = bookingProcessID;
         this.guestEmail = guestEmail;
         this.guestName = guestName;
         this.checkInDate = checkInDate;
@@ -39,12 +37,8 @@ public class Booking {
         return roomID;
     }
 
-    public int getBookingProcessID() {
-        return bookingProcessID;
-    }
-
-    public int getGuestID() {
-        return guestID;
+    public int getBookingTransactionID() {
+        return bookingTransactionID;
     }
 
     public String getGuestEmail() {

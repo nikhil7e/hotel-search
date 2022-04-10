@@ -4,10 +4,10 @@ import java.time.LocalDate;
 
 public class SearchOptions {
 
-    private String nameOrLocation;
-    private LocalDate checkInDate;
-    private LocalDate checkOutDate;
-    private int nrGuests;
+    private final String nameOrLocation;
+    private final LocalDate checkInDate;
+    private final LocalDate checkOutDate;
+    private final int nrGuests;
 
     public SearchOptions(String nameOrLocation, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests) {
         this.nameOrLocation = nameOrLocation;

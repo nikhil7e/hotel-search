@@ -141,33 +141,42 @@ public class HotelDB implements DatabaseService {
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
-            System.out.println("Booking results:");
+            System.out.println("Booking results for hotel " + hotel.getName() + ":");
 
-            int guests = options.getNrGuests();
-            int guestID = (int) (Math.random() * 10000000);
-            int bookingProcessID = (int) (Math.random() * 10000000);
-            while (rs.next() && guests > 0) {
+            // get bookingID and bookingTransactionID
+            PreparedStatement idStatement = connection.prepareStatement(
+                    "select max(bookingID) as maxBookingID, max(bookingTransactionID) as " +
+                            "maxBookingTransactionID from Booking");
+            ResultSet idRs = idStatement.executeQuery();
+            int guestsRemaining = options.getNrGuests();
+            int bookingID = idRs.getInt("maxBookingID") + 1;
+            int bookingTransactionID = idRs.getInt("maxBookingTransactionID") + 1;
+
+            while (rs.next() && guestsRemaining > 0) {
                 // read the result set
                 PreparedStatement update = connection.prepareStatement("insert into Booking values " +
-                        "(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        "(?, ?, ?, ?, ?, ?, ?, ?)");
                 update.clearParameters();
                 update.setInt(1, hotel.getHotelID());
                 update.setInt(2, rs.getInt("roomID"));
                 // TODO figure out how to keep IDs unique
-                update.setInt(3, (int) (Math.random() * 10000000));
-                update.setInt(4, bookingProcessID);
-                update.setInt(5, guestID);
-                update.setString(6, guestEmail);
-                update.setString(7, guestName);
-                update.setString(8, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-                update.setString(9, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+                update.setInt(3, bookingID);
+                update.setInt(4, bookingTransactionID);
+                update.setString(5, guestEmail);
+                update.setString(6, guestName);
+                update.setString(7, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+                update.setString(8, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
                 update.executeUpdate();
+                bookingList.add(new Booking(hotel.getHotelID(), rs.getInt("roomID"), bookingID, bookingTransactionID,
+                        guestEmail, guestName, options.getCheckInDate(), options.getCheckOutDate()));
 
-                guests -= rs.getInt("nrBeds");
+                bookingID++;
+                guestsRemaining -= rs.getInt("nrBeds");
 
                 // TODO remove once testing is no longer needed
                 System.out.println("Booking added: HotelID " + hotel.getHotelID() + ", roomID " +
-                        rs.getInt("roomID") + ", nrBeds " + rs.getInt("nrBeds") + ", total nrGuests to book "
+                        rs.getInt("roomID") + ", bookingID " + (bookingID - 1) + ", bookingTransactionID " +
+                        bookingTransactionID + ", nrBeds " + rs.getInt("nrBeds") + ", total nrGuests to book "
                         + options.getNrGuests());
             }
 
@@ -232,7 +241,6 @@ public class HotelDB implements DatabaseService {
         SearchOptions options3 = new SearchOptions("Test",
                 LocalDate.of(2023, 4, 16),
                 LocalDate.of(2023, 4, 17), 8);
-
 
         List<Hotel> list = db.search(options);
         System.out.println();

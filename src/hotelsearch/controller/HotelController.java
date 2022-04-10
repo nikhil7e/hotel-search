@@ -1,11 +1,9 @@
 package hotelsearch.controller;
 
-import hotelsearch.model.Booking;
-import hotelsearch.model.DatabaseService;
-import hotelsearch.model.Hotel;
-import hotelsearch.model.SearchOptions;
+import hotelsearch.model.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -179,4 +177,25 @@ public class HotelController {
         }
         return newList;
     }
+
+    public static void main(String[] args) {
+        HotelController hc = new HotelController(new HotelDB());
+
+        SearchOptions options = new SearchOptions("Test",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 1);
+
+        List<Hotel> list = hc.search(options);
+        System.out.println();
+
+        try {
+            hc.modifyBooking(list.get(0), 9063148, "Nejgluw", "Newkutf",
+                    new SearchOptions("Test",
+                    LocalDate.of(2023, 4, 16),
+                    LocalDate.of(2023, 4, 17), 1));
+        } catch (SQLException e) {
+            System.err.println(e);
+        }
+    }
+
 }

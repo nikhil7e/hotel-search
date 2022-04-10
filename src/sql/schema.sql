@@ -59,36 +59,29 @@ values (3, 2, 2, 1, 1, 1, 1);
 
 CREATE TABLE Booking
 (
-    hotelID          int,
-    roomID           int,
-    bookingID        int,
-    bookingProcessID int, /* bookings that result from the same booking process have equal bookingProcessIDs */
-    guestID          int,
-    guestEmail       varchar(50),
-    guestName        varchar(50),
-    checkInDate      text,
-    checkOutDate     text,
-    primary key (bookingID),
+    hotelID              int,
+    roomID               int,
+    bookingID            int,
+    bookingTransactionID int, /* bookings that result from the same booking process have equal bookingProcessIDs */
+    guestEmail           varchar(50),
+    guestName            varchar(50),
+    checkInDate          text,
+    checkOutDate         text,
+    primary key (hotelID, bookingID),
     foreign key (hotelID, roomID) references Room (hotelID, roomID)
 );
 
 insert into Booking
-values (1, 1, 1, 1, 999, 'a', 'test', date('2022-04-01'), date('2022-04-28'));
+values (1, 1, 1, 1, 'a', 'test', date('2022-04-01'), date('2022-04-28'));
 insert into Booking
-values (1, 2, 5, 1, 998, 'b', 'test', date('2022-04-01'), date('2022-04-28'));
+values (1, 2, 5, 1, 'b', 'test', date('2022-04-01'), date('2022-04-28'));
 insert into Booking
-values (2, 2, 2, 1, 997, 'c', 'test', date('2022-05-01'), date('2022-05-31'));
+values (2, 2, 2, 1, 'c', 'test', date('2022-05-01'), date('2022-05-31'));
 insert into Booking
-values (2, 1, 3, 2, 996, 'd', 'test', date('2022-04-16'), date('2022-04-28'));
+values (2, 1, 3, 2, 'd', 'test', date('2022-04-16'), date('2022-04-28'));
 insert into Booking
-values (3, 2, 4, 3, 995, 'e', 'test', date('2022-06-01'), date('2022-06-31'));
+values (3, 2, 4, 3, 'e', 'test', date('2022-06-01'), date('2022-06-31'));
 
-
-/* SQL DROP TABLE query
-DROP TABLE Hotel;
-DROP TABLE Room;
-DROP TABLE Booking;
- */
 
 /* SQL search query with example parameters
 
