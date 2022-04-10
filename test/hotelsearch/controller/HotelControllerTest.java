@@ -66,7 +66,7 @@ public class HotelControllerTest {
                 "Description", 2, 1, 1,
                 true, true, true, true));
 
-        hotelController.bookRoom(hotelList.get(hotelList.size() - 1), "Test");
+        hotelController.bookRoom(hotelList.get(hotelList.size() - 1), "Test", "Name");
     }
 
     @Test

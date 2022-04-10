@@ -1,3 +1,8 @@
+/* REMEMBER TO REMOVE */
+DROP TABLE Hotel;
+DROP TABLE Room;
+DROP TABLE Booking;
+
 CREATE TABLE Hotel
 (
     hotelID                 int,
@@ -38,29 +43,29 @@ CREATE TABLE Room
 insert into Room
 values (1, 1, 4, 1, 1, 1, 1);
 insert into Room
-values (1, 2, 4, 1, 1, 1, 1);
+values (1, 2, 2, 1, 1, 1, 1);
 insert into Room
-values (2, 1, 8, 1, 1, 1, 1);
+values (2, 1, 2, 1, 1, 1, 1);
 insert into Room
-values (2, 2, 8, 1, 1, 1, 1);
+values (2, 2, 1, 1, 1, 1, 1);
 insert into Room
-values (3, 1, 16, 1, 1, 1, 1);
+values (3, 1, 1, 1, 1, 1, 1);
 insert into Room
-values (3, 2, 16, 1, 1, 1, 1);
+values (3, 2, 2, 1, 1, 1, 1);
 
 CREATE TABLE Booking
 (
     hotelID          int,
     roomID           int,
     bookingID        int,
-    bookingProcessID int,       /* bookings that result from the same booking process have equal bookingProcessIDs */
-    guestID          int UNIQUE,
-    guestEmail       varchar(50) UNIQUE,
+    bookingProcessID int, /* bookings that result from the same booking process have equal bookingProcessIDs */
+    guestID          int,
+    guestEmail       varchar(50),
     guestName        varchar(50),
     checkInDate      text,
     checkOutDate     text,
-    primary key (bookingID, hotelID),
-    foreign key (roomID, hotelID) references Room (roomID, hotelID)
+    primary key (bookingID),
+    foreign key (hotelID, roomID) references Room (hotelID, roomID)
 );
 
 insert into Booking

@@ -13,7 +13,8 @@ public class NoDBConnectionMock implements DatabaseService {
     }
 
     @Override
-    public List<Booking> addBooking(Hotel hotel, String guestName, SearchOptions options) throws SQLException {
+    public List<Booking> addBooking(Hotel hotel, String guestEmail, String guestName, SearchOptions options)
+            throws SQLException {
         throw new SQLException();
     }
 

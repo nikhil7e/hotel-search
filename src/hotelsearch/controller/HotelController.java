@@ -23,14 +23,14 @@ public class HotelController {
         return db.search(options);
     }
 
-    public List<Booking> bookRoom(Hotel hotel, String guestName) throws SQLException {
-        return db.addBooking(hotel, guestName, options);
+    public List<Booking> bookRoom(Hotel hotel, String guestEmail, String guestName) throws SQLException {
+        return db.addBooking(hotel, guestEmail, guestName, options);
     }
 
-    public List<Booking> modifyBooking(Hotel hotel, int bookingID, String guestName, SearchOptions options)
-            throws SQLException {
+    public List<Booking> modifyBooking(Hotel hotel, int bookingID, String guestEmail, String guestName,
+                                       SearchOptions options) throws SQLException {
         cancelBooking(hotel, bookingID);
-        return db.addBooking(hotel, guestName, options);
+        return db.addBooking(hotel, guestEmail, guestName, options);
     }
 
     public void cancelBooking(Hotel hotel, int bookingID) throws SQLException {
