@@ -7,7 +7,7 @@ public interface DatabaseService {
 
     List<Hotel> search(SearchOptions options);
 
-    List<Booking> addBooking(Hotel hotel, String guestEmail, String guestName, SearchOptions options);
+    List<Booking> book(Hotel hotel, String guestEmail, String guestName, SearchOptions options);
 
     void cancelBooking(int hotelID, int bookingID) throws SQLException;
 

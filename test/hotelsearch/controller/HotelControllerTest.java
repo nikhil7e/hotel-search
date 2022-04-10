@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class HotelControllerTest {
     public void testFindHotelConnectionFail() {
         DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("Name",
+        List<Hotel> hotelList = hotelController.search(new SearchOptions("Name",
                 LocalDate.of(2022, 4, 4), LocalDate.of(2022, 4, 14),
                 2));
 
@@ -57,7 +56,8 @@ public class HotelControllerTest {
         DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
 
-        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("Name",
+        /*
+        List<Hotel> hotelList = hotelController.search(new SearchOptions("Reykjavík",
                 LocalDate.of(2022, 4, 4), LocalDate.of(2022, 4, 14),
                 2));
 
@@ -65,9 +65,15 @@ public class HotelControllerTest {
                 new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
                 "Description", 2, 1, 1,
                 true, true, true, true));
+         */
 
-        List<Booking> bookingList = hotelController.bookRoom(hotelList.get(hotelList.size() - 1),
-                "Test", "Name");
+        List<Booking> bookingList = hotelController.book(new Hotel(123, "Test", 5,
+                        new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
+                        "Description", 2, 1, 1,
+                        true, true, true, true),
+                "Test", "Reykjavík", new SearchOptions("Reykjavík",
+                        LocalDate.of(2022, 4, 4), LocalDate.of(2022, 4, 14),
+                        2));
 
         assertEquals(0, bookingList.size());
     }
@@ -76,7 +82,7 @@ public class HotelControllerTest {
     public void testFindHotelsSuccess() {
         DatabaseService mockDatabaseService = new SuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("Reykjavík",
+        List<Hotel> hotelList = hotelController.search(new SearchOptions("Reykjavík",
                 LocalDate.of(2022, 3, 10), LocalDate.of(2022, 4, 10),
                 2));
         assertNotNull(hotelList);
@@ -90,7 +96,7 @@ public class HotelControllerTest {
     public void testFindHotelsFail() {
         DatabaseService mockDatabaseService = new UnsuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("ARKGMRLKSGSKLN",
+        List<Hotel> hotelList = hotelController.search(new SearchOptions("ARKGMRLKSGSKLN",
                 LocalDate.of(2022, 3, 10), LocalDate.of(2022, 4, 10),
                 2));
         assertNotNull(hotelList);

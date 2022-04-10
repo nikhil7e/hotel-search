@@ -19,6 +19,15 @@ Unix:
  */
 public class HotelDB implements DatabaseService {
 
+    /**
+     * Searches and returns all hotels that satisfy the
+     * given conditions
+     *
+     * @param options a model class that contains a set of requirements
+     *                that hotels must fulfill
+     * @return a list of Hotel objects and an empty list if database
+     * errors occur
+     */
     @Override
     public List<Hotel> search(SearchOptions options) {
         // load the sqlite-JDBC driver using the current class loader
@@ -42,7 +51,6 @@ public class HotelDB implements DatabaseService {
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
                             "Booking.checkOutDate > ?)))) >= ?");
-
             statement.clearParameters();
             statement.setString(1, options.getNameOrLocation() + "%");
             statement.setString(2, java.sql.Date.valueOf(options.getCheckInDate()).toString());
@@ -82,7 +90,20 @@ public class HotelDB implements DatabaseService {
         return hotelList;
     }
 
-    public List<Booking> addBooking(Hotel hotel, String guestEmail, String guestName, SearchOptions options) {
+    /**
+     * Books an appropriate number of rooms in the given hotel so
+     * that all guests can be accommodated.
+     *
+     * @param hotel      the hotel which will contain the rooms to be booked
+     * @param guestEmail the email of the guest that will create the booking
+     * @param guestName  the name of the guest that will create the booking
+     * @param options    a model class that contains a set of requirements
+     *                   that hotels must fulfill
+     * @return a list of Booking objects and an empty list if database
+     * errors occur. A booking object is created for each booked room if
+     * multiple rooms must be booked to accommodate all guests
+     */
+    public List<Booking> book(Hotel hotel, String guestEmail, String guestName, SearchOptions options) {
         // load the sqlite-JDBC driver using the current class loader
         try {
             Class.forName("org.sqlite.JDBC");
@@ -129,7 +150,6 @@ public class HotelDB implements DatabaseService {
                 // read the result set
                 PreparedStatement update = connection.prepareStatement("insert into Booking values " +
                         "(?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
                 update.clearParameters();
                 update.setInt(1, hotel.getHotelID());
                 update.setInt(2, rs.getInt("roomID"));
@@ -161,6 +181,13 @@ public class HotelDB implements DatabaseService {
         return bookingList;
     }
 
+    /**
+     * Cancels a booking
+     *
+     * @param hotelID   the ID of the hotel that was booked
+     * @param bookingID the ID of the booking that will be canceled
+     * @throws SQLException if database errors occur
+     */
     @Override
     public void cancelBooking(int hotelID, int bookingID) throws SQLException {
         // load the sqlite-JDBC driver using the current class loader
@@ -176,9 +203,9 @@ public class HotelDB implements DatabaseService {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
 
+            // TODO check if the booking exists first?
             PreparedStatement updateStatement =
                     connection.prepareStatement("delete from Booking where hotelID = ? and bookingID = ?");
-
             updateStatement.clearParameters();
             updateStatement.setInt(1, hotelID);
             updateStatement.setInt(2, bookingID);
@@ -199,19 +226,28 @@ public class HotelDB implements DatabaseService {
         SearchOptions options = new SearchOptions("Test",
                 LocalDate.of(2023, 4, 16),
                 LocalDate.of(2023, 4, 17), 1);
+        SearchOptions options2 = new SearchOptions("Test",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 4);
+        SearchOptions options3 = new SearchOptions("Test",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 8);
 
 
         List<Hotel> list = db.search(options);
+        System.out.println();
+
         if (list.size() != 0) {
-            db.addBooking(list.get(0), "email", "name", options);
-            db.addBooking(list.get(0), "email", "name", options);
-            db.addBooking(list.get(0), "email", "name", options);
-            db.addBooking(list.get(0), "email", "name", options);
-            db.addBooking(list.get(0), "email", "name", options);
-            db.addBooking(list.get(0), "email", "name", options);
+            db.book(list.get(0), "email", "name", options);
+            System.out.println();
+            db.book(list.get(0), "email", "name", options2);
+            System.out.println();
+            db.book(list.get(0), "email", "name", options3);
+            System.out.println();
         }
         try {
             db.cancelBooking(3, 7669199);
+            System.out.println();
         } catch (SQLException e) {
             System.err.println(e);
         }

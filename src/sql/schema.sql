@@ -45,6 +45,10 @@ values (1, 1, 4, 1, 1, 1, 1);
 insert into Room
 values (1, 2, 2, 1, 1, 1, 1);
 insert into Room
+values (1, 3, 4, 1, 1, 1, 1);
+insert into Room
+values (1, 5, 8, 1, 1, 1, 1);
+insert into Room
 values (2, 1, 2, 1, 1, 1, 1);
 insert into Room
 values (2, 2, 1, 1, 1, 1, 1);

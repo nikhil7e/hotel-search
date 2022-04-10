@@ -11,7 +11,7 @@ public class UnsuccessfulDBSearchMock implements DatabaseService {
     }
 
     @Override
-    public List<Booking> addBooking(Hotel hotel, String guestEmail, String guestName, SearchOptions options) {
+    public List<Booking> book(Hotel hotel, String guestEmail, String guestName, SearchOptions options) {
         return null;
     }
 
