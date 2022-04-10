@@ -1,14 +1,15 @@
 package hotelsearch.model;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NoDBConnectionMock implements DatabaseService {
 
 
     @Override
-    public List<Hotel> search(SearchOptions options) throws SQLException {
-        throw new SQLException();
+    public List<Hotel> search(SearchOptions options) {
+        return new ArrayList<>();
     }
 
     @Override

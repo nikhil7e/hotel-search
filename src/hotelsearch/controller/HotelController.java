@@ -18,7 +18,7 @@ public class HotelController {
         this.db = db;
     }
 
-    public List<Hotel> findHotels(SearchOptions options) throws SQLException {
+    public List<Hotel> findHotels(SearchOptions options) {
         this.options = options;
         return db.search(options);
     }
@@ -29,7 +29,6 @@ public class HotelController {
 
     public List<Booking> modifyBooking(Hotel hotel, int bookingID, String guestName, SearchOptions options)
             throws SQLException {
-        this.options = options;
         cancelBooking(hotel, bookingID);
         return db.addBooking(hotel, guestName, options);
     }

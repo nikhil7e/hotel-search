@@ -24,13 +24,16 @@ public class HotelControllerTest {
     public void tearDown() {
     }
 
-    @Test(expected = SQLException.class)
-    public void testFindHotelConnectionFail() throws SQLException {
+    @Test
+    public void testFindHotelConnectionFail() {
         DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        hotelController.findHotels(new SearchOptions("Name",
+        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("Name",
                 LocalDate.of(2022, 4, 4), LocalDate.of(2022, 4, 14),
                 2));
+
+        assertNotNull(hotelList);
+        assertEquals(0, hotelList.size());
     }
 
     /*
@@ -67,18 +70,21 @@ public class HotelControllerTest {
     }
 
     @Test
-    public void testFindHotelsSuccess() throws SQLException, ClassNotFoundException {
+    public void testFindHotelsSuccess() {
         DatabaseService mockDatabaseService = new SuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("Reykjavík",
                 LocalDate.of(2022, 3, 10), LocalDate.of(2022, 4, 10),
                 2));
         assertNotNull(hotelList);
-        // TODO check if the hotels actually match the query
+
+        for (Hotel hotel : hotelList) {
+            assertEquals("Reykjavík", hotel.getName());
+        }
     }
 
     @Test
-    public void testFindHotelsFail() throws SQLException, ClassNotFoundException {
+    public void testFindHotelsFail() {
         DatabaseService mockDatabaseService = new UnsuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
         List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("ARKGMRLKSGSKLN",
@@ -116,7 +122,7 @@ public class HotelControllerTest {
 
     @Test
     public void testFilterByStars() {
-        HotelController hotelController = new HotelController(null);
+        HotelController hotelController = new HotelController(new SuccessfulDBSearchMock());
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", 3,
                 new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
@@ -133,7 +139,7 @@ public class HotelControllerTest {
 
         List<Hotel> filteredList = hotelController.filterByStars(hotelList, 5);
         assertNotNull(hotelList);
-        assert (filteredList.size() == 1);
+        assertEquals(1, filteredList.size());
         assertEquals(5, filteredList.get(0).getNumberOfStars());
     }
 

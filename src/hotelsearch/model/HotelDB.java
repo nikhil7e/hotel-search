@@ -20,59 +20,66 @@ Unix:
 public class HotelDB implements DatabaseService {
 
     @Override
-    public List<Hotel> search(SearchOptions options)
-            throws SQLException {
+    public List<Hotel> search(SearchOptions options) {
         // load the sqlite-JDBC driver using the current class loader
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             System.err.println(e);
-            throw new SQLException(e);
+            return new ArrayList<>();
         }
 
         // create a database connection
-        Connection connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+        Connection connection;
         List<Hotel> hotelList = new ArrayList<>();
 
-        // TODO only show hotels that have a sufficient amount of available rooms for the number of guests
-        PreparedStatement statement = connection.prepareStatement(
-                "select * from Hotel where Hotel.nameOrLocation like ? and exists(" +
-                        "select * from Room where Room.hotelID = Hotel.hotelID and not exists(" +
-                        "select * from Booking where Booking.hotelID = Hotel.hotelID and " +
-                        "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
-                        "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
-                        "Booking.checkOutDate > ?)))");
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
 
-        statement.clearParameters();
-        statement.setString(1, options.getNameOrLocation() + "%");
-        statement.setString(2, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-        statement.setString(3, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-        statement.setString(4, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-        statement.setString(5, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-        statement.setString(6, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-        statement.setString(7, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-        ResultSet rs = statement.executeQuery();
+            // TODO only show hotels that have a sufficient amount of available rooms for the number of guests
+            PreparedStatement statement = connection.prepareStatement(
+                    "select * from Hotel where Hotel.nameOrLocation like ? and exists(" +
+                            "select * from Room where Room.hotelID = Hotel.hotelID and not exists(" +
+                            "select * from Booking where Booking.hotelID = Hotel.hotelID and " +
+                            "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
+                            "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
+                            "Booking.checkOutDate > ?)))");
 
-        // TODO remove once testing is no longer needed
-        System.out.println("Hotel search results:");
-
-        while (rs.next()) {
-            // read the result set
-            Hotel hotel = new Hotel(rs.getInt("hotelID"),
-                    rs.getString("nameOrLocation"), rs.getInt("numberOfStars"),
-                    new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream(rs.getString("image")))),
-                    rs.getString("description"), rs.getDouble("startingRoomPrice"),
-                    rs.getDouble("distanceFromDowntown"), rs.getDouble("distanceFromSupermarket"),
-                    rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"), rs.getBoolean("bar"),
-                    rs.getBoolean("freeWifi"));
-            hotelList.add(hotel);
+            statement.clearParameters();
+            statement.setString(1, options.getNameOrLocation() + "%");
+            statement.setString(2, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(3, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setString(4, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(5, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setString(6, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(7, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
-            System.out.println("Name/location: " + rs.getString("nameOrLocation"));
+            System.out.println("Hotel search results:");
+
+            while (rs.next()) {
+                // read the result set
+                Hotel hotel = new Hotel(rs.getInt("hotelID"),
+                        rs.getString("nameOrLocation"), rs.getInt("numberOfStars"),
+                        new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream(rs.getString("image")))),
+                        rs.getString("description"), rs.getDouble("startingRoomPrice"),
+                        rs.getDouble("distanceFromDowntown"), rs.getDouble("distanceFromSupermarket"),
+                        rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"), rs.getBoolean("bar"),
+                        rs.getBoolean("freeWifi"));
+                hotelList.add(hotel);
+
+                // TODO remove once testing is no longer needed
+                System.out.println("Name/location: " + rs.getString("nameOrLocation"));
+            }
+
+            rs.close();
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+            return new ArrayList<>();
         }
 
-        rs.close();
-        connection.close();
         return hotelList;
     }
 

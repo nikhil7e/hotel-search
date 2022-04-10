@@ -7,7 +7,7 @@ import java.util.List;
 public class UnsuccessfulDBSearchMock implements DatabaseService {
 
     @Override
-    public List<Hotel> search(SearchOptions options) throws SQLException {
+    public List<Hotel> search(SearchOptions options) {
         return new ArrayList<>();
     }
 
