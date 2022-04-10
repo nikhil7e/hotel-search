@@ -2,7 +2,6 @@ package hotelsearch.model;
 
 import javafx.scene.image.Image;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +24,7 @@ public class SuccessfulDBSearchMock implements DatabaseService {
     }
 
     @Override
-    public void cancelBooking(Hotel hotel, int bookingID) {
+    public void cancelBooking(int hotelID, int bookingID) {
 
     }
 }

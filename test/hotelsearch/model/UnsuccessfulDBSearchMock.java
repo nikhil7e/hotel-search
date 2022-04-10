@@ -1,6 +1,5 @@
 package hotelsearch.model;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public class UnsuccessfulDBSearchMock implements DatabaseService {
     }
 
     @Override
-    public void cancelBooking(Hotel hotel, int bookingID) {
+    public void cancelBooking(int hotelID, int bookingID) {
     }
 
 }

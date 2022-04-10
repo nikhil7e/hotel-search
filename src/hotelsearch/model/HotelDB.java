@@ -82,8 +82,7 @@ public class HotelDB implements DatabaseService {
         return hotelList;
     }
 
-    public List<Booking> addBooking(Hotel hotel, String guestEmail, String guestName, SearchOptions options)
-            throws SQLException {
+    public List<Booking> addBooking(Hotel hotel, String guestEmail, String guestName, SearchOptions options) {
         // load the sqlite-JDBC driver using the current class loader
         try {
             Class.forName("org.sqlite.JDBC");
@@ -97,7 +96,6 @@ public class HotelDB implements DatabaseService {
         List<Booking> bookingList = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
-            // TODO find rooms that fit, then add bookings to each of them
             // find available rooms
             PreparedStatement statement = connection.prepareStatement(
                     "select * from Room where Room.hotelID = ? and not exists(" +
@@ -149,8 +147,8 @@ public class HotelDB implements DatabaseService {
 
                 // TODO remove once testing is no longer needed
                 System.out.println("Booking added: HotelID " + hotel.getHotelID() + ", roomID " +
-                        rs.getInt("roomID") + ", total nrGuests to book " + options.getNrGuests() + ", nrBeds " +
-                        rs.getInt("nrBeds"));
+                        rs.getInt("roomID") + ", nrBeds " + rs.getInt("nrBeds") + ", total nrGuests to book "
+                        + options.getNrGuests());
             }
 
             rs.close();
@@ -164,14 +162,44 @@ public class HotelDB implements DatabaseService {
     }
 
     @Override
-    public void cancelBooking(Hotel hotel, int bookingID) throws SQLException {
+    public void cancelBooking(int hotelID, int bookingID) throws SQLException {
+        // load the sqlite-JDBC driver using the current class loader
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            System.err.println(e);
+            throw new SQLException();
+        }
+
+        // create a database connection
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+
+            PreparedStatement updateStatement =
+                    connection.prepareStatement("delete from Booking where hotelID = ? and bookingID = ?");
+
+            updateStatement.clearParameters();
+            updateStatement.setInt(1, hotelID);
+            updateStatement.setInt(2, bookingID);
+            updateStatement.executeUpdate();
+
+            // TODO remove once testing is no longer needed
+            System.out.println("Booking " + bookingID + " cancelled");
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+            throw new SQLException();
+        }
+
     }
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         HotelDB db = new HotelDB();
         SearchOptions options = new SearchOptions("Test",
                 LocalDate.of(2023, 4, 16),
-                LocalDate.of(2023, 4, 17), 3);
+                LocalDate.of(2023, 4, 17), 1);
+
 
         List<Hotel> list = db.search(options);
         if (list.size() != 0) {
@@ -181,6 +209,11 @@ public class HotelDB implements DatabaseService {
             db.addBooking(list.get(0), "email", "name", options);
             db.addBooking(list.get(0), "email", "name", options);
             db.addBooking(list.get(0), "email", "name", options);
+        }
+        try {
+            db.cancelBooking(3, 7669199);
+        } catch (SQLException e) {
+            System.err.println(e);
         }
     }
 

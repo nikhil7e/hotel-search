@@ -52,8 +52,8 @@ public class HotelControllerTest {
     }
      */
 
-    @Test(expected = SQLException.class)
-    public void testBookRoomConnectionFail() throws SQLException {
+    @Test
+    public void testBookRoomConnectionFail() {
         DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
 
@@ -66,7 +66,10 @@ public class HotelControllerTest {
                 "Description", 2, 1, 1,
                 true, true, true, true));
 
-        hotelController.bookRoom(hotelList.get(hotelList.size() - 1), "Test", "Name");
+        List<Booking> bookingList = hotelController.bookRoom(hotelList.get(hotelList.size() - 1),
+                "Test", "Name");
+
+        assertEquals(0, bookingList.size());
     }
 
     @Test
