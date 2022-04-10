@@ -1,6 +1,7 @@
 package hotelsearch.controller;
 
 import hotelsearch.model.*;
+import javafx.scene.image.Image;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -22,11 +24,16 @@ public class HotelControllerTest {
     public void tearDown() {
     }
 
-    @Test(expected = SQLException.class)
-    public void testFindHotelConnectionFail() throws SQLException {
+    @Test
+    public void testFindHotelConnectionFail() {
         DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        hotelController.findHotels("", null, null, 2);
+        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("Name",
+                LocalDate.of(2022, 4, 4), LocalDate.of(2022, 4, 14),
+                2));
+
+        assertNotNull(hotelList);
+        assertEquals(0, hotelList.size());
     }
 
     /*
@@ -49,44 +56,60 @@ public class HotelControllerTest {
     public void testBookRoomConnectionFail() throws SQLException {
         DatabaseService mockDatabaseService = new NoDBConnectionMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        hotelController.bookRoom(null, "", null, null, 2);
+
+        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("Name",
+                LocalDate.of(2022, 4, 4), LocalDate.of(2022, 4, 14),
+                2));
+
+        hotelList.add(new Hotel(123, "Test", 5,
+                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
+                "Description", 2, 1, 1,
+                true, true, true, true));
+
+        hotelController.bookRoom(hotelList.get(hotelList.size() - 1), "Test");
     }
 
     @Test
-    public void testFindHotelsSuccess() throws SQLException, ClassNotFoundException {
+    public void testFindHotelsSuccess() {
         DatabaseService mockDatabaseService = new SuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        List<Hotel> hotelList = hotelController.findHotels("Reykjavík",
-                LocalDate.of(2022, 3, 10),
-                LocalDate.of(2022, 4, 10), 2);
+        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("Reykjavík",
+                LocalDate.of(2022, 3, 10), LocalDate.of(2022, 4, 10),
+                2));
         assertNotNull(hotelList);
+
+        for (Hotel hotel : hotelList) {
+            assertEquals("Reykjavík", hotel.getName());
+        }
     }
 
     @Test
-    public void testFindHotelsFail() throws SQLException, ClassNotFoundException {
+    public void testFindHotelsFail() {
         DatabaseService mockDatabaseService = new UnsuccessfulDBSearchMock();
         HotelController hotelController = new HotelController(mockDatabaseService);
-        List<Hotel> hotelList = hotelController.findHotels("/",
-                LocalDate.of(2022, 3, 10),
-                LocalDate.of(2022, 4, 10), 2);
+        List<Hotel> hotelList = hotelController.findHotels(new SearchOptions("ARKGMRLKSGSKLN",
+                LocalDate.of(2022, 3, 10), LocalDate.of(2022, 4, 10),
+                2));
         assertNotNull(hotelList);
         assertEquals(0, hotelList.size());
     }
-
 
     @Test
     public void testOrderByPriceAscending() {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
-        hotelList.add(new Hotel(123, "Test", 5, null, "",
-                2, 1, 1,
-                true,true,true,true));
-        hotelList.add(new Hotel(12, "Test2", 5, null, "",
-                1, 1, 1,
-                true,true,true,true));
-        hotelList.add(new Hotel(13, "Test3", 5, null, "",
-                3, 1, 1,
-                true,true,true,true));
+        hotelList.add(new Hotel(123, "Test", 5,
+                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
+                "D", 2, 1, 1, true,
+                true, true, true));
+        hotelList.add(new Hotel(12, "Test2", 5,
+                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
+                "D", 1, 1, 1, true,
+                true, true, true));
+        hotelList.add(new Hotel(13, "Test3", 5,
+                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
+                "D", 3, 1, 1, true,
+                true, true, true));
 
         List<Hotel> orderedHotelList = hotelController.orderByPriceAscending(hotelList);
         assertNotNull(hotelList);
@@ -96,22 +119,27 @@ public class HotelControllerTest {
             assertTrue(current.getStartingRoomPrice() >= previous.getStartingRoomPrice());
         }
     }
+
     @Test
     public void testFilterByStars() {
-        HotelController hotelController = new HotelController(null);
+        HotelController hotelController = new HotelController(new SuccessfulDBSearchMock());
         List<Hotel> hotelList = new ArrayList<>();
-        hotelList.add(new Hotel(123, "Test",3,null,"",
-                2,1,1,
-                true,true,true,true));
-        hotelList.add(new Hotel(123, "Test",4,null,"",
-                2,1,1,
-                true,true,true,true));
-        hotelList.add(new Hotel(123, "Test",5,null,"",
-                2,1,1,
-                true,true,true,true));
+        hotelList.add(new Hotel(123, "Test", 3,
+                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
+                "D", 2, 1, 1, true,
+                true, true, true));
+        hotelList.add(new Hotel(123, "Test", 4,
+                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
+                "D", 2, 1, 1, true,
+                true, true, true));
+        hotelList.add(new Hotel(123, "Test", 5,
+                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
+                "D", 2, 1, 1, true,
+                true, true, true));
+
         List<Hotel> filteredList = hotelController.filterByStars(hotelList, 5);
         assertNotNull(hotelList);
-        assert (filteredList.size() == 1);
+        assertEquals(1, filteredList.size());
         assertEquals(5, filteredList.get(0).getNumberOfStars());
     }
 

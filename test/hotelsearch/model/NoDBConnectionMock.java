@@ -1,21 +1,19 @@
 package hotelsearch.model;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class NoDBConnectionMock implements DatabaseService {
 
 
     @Override
-    public List<Hotel> search(String nameOrLocation, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
-            throws SQLException {
-        throw new SQLException();
+    public List<Hotel> search(SearchOptions options) {
+        return new ArrayList<>();
     }
 
     @Override
-    public List<Booking> addBooking(Hotel hotel, String guestName, LocalDate checkInDate, LocalDate checkOutDate,
-                                    int nrGuests) throws SQLException {
+    public List<Booking> addBooking(Hotel hotel, String guestName, SearchOptions options) throws SQLException {
         throw new SQLException();
     }
 

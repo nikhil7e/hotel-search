@@ -3,34 +3,34 @@ package hotelsearch.controller;
 import hotelsearch.model.Booking;
 import hotelsearch.model.DatabaseService;
 import hotelsearch.model.Hotel;
+import hotelsearch.model.SearchOptions;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HotelController {
 
-    private DatabaseService db;
+    private final DatabaseService db;
+    private SearchOptions options;
 
     public HotelController(DatabaseService db) {
         this.db = db;
     }
 
-    public List<Hotel> findHotels(String nameOrLocation, LocalDate checkInDate, LocalDate checkOutDate, int nrGuests)
+    public List<Hotel> findHotels(SearchOptions options) {
+        this.options = options;
+        return db.search(options);
+    }
+
+    public List<Booking> bookRoom(Hotel hotel, String guestName) throws SQLException {
+        return db.addBooking(hotel, guestName, options);
+    }
+
+    public List<Booking> modifyBooking(Hotel hotel, int bookingID, String guestName, SearchOptions options)
             throws SQLException {
-        return db.search(nameOrLocation, checkInDate, checkOutDate, nrGuests);
-    }
-
-    public List<Booking> bookRoom(Hotel hotel, String guestName, LocalDate checkInDate, LocalDate checkOutDate,
-                                  int nrGuests) throws SQLException {
-        return db.addBooking(hotel, guestName, checkInDate, checkOutDate, nrGuests);
-    }
-
-    public List<Booking> modifyBooking(Hotel hotel, int bookingID, String guestName, LocalDate newCheckInDate,
-                                       LocalDate newCheckOutDate, int newNrGuests) throws SQLException {
         cancelBooking(hotel, bookingID);
-        return db.addBooking(hotel, guestName, newCheckInDate, newCheckOutDate, newNrGuests);
+        return db.addBooking(hotel, guestName, options);
     }
 
     public void cancelBooking(Hotel hotel, int bookingID) throws SQLException {
