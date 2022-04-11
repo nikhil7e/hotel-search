@@ -39,7 +39,7 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="hotelsearch.gui.HotelViewGUIController">
+      fx:controller="hotelsearch.view.HotelViewGUIController">
     <AnchorPane VBox.vgrow="ALWAYS">
         <Label fx:id="fxHotelName" alignment="CENTER" layoutX="59.0" layoutY="14.0" prefHeight="43.0"
                prefWidth="522.0" style="&#10;" text="fxHotelName" textAlignment="CENTER" textFill="#9f9f9f">

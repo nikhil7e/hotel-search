@@ -1,4 +1,4 @@
-package hotelsearch.gui;
+package hotelsearch.view;
 
 import hotelsearch.model.Hotel;
 import javafx.fxml.FXML;

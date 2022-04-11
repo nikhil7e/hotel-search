@@ -1,6 +1,6 @@
 package hotelsearch.model;
 
-import hotelsearch.gui.HotelViewGUIMain;
+import hotelsearch.view.HotelViewGUIMain;
 import javafx.scene.image.Image;
 
 import java.sql.*;
