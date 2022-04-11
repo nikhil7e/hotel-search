@@ -39,19 +39,19 @@
 <?import javafx.scene.text.Font?>
 
 <VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
-fx:controller="hotelsearch.gui.HotelViewGUIController">
-  <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <children>
-        <Label fx:id="fxHotelName" alignment="CENTER" layoutX="59.0" layoutY="14.0" prefHeight="43.0" prefWidth="522.0" style="&#10;" text="fxHotelName" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-          <font>
-            <Font size="18.0" />
-          </font>
+      fx:controller="hotelsearch.gui.HotelViewGUIController">
+    <AnchorPane VBox.vgrow="ALWAYS">
+        <Label fx:id="fxHotelName" alignment="CENTER" layoutX="59.0" layoutY="14.0" prefHeight="43.0"
+               prefWidth="522.0" style="&#10;" text="fxHotelName" textAlignment="CENTER" textFill="#9f9f9f">
+            <font>
+                <Font size="18.0"/>
+            </font>
         </Label>
-            <Label fx:id="fxHotelReview" layoutX="431.0" layoutY="115.0" prefHeight="170.0" prefWidth="182.0" text="fxHotelReview" />
-            <ImageView fx:id="fxHotelImage" fitHeight="170.0" fitWidth="239.0" layoutX="59.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true" />
-            <ImageView fx:id="fxStars" fitHeight="50.0" fitWidth="182.0" layoutX="411.0" layoutY="336.0" pickOnBounds="true" preserveRatio="true" />
-      </children>
+        <Label fx:id="fxHotelReview" layoutX="431.0" layoutY="115.0" prefHeight="170.0" prefWidth="182.0"
+               text="fxHotelReview"/>
+        <ImageView fx:id="fxHotelImage" fitHeight="170.0" fitWidth="239.0" layoutX="59.0" layoutY="124.0"
+                   pickOnBounds="true" preserveRatio="true"/>
+        <ImageView fx:id="fxStars" fitHeight="50.0" fitWidth="182.0" layoutX="411.0" layoutY="336.0"
+                   pickOnBounds="true" preserveRatio="true"/>
     </AnchorPane>
-  </children>
 </VBox>

@@ -1,5 +1,6 @@
 package hotelsearch.model;
 
+import hotelsearch.gui.HotelViewGUIMain;
 import javafx.scene.image.Image;
 
 import java.sql.*;
@@ -235,17 +236,20 @@ public class HotelDB implements DatabaseService {
     public static void main(String[] args) {
         HotelDB db = new HotelDB();
         SearchOptions options = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 4);
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 4);
         SearchOptions options2 = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 4);
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 4);
         SearchOptions options3 = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 8);
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 8);
 
         List<Hotel> list = db.search(options);
         System.out.println();
+
+        HotelViewGUIMain h = new HotelViewGUIMain();
+        h.showHotel(list.get(0));
 
         if (list.size() != 0) {
             db.book(list.get(0), "email", "name", options);

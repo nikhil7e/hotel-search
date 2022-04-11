@@ -1,17 +1,12 @@
 package hotelsearch.gui;
 
-import javafx.application.Application;
+import hotelsearch.model.Hotel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import hotelsearch.model.Hotel;
-import javafx.stage.Stage;
-
-public class HotelViewGUIController{
-
-
+public class HotelViewGUIController {
 
     @FXML
     private Label fxHotelName;
@@ -31,7 +26,6 @@ public class HotelViewGUIController{
 
         Image image = new Image("/images/HiltonImage.jpg");
 
-
         fxHotelImage.setImage(hotel.getImage());
         switch (hotel.getNumberOfStars()) {
             case 1:
@@ -50,8 +44,6 @@ public class HotelViewGUIController{
                 fxStars.setImage(new Image("/images/FiveStars.png"));
                 break;
         }
-
-
-
     }
+
 }
