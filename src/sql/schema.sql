@@ -74,13 +74,13 @@ CREATE TABLE Booking
 insert into Booking
 values (1, 1, 1, 1, 'a', 'test', date('2022-04-01'), date('2022-04-28'));
 insert into Booking
-values (1, 2, 5, 1, 'b', 'test', date('2022-04-01'), date('2022-04-28'));
+values (1, 2, 2, 1, 'b', 'test', date('2022-04-01'), date('2022-04-28'));
 insert into Booking
-values (2, 2, 2, 1, 'c', 'test', date('2022-05-01'), date('2022-05-31'));
+values (2, 2, 3, 1, 'c', 'test', date('2022-05-01'), date('2022-05-31'));
 insert into Booking
-values (2, 1, 3, 2, 'd', 'test', date('2022-04-16'), date('2022-04-28'));
+values (2, 1, 4, 2, 'd', 'test', date('2022-04-16'), date('2022-04-28'));
 insert into Booking
-values (3, 2, 4, 3, 'e', 'test', date('2022-06-01'), date('2022-06-31'));
+values (3, 2, 5, 3, 'e', 'test', date('2022-06-01'), date('2022-06-31'));
 
 
 /* SQL search query with example parameters

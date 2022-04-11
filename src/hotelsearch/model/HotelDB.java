@@ -118,14 +118,16 @@ public class HotelDB implements DatabaseService {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
             // find available rooms
+            // TODO find a more efficient solution without over()?
             PreparedStatement statement = connection.prepareStatement(
-                    "select * from Room where Room.hotelID = ? and not exists(" +
+                    "select * from (" +
+                            "select *, sum(nrBeds) over() as summa from Room where Room.hotelID = ? and not exists(" +
                             "select * from Booking where Booking.hotelID = ? and " +
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
-                            "Booking.checkOutDate > ?)) and (" +
-                            "select sum(nrBeds) from Room where hotelID = ? group by hotelID) >= ? " +
-                            "order by nrBeds desc");
+                            "Booking.checkOutDate > ?)) " +
+                            "order by nrBeds desc) " +
+                            "where summa >= ?");
 
             statement.clearParameters();
             statement.setInt(1, hotel.getHotelID());
@@ -136,8 +138,7 @@ public class HotelDB implements DatabaseService {
             statement.setString(6, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
             statement.setString(7, java.sql.Date.valueOf(options.getCheckInDate()).toString());
             statement.setString(8, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-            statement.setInt(9, hotel.getHotelID());
-            statement.setInt(10, options.getNrGuests());
+            statement.setInt(9, options.getNrGuests());
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
@@ -181,6 +182,7 @@ public class HotelDB implements DatabaseService {
             }
 
             rs.close();
+            idRs.close();
             connection.close();
         } catch (SQLException e) {
             System.err.println(e);
@@ -233,14 +235,14 @@ public class HotelDB implements DatabaseService {
     public static void main(String[] args) {
         HotelDB db = new HotelDB();
         SearchOptions options = new SearchOptions("Test",
-                LocalDate.of(2023, 4, 16),
-                LocalDate.of(2023, 4, 17), 1);
+                LocalDate.of(2022, 4, 16),
+                LocalDate.of(2022, 4, 17), 4);
         SearchOptions options2 = new SearchOptions("Test",
-                LocalDate.of(2023, 4, 16),
-                LocalDate.of(2023, 4, 17), 4);
+                LocalDate.of(2022, 4, 16),
+                LocalDate.of(2022, 4, 17), 4);
         SearchOptions options3 = new SearchOptions("Test",
-                LocalDate.of(2023, 4, 16),
-                LocalDate.of(2023, 4, 17), 8);
+                LocalDate.of(2022, 4, 16),
+                LocalDate.of(2022, 4, 17), 8);
 
         List<Hotel> list = db.search(options);
         System.out.println();
