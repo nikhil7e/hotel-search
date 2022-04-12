@@ -2,6 +2,7 @@ package hotelsearch.gui;
 
 import hotelsearch.model.Hotel;
 import hotelsearch.model.HotelDB;
+import hotelsearch.model.SearchOptions;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -85,7 +86,7 @@ public class HotelGUIController implements Initializable {
         LocalDate dateOut = fxDateOut.getValue();
         String location = fxLocation.getText();
         int nrOfGuests = Integer.parseInt(fxNrOfGuests.getText());
-        List<Hotel> list = test.search(location, dateIn, dateOut, nrOfGuests);
+        List<Hotel> list = test.search(new SearchOptions(location, dateIn, dateOut, nrOfGuests));
         hotelObservableList.addAll(list);
         fxHotelTable.setItems(hotelObservableList);
     }
