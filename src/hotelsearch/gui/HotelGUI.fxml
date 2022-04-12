@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="571.0" prefWidth="1034.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearch.gui.HotelGUIController">
+   <children>
+      <TextField fx:id="fxLocation" layoutX="23.0" layoutY="22.0" prefHeight="25.0" prefWidth="100.0" promptText="Location" />
+      <Button fx:id="fxSearchButton" layoutX="372.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchHandler" prefHeight="25.0" prefWidth="109.0" text="Search" />
+      <DatePicker fx:id="fxDateIn" layoutX="126.0" layoutY="22.0" prefHeight="25.0" prefWidth="101.0" promptText="DateIn" />
+      <TextField fx:id="fxNrOfGuests" layoutX="334.0" layoutY="22.0" prefHeight="25.0" prefWidth="34.0" promptText="Nr" />
+      <DatePicker fx:id="fxDateOut" layoutX="230.0" layoutY="22.0" prefHeight="25.0" prefWidth="101.0" promptText="DateOut" />
+      <TableView fx:id="fxHotelTable" layoutX="24.0" layoutY="61.0" prefHeight="446.0" prefWidth="945.0">
+        <columns>
+          <TableColumn fx:id="fxImageColumn" prefWidth="75.0" text="Image" />
+          <TableColumn fx:id="fxIDColumn" prefWidth="75.0" text="ID" />
+            <TableColumn fx:id="fxLocationColumn" prefWidth="75.0" text="Location" />
+            <TableColumn fx:id="fxStarsColumn" prefWidth="75.0" text="Stars" />
+            <TableColumn fx:id="fxDescriptionColumn" prefWidth="128.0" text="Description" />
+            <TableColumn fx:id="fxRoomPriceColumn" prefWidth="78.0" text="RoomPrice" />
+            <TableColumn fx:id="fxDFDowntownColumn" prefWidth="85.0" text="DFDowntown" />
+            <TableColumn fx:id="fxDFSupermarketColumn" prefWidth="100.0" text="DFSupermarket" />
+            <TableColumn fx:id="fxRestaurantColumn" prefWidth="81.0" text="Restaurant" />
+            <TableColumn fx:id="fxBreakfastColumn" prefWidth="75.0" text="Breakfast" />
+            <TableColumn fx:id="fxBarColumn" prefWidth="46.0" text="Bar" />
+            <TableColumn fx:id="fxWifiColumn" prefWidth="51.0" text="Wifi" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
