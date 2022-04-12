@@ -5,14 +5,18 @@ import java.util.Comparator;
 import javafx.scene.image.Image;
 
 public class Hotel {
-    private int hotelID;
-    private String name;
-    private int numberOfStars;
+    private final int hotelID;
+    private final String name;
+    private final int numberOfStars;
     private Image image;
     private String description;
     private double startingRoomPrice;
-    private double distanceFromDowntown;
+    private final double distanceFromDowntown;
     private double distanceFromSupermarket;
+    private boolean restaurant;
+    private boolean breakfastIncluded;
+    private boolean bar;
+    private boolean freeWifi;
 
     /**
      * Constructor for the class Hotel.
@@ -25,11 +29,16 @@ public class Hotel {
      * @param startingRoomPrice       The lowest room price for a night stay in the hotel.
      * @param distanceFromDowntown    The distance the hotel is from the downtown area in the city/town it is located.
      * @param distanceFromSupermarket The distance the hotel is from the nearest supermarket.
+     * @param restaurant              Indicates whether the hotel contains a restaurant
+     * @param breakfastIncluded       Indicates whether the breakfast cost is included for the hotel
+     * @param bar                     Indicates whether the hotel contains a bar
+     * @param freeWifi                Indicates whether the hotel offers Wi-Fi free of charge
      */
     public Hotel(int hotelID, String name,
                  int numberOfStars, Image image, String description,
                  double startingRoomPrice, double distanceFromDowntown,
-                 double distanceFromSupermarket) {
+                 double distanceFromSupermarket, boolean restaurant,
+                 boolean breakfastIncluded, boolean bar, boolean freeWifi) {
         this.hotelID = hotelID;
         this.name = name;
         this.numberOfStars = numberOfStars;
@@ -38,6 +47,10 @@ public class Hotel {
         this.startingRoomPrice = startingRoomPrice;
         this.distanceFromDowntown = distanceFromDowntown;
         this.distanceFromSupermarket = distanceFromSupermarket;
+        this.restaurant = restaurant;
+        this.breakfastIncluded = breakfastIncluded;
+        this.bar = bar;
+        this.freeWifi = freeWifi;
     }
 
     public int getHotelID() {
@@ -72,6 +85,22 @@ public class Hotel {
         return distanceFromSupermarket;
     }
 
+    public boolean getRestaurant() {
+        return restaurant;
+    }
+
+    public boolean getBreakfastIncluded() {
+        return breakfastIncluded;
+    }
+
+    public boolean getBar() {
+        return bar;
+    }
+
+    public boolean getFreeWifi() {
+        return freeWifi;
+    }
+
     public static class priceAscending implements Comparator<Hotel> {
         @Override
         public int compare(Hotel o1, Hotel o2) {
@@ -101,10 +130,11 @@ public class Hotel {
     }
 
     public static class distanceFromDowntown implements Comparator<Hotel> {
-        // ascending (lowest diff on the top)
+        // ascending (the lowest diff on the top)
         @Override
         public int compare(Hotel o1, Hotel o2) {
             return (int) (o1.getDistanceFromDowntown() - o2.getDistanceFromDowntown());
         }
     }
+
 }
