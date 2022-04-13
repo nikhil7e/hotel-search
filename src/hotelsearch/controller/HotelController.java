@@ -91,6 +91,16 @@ public class HotelController {
         return new ArrayList<>();
     }
 
+    /**
+     * Finds all bookings that were booked with the given information
+     *
+     * @param guestEmail the email that is associated with the bookings
+     * @return a list of Booking objects and an empty list if database errors occur
+     */
+    public List<Booking> findBookings(String guestEmail) {
+        return db.findBookings(guestEmail);
+    }
+
     public List<Hotel> orderByPriceAscending(List<Hotel> list) {
         list.sort(new Hotel.priceAscending());
         return list;
