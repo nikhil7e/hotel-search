@@ -7,16 +7,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import org.w3c.dom.html.HTMLObjectElement;
 
+import java.io.IOException;
 import java.sql.*;
 
 import javax.swing.table.TableColumn;
@@ -89,5 +91,28 @@ public class HotelGUIController implements Initializable {
         List<Hotel> list = test.search(new SearchOptions(location, dateIn, dateOut, nrOfGuests));
         hotelObservableList.addAll(list);
         fxHotelTable.setItems(hotelObservableList);
+    }
+
+    public void showHotelHandler(ActionEvent actionEvent) {
+        Hotel hotel = fxHotelTable.getSelectionModel().getSelectedItem();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("HotelViewGUI.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        HotelViewGUIController controller = loader.getController();
+
+        controller.displayHotel(hotel);
+
+        Stage stage = new Stage();
+
+        stage.setTitle("HotelSearch");
+        Scene scene = new Scene(root, 550, 500);
+        stage.setScene(scene);
+        stage.show();
     }
 }

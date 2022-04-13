@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="571.0" prefWidth="1034.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearch.gui.HotelGUIController">
+<AnchorPane prefHeight="571.0" prefWidth="1034.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearch.gui.HotelGUIController">
    <children>
       <TextField fx:id="fxLocation" layoutX="23.0" layoutY="22.0" prefHeight="25.0" prefWidth="100.0" promptText="Location" />
       <Button fx:id="fxSearchButton" layoutX="372.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchHandler" prefHeight="25.0" prefWidth="109.0" text="Search" />
@@ -26,5 +30,6 @@
             <TableColumn fx:id="fxWifiColumn" prefWidth="51.0" text="Wifi" />
         </columns>
       </TableView>
+      <Button fx:id="fxLookButton" layoutX="497.0" layoutY="22.0" mnemonicParsing="false" onAction="#showHotelHandler" prefHeight="25.0" prefWidth="109.0" text="Look at hotel" />
    </children>
 </AnchorPane>
