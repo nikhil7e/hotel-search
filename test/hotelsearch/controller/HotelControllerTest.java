@@ -60,7 +60,6 @@ public class HotelControllerTest {
         List<Hotel> hotelList = hotelController.search(new SearchOptions("Reykjavík",
                 LocalDate.of(2022, 4, 4), LocalDate.of(2022, 4, 14),
                 2));
-
         hotelList.add(new Hotel(123, "Test", 5,
                 new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
                 "Description", 2, 1, 1,
