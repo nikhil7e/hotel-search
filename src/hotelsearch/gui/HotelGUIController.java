@@ -81,6 +81,7 @@ public class HotelGUIController implements Initializable {
         LocalDate dateOut = fxDateOut.getValue();
         String location = fxLocation.getText();
         int nrOfGuests = Integer.parseInt(fxNrOfGuests.getText());
+        // TODO temporary fix in city parameter of SearchOptions, please fix
         List<Hotel> list = test.search(new SearchOptions("Reykjavík", location, dateIn, dateOut, nrOfGuests));
         hotelObservableList.addAll(list);
         fxHotelTable.setItems(hotelObservableList);

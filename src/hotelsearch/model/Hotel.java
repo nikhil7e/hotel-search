@@ -25,7 +25,8 @@ public class Hotel {
      *
      * @param hotelID                 The ID of the hotel.
      * @param name                    The name of the hotel.
-     * @param address                 The address of the hotel with format x,..., x city, i.e. 1st street, 101 Reykjavík
+     * @param address                 The address of the hotel with format "street, ..., postal code  city",
+     *                                i.e. "1st street, 101 Reykjavík".
      * @param description             A description of the hotel.
      * @param image                   The path to the image of the hotel.
      * @param numberOfStars           The rating of the hotel.
