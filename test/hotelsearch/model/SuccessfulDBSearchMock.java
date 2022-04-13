@@ -28,4 +28,9 @@ public class SuccessfulDBSearchMock implements DatabaseService {
         return false;
     }
 
+    @Override
+    public List<Booking> findBookings(String guestEmail) {
+        return new ArrayList<>();
+    }
+
 }

@@ -47,13 +47,13 @@ values (1, 1, 4, 1, 1, 1, 1);
 insert into Room
 values (1, 2, 2, 1, 1, 1, 1);
 insert into Room
-values (1, 3, 4, 1, 1, 1, 1);
+values (2, 1, 4, 1, 1, 1, 1);
 insert into Room
-values (1, 5, 8, 1, 1, 1, 1);
+values (2, 2, 8, 1, 1, 1, 1);
 insert into Room
-values (2, 1, 2, 1, 1, 1, 1);
+values (2, 3, 2, 1, 1, 1, 1);
 insert into Room
-values (2, 2, 1, 1, 1, 1, 1);
+values (2, 4, 1, 1, 1, 1, 1);
 insert into Room
 values (3, 1, 1, 1, 1, 1, 1);
 insert into Room
@@ -78,19 +78,19 @@ values (1, 1, 1, 1, 'a', 'test', date('2022-04-01'), date('2022-04-28'));
 insert into Booking
 values (1, 2, 2, 1, 'b', 'test', date('2022-04-01'), date('2022-04-28'));
 insert into Booking
-values (2, 2, 3, 1, 'c', 'test', date('2022-05-01'), date('2022-05-31'));
+values (2, 2, 3, 1, 'c', 'test', date('2022-05-01'), date('2022-05-29'));
 insert into Booking
 values (2, 1, 4, 2, 'd', 'test', date('2022-04-16'), date('2022-04-28'));
 insert into Booking
-values (3, 2, 5, 3, 'e', 'test', date('2022-06-01'), date('2022-06-31'));
+values (3, 2, 5, 3, 'e', 'test', date('2022-06-01'), date('2022-06-15'));
 
 
 /* SQL search query with example parameters
-
-select * from Hotel where Hotel.nameOrLocation like 'Test%' and exists(
+select * from Hotel where Hotel.address like '% Reykjavík' and Hotel.name like '%' and (
+    select SUM(nrBeds) from (
     select * from Room where Room.hotelID = Hotel.hotelID and not exists(
-        select * from Booking where Booking.hotelID = Hotel.hotelID and
-            Booking.roomID = Room.roomID and (Booking.checkInDate between date('2022-04-16') and date('2022-04-17') or
-            Booking.checkOutDate between date('2022-04-16') and date('2022-04-17') or
-            Booking.checkInDate < date('2022-04-16') and Booking.checkOutDate > date('2022-04-17'))));
+    select * from Booking where Booking.hotelID = Hotel.hotelID and
+    Booking.roomID = Room.roomID and (Booking.checkInDate between date('2023-04-16') and date('2023-05-16') or
+    Booking.checkOutDate between date('2023-04-16') and date('2023-05-16') or Booking.checkInDate < date('2023-04-16') and
+    Booking.checkOutDate > date('2023-05-16'))))) >= 2 order by Hotel.featured desc
  */
