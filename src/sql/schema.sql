@@ -69,7 +69,7 @@ CREATE TABLE Booking
     guestName            varchar(50),
     checkInDate          text,
     checkOutDate         text,
-    primary key (hotelID, bookingID),
+    primary key (bookingID),
     foreign key (hotelID, roomID) references Room (hotelID, roomID)
 );
 

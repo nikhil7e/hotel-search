@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 /*
-To compile and run this file:
+To compile and run this file on the command line:
 Windows:
   javac Sample.java
   java -cp .;sqlite-jdbc-....jar HotelDB
@@ -40,7 +40,6 @@ public class HotelDB implements DatabaseService {
         List<Hotel> hotelList = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
-            // TODO find lowest price
             PreparedStatement statement = connection.prepareStatement(
                     "select * from Hotel where Hotel.address like ? and Hotel.name like ? and (" +
                             "select SUM(nrBeds) from (" +
@@ -123,7 +122,6 @@ public class HotelDB implements DatabaseService {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
             // find available rooms
-            // TODO find a more efficient solution without over()?
             PreparedStatement statement = connection.prepareStatement(
                     "select * from (" +
                             "select *, sum(nrBeds) over() as summa from Room where Room.hotelID = ? and not exists(" +
@@ -200,41 +198,44 @@ public class HotelDB implements DatabaseService {
     /**
      * Cancels a booking
      *
-     * @param hotelID   the ID of the hotel that was booked
      * @param bookingID the ID of the booking that will be canceled
-     * @throws SQLException if database errors occur
+     * @return true if the booking was cancelled, else false
      */
     @Override
-    public void cancelBooking(int hotelID, int bookingID) throws SQLException {
+    public boolean cancelBooking(int bookingID) {
         // load the sqlite-JDBC driver using the current class loader
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
             System.err.println(e);
-            throw new SQLException();
+            return false;
         }
 
         // create a database connection
         Connection connection;
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
-
-            // TODO check if the booking exists first?
             PreparedStatement updateStatement =
-                    connection.prepareStatement("delete from Booking where hotelID = ? and bookingID = ?");
+                    connection.prepareStatement("delete from Booking where bookingID = ?");
             updateStatement.clearParameters();
-            updateStatement.setInt(1, hotelID);
-            updateStatement.setInt(2, bookingID);
-            updateStatement.executeUpdate();
+            updateStatement.setInt(1, bookingID);
+            int rowsAffected = updateStatement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                // TODO remove once testing is no longer needed
+                System.out.println("Booking cancellation failed, invalid ID/s");
+                return false;
+            }
 
             // TODO remove once testing is no longer needed
             System.out.println("Booking " + bookingID + " cancelled");
             connection.close();
         } catch (SQLException e) {
             System.err.println(e);
-            throw new SQLException();
+            return false;
         }
 
+        return true;
     }
 
     public static void main(String[] args) {
@@ -260,12 +261,8 @@ public class HotelDB implements DatabaseService {
             System.out.println();
         }
 
-        try {
-            db.cancelBooking(3, 7669199);
-            System.out.println();
-        } catch (SQLException e) {
-            System.err.println(e);
-        }
+        db.cancelBooking(7669199);
+        System.out.println();
     }
 
 }
