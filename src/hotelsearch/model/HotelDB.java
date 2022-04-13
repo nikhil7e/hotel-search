@@ -30,7 +30,7 @@ public class HotelDB implements DatabaseService {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
@@ -86,7 +86,7 @@ public class HotelDB implements DatabaseService {
             rs.close();
             connection.close();
         } catch (SQLException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
@@ -110,7 +110,7 @@ public class HotelDB implements DatabaseService {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
@@ -185,7 +185,7 @@ public class HotelDB implements DatabaseService {
             idRs.close();
             connection.close();
         } catch (SQLException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
@@ -204,7 +204,7 @@ public class HotelDB implements DatabaseService {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return false;
         }
 
@@ -228,11 +228,54 @@ public class HotelDB implements DatabaseService {
             System.out.println("Booking " + bookingID + " cancelled");
             connection.close();
         } catch (SQLException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return false;
         }
 
         return true;
+    }
+
+    @Override
+    public List<Booking> findBookings(String guestEmail) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
+        Connection connection;
+        List<Booking> bookingList = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // TODO order by nrBeds asc rather? Maybe even find a better solution?
+            PreparedStatement statement = connection.prepareStatement(
+                    "select * from Booking where Booking.guestEmail = ?");
+            statement.clearParameters();
+            statement.setString(1, guestEmail);
+            ResultSet rs = statement.executeQuery();
+
+            // TODO remove once testing is no longer needed
+            System.out.println("Bookings found for email " + guestEmail + ":");
+
+            while (rs.next()) {
+                bookingList.add(new Booking(rs.getInt("hotelID"), rs.getInt("roomID"), rs.getInt("bookingID"),
+                        rs.getInt("bookingTransactionID"), guestEmail, rs.getString("guestName"),
+                        LocalDate.parse(rs.getString("checkInDate")),
+                        LocalDate.parse(rs.getString("checkOutDate"))));
+
+                // TODO remove once testing is no longer needed
+                System.out.println("HotelID " + rs.getInt("hotelID") + ", bookingID " + rs.getInt("bookingID"));
+            }
+
+            rs.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
+        return bookingList;
     }
 
     public static void main(String[] args) {
@@ -247,6 +290,8 @@ public class HotelDB implements DatabaseService {
                 LocalDate.of(2023, 4, 16),
                 LocalDate.of(2023, 4, 17), 8);
 
+        db.findBookings("email");
+        System.out.println();
         List<Hotel> list = db.search(options);
         System.out.println();
         if (list.size() != 0) {
@@ -258,7 +303,9 @@ public class HotelDB implements DatabaseService {
             System.out.println();
         }
 
-        db.cancelBooking(7669199);
+        db.cancelBooking(1);
+        System.out.println();
+        db.findBookings("email");
         System.out.println();
     }
 

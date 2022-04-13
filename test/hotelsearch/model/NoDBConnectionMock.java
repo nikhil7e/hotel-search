@@ -20,4 +20,10 @@ public class NoDBConnectionMock implements DatabaseService {
     public boolean cancelBooking(int bookingID) {
         return false;
     }
+
+    @Override
+    public List<Booking> findBookings(String guestEmail) {
+        return new ArrayList<>();
+    }
+
 }

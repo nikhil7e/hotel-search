@@ -10,4 +10,6 @@ public interface DatabaseService {
 
     boolean cancelBooking(int bookingID);
 
+    List<Booking> findBookings(String guestEmail);
+
 }
