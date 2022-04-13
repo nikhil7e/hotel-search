@@ -181,7 +181,7 @@ public class HotelController {
     public static void main(String[] args) {
         HotelController hc = new HotelController(new HotelDB());
 
-        SearchOptions options = new SearchOptions("Test",
+        SearchOptions options = new SearchOptions("Reykjavík", "Test",
                 LocalDate.of(2023, 4, 16),
                 LocalDate.of(2023, 4, 17), 1);
 
@@ -190,9 +190,9 @@ public class HotelController {
 
         try {
             hc.modifyBooking(list.get(0), 9063148, "Nejgluw", "Newkutf",
-                    new SearchOptions("Test",
-                    LocalDate.of(2023, 4, 16),
-                    LocalDate.of(2023, 4, 17), 1));
+                    new SearchOptions("Reykjavík", "Test",
+                            LocalDate.of(2023, 4, 16),
+                            LocalDate.of(2023, 4, 17), 1));
         } catch (SQLException e) {
             System.err.println(e);
         }

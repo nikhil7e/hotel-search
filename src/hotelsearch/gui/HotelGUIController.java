@@ -14,12 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import org.w3c.dom.html.HTMLObjectElement;
 
-import java.sql.*;
-
-import javax.swing.table.TableColumn;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -86,7 +81,8 @@ public class HotelGUIController implements Initializable {
         LocalDate dateOut = fxDateOut.getValue();
         String location = fxLocation.getText();
         int nrOfGuests = Integer.parseInt(fxNrOfGuests.getText());
-        List<Hotel> list = test.search(new SearchOptions(location, dateIn, dateOut, nrOfGuests));
+        // TODO temporary fix in city parameter of SearchOptions, please fix
+        List<Hotel> list = test.search(new SearchOptions("Reykjavík", location, dateIn, dateOut, nrOfGuests));
         hotelObservableList.addAll(list);
         fxHotelTable.setItems(hotelObservableList);
     }

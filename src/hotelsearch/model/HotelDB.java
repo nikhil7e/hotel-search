@@ -20,13 +20,10 @@ Unix:
 public class HotelDB implements DatabaseService {
 
     /**
-     * Searches and returns all hotels that satisfy the
-     * given conditions
+     * Searches and returns all hotels that satisfy the given conditions
      *
-     * @param options a model class that contains a set of requirements
-     *                that hotels must fulfill
-     * @return a list of Hotel objects and an empty list if database
-     * errors occur
+     * @param options a model class that contains a set of requirements that hotels must fulfill
+     * @return a list of Hotel objects and an empty list if database errors occur
      */
     @Override
     public List<Hotel> search(SearchOptions options) {
@@ -43,23 +40,31 @@ public class HotelDB implements DatabaseService {
         List<Hotel> hotelList = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // TODO find lowest price
             PreparedStatement statement = connection.prepareStatement(
-                    "select * from Hotel where Hotel.nameOrLocation like ? and (" +
+                    "select * from Hotel where Hotel.address like ? and Hotel.name like ? and (" +
                             "select SUM(nrBeds) from (" +
                             "select * from Room where Room.hotelID = Hotel.hotelID and not exists(" +
                             "select * from Booking where Booking.hotelID = Hotel.hotelID and " +
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
-                            "Booking.checkOutDate > ?)))) >= ?");
+                            "Booking.checkOutDate > ?)))) >= ? order by Hotel.featured desc");
             statement.clearParameters();
-            statement.setString(1, options.getNameOrLocation() + "%");
-            statement.setString(2, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-            statement.setString(3, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-            statement.setString(4, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-            statement.setString(5, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-            statement.setString(6, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-            statement.setString(7, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-            statement.setInt(8, options.getNrGuests());
+
+            // use "% " instead of "%", since we use address format street, postal code city (notice the space)
+            statement.setString(1, "% " + options.getCity());
+            if (options.getName() == null || options.getName().equals("")) {
+                statement.setString(2, "%");
+            } else {
+                statement.setString(2, options.getName() + "%");
+            }
+            statement.setString(3, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(4, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setString(5, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(6, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setString(7, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(8, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setInt(9, options.getNrGuests());
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
@@ -68,16 +73,16 @@ public class HotelDB implements DatabaseService {
             while (rs.next()) {
                 // read the result set
                 Hotel hotel = new Hotel(rs.getInt("hotelID"),
-                        rs.getString("nameOrLocation"), rs.getInt("numberOfStars"),
+                        rs.getString("name"), rs.getString("address"), rs.getString("description"),
                         new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream(rs.getString("image")))),
-                        rs.getString("description"), rs.getDouble("startingRoomPrice"),
+                        rs.getInt("numberOfStars"), rs.getDouble("startingRoomPrice"),
                         rs.getDouble("distanceFromDowntown"), rs.getDouble("distanceFromSupermarket"),
-                        rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"), rs.getBoolean("bar"),
-                        rs.getBoolean("freeWifi"));
+                        rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"),
+                        rs.getBoolean("freeWifi"), rs.getBoolean("bar"), rs.getBoolean("featured"));
                 hotelList.add(hotel);
 
                 // TODO remove once testing is no longer needed
-                System.out.println("Name/location: " + rs.getString("nameOrLocation"));
+                System.out.println("Name/location: " + rs.getString("name"));
             }
 
             rs.close();
@@ -175,10 +180,10 @@ public class HotelDB implements DatabaseService {
                 guestsRemaining -= rs.getInt("nrBeds");
 
                 // TODO remove once testing is no longer needed
-                System.out.println("Booking added: HotelID " + hotel.getHotelID() + ", roomID " +
-                        rs.getInt("roomID") + ", bookingID " + (bookingID - 1) + ", bookingTransactionID " +
-                        bookingTransactionID + ", nrBeds " + rs.getInt("nrBeds") + ", total nrGuests to book "
-                        + options.getNrGuests());
+                System.out.println("Booking added: HotelID " + hotel.getHotelID() + ", name " + hotel.getName()
+                        + ", roomID " + rs.getInt("roomID") + ", bookingID " + (bookingID - 1) +
+                        ", bookingTransactionID " + bookingTransactionID + ", nrBeds " + rs.getInt("nrBeds") +
+                        ", total nrGuests to book " + options.getNrGuests());
             }
 
             rs.close();
@@ -234,19 +239,18 @@ public class HotelDB implements DatabaseService {
 
     public static void main(String[] args) {
         HotelDB db = new HotelDB();
-        SearchOptions options = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 4);
-        SearchOptions options2 = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 4);
-        SearchOptions options3 = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 8);
+        SearchOptions options = new SearchOptions("Reykjavík", "",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 1);
+        SearchOptions options2 = new SearchOptions("Reykjavík", "",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 4);
+        SearchOptions options3 = new SearchOptions("Reykjavík", "",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 8);
 
         List<Hotel> list = db.search(options);
         System.out.println();
-
         if (list.size() != 0) {
             db.book(list.get(0), "email", "name", options);
             System.out.println();
@@ -255,6 +259,7 @@ public class HotelDB implements DatabaseService {
             db.book(list.get(0), "email", "name", options3);
             System.out.println();
         }
+
         try {
             db.cancelBooking(3, 7669199);
             System.out.println();

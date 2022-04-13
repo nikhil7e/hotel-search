@@ -7,40 +7,46 @@ import javafx.scene.image.Image;
 public class Hotel {
     private final int hotelID;
     private final String name;
+    private final String address;
     private final int numberOfStars;
-    private Image image;
-    private String description;
-    private double startingRoomPrice;
+    private final Image image;
+    private final String description;
+    private final double startingRoomPrice;
     private final double distanceFromDowntown;
-    private double distanceFromSupermarket;
-    private boolean restaurant;
-    private boolean breakfastIncluded;
-    private boolean bar;
-    private boolean freeWifi;
+    private final double distanceFromSupermarket;
+    private final boolean restaurant;
+    private final boolean breakfastIncluded;
+    private final boolean bar;
+    private final boolean freeWifi;
+    private final boolean featured;
 
     /**
      * Constructor for the class Hotel.
      *
      * @param hotelID                 The ID of the hotel.
      * @param name                    The name of the hotel.
-     * @param numberOfStars           The rating of the hotel.
-     * @param image                   An image of the hotel.
+     * @param address                 The address of the hotel with format "street, ..., postal code  city",
+     *                                i.e. "1st street, 101 Reykjavík".
      * @param description             A description of the hotel.
+     * @param image                   The path to the image of the hotel.
+     * @param numberOfStars           The rating of the hotel.
      * @param startingRoomPrice       The lowest room price for a night stay in the hotel.
      * @param distanceFromDowntown    The distance the hotel is from the downtown area in the city/town it is located.
      * @param distanceFromSupermarket The distance the hotel is from the nearest supermarket.
      * @param restaurant              Indicates whether the hotel contains a restaurant
      * @param breakfastIncluded       Indicates whether the breakfast cost is included for the hotel
-     * @param bar                     Indicates whether the hotel contains a bar
      * @param freeWifi                Indicates whether the hotel offers Wi-Fi free of charge
+     * @param bar                     Indicates whether the hotel contains a bar
+     * @param featured                Indicates whether the hotel is featured
      */
     public Hotel(int hotelID, String name,
-                 int numberOfStars, Image image, String description,
+                 String address, String description, Image image, int numberOfStars,
                  double startingRoomPrice, double distanceFromDowntown,
                  double distanceFromSupermarket, boolean restaurant,
-                 boolean breakfastIncluded, boolean bar, boolean freeWifi) {
+                 boolean breakfastIncluded, boolean freeWifi, boolean bar, boolean featured) {
         this.hotelID = hotelID;
         this.name = name;
+        this.address = address;
         this.numberOfStars = numberOfStars;
         this.image = image;
         this.description = description;
@@ -51,6 +57,7 @@ public class Hotel {
         this.breakfastIncluded = breakfastIncluded;
         this.bar = bar;
         this.freeWifi = freeWifi;
+        this.featured = featured;
     }
 
     public int getHotelID() {
@@ -59,6 +66,10 @@ public class Hotel {
 
     public String getName() {
         return name;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public int getNumberOfStars() {
@@ -99,6 +110,10 @@ public class Hotel {
 
     public boolean getFreeWifi() {
         return freeWifi;
+    }
+
+    public boolean getFeatured() {
+        return featured;
     }
 
     public static class priceAscending implements Comparator<Hotel> {
