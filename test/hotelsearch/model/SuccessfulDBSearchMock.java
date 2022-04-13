@@ -11,10 +11,10 @@ public class SuccessfulDBSearchMock implements DatabaseService {
     @Override
     public List<Hotel> search(SearchOptions options) {
         List<Hotel> list = new ArrayList<>();
-        list.add(new Hotel(1, options.getNameOrLocation(), 2,
+        list.add(new Hotel(1, options.getName(), "Reykjavík", "Description",
                 new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
-                "Description", 1, 1, 1, true,
-                true, true, true));
+                2, 1, 1, 1,
+                true, true, true, true, false));
         return list;
     }
 

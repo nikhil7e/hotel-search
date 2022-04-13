@@ -6,10 +6,11 @@ DROP TABLE Booking;
 CREATE TABLE Hotel
 (
     hotelID                 int,
-    nameOrLocation          varchar(50),
+    name                    varchar(1000),
+    address                 varchar(1000),
+    description             varchar(10000),
+    image                   varchar(1000),
     numberOfStars           int CHECK (numberOfStars IN (0, 5)),
-    image                   varchar(100),
-    description             varchar(1000),
     startingRoomPrice       double,
     distanceFromDowntown    double,
     distanceFromSupermarket double,
@@ -17,15 +18,16 @@ CREATE TABLE Hotel
     breakfastIncluded       BOOLEAN CHECK (breakfastIncluded IN (0, 1)),
     bar                     BOOLEAN CHECK (bar IN (0, 1)),
     freeWifi                BOOLEAN CHECK (freeWifi IN (0, 1)),
+    featured                BOOLEAN CHECK (featured IN (0, 1)),
     primary key (hotelID)
 );
 
 insert into Hotel
-values (1, 'Test1', 5, '/images/hotel1.jpg', 'desc', 1, 1, 1, 1, 1, 1, 1);
+values (1, 'Test1', '1st street, 101 Reykjavík', 'desc', '/images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
 insert into Hotel
-values (2, 'Test2', 5, '/images/hotel1.jpg', 'desc', 1, 1, 1, 1, 1, 1, 1);
+values (2, 'Test2', '1st street, 101 Reykjavík', 'desc', '/images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 1);
 insert into Hotel
-values (3, 'Test3', 5, '/images/hotel1.jpg', 'desc', 1, 1, 1, 1, 1, 1, 1);
+values (3, 'Test3', '1st street, 101 Reykjavík', 'desc', '/images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
 
 CREATE TABLE Room
 (
@@ -33,9 +35,9 @@ CREATE TABLE Room
     roomID          int,
     nrBeds          int,
     pricePerNight   int,
-    tv              int,
-    privateBathroom int,
-    cityView        int,
+    tv              int BOOLEAN CHECK (tv IN (0, 1)),
+    privateBathroom int BOOLEAN CHECK (privateBathroom IN (0, 1)),
+    cityView        int BOOLEAN CHECK (cityView IN (0, 1)),
     primary key (hotelID, roomID),
     foreign key (hotelID) references Hotel (hotelID)
 );
