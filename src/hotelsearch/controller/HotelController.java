@@ -20,8 +20,7 @@ public class HotelController {
      *
      * @param options a model class that contains a set of requirements
      *                that hotels must fulfill
-     * @return a list of Hotel objects and an empty list if database
-     * errors occur
+     * @return a list of Hotel objects that satisfy the conditions and an empty list if database errors occur
      */
     public List<Hotel> search(SearchOptions options) {
         this.options = options;
@@ -29,15 +28,14 @@ public class HotelController {
     }
 
     /**
-     * Books an appropriate number of rooms in the given hotel sothat all guests can be accommodated. Uses the same
-     * SearchOptionsobject that was passed into the last search method call
+     * Books an appropriate number of rooms in the given hotel so that all guests can be accommodated. Uses the same
+     * SearchOptions object that was passed into the last search method call
      *
      * @param hotel      the hotel which will contain the rooms to be booked
      * @param guestEmail the email of the guest that will create the booking
      * @param guestName  the name of the guest that will create the booking
-     * @return a list of Booking objects and an empty list if database
-     * errors occur. A booking object is created for each booked room if
-     * multiple rooms must be booked to accommodate all guests
+     * @return a list of Booking objects representing the created bookings and an empty list if database errors occur.
+     * A booking object is created for each booked room if multiple rooms must be booked to accommodate all guests
      */
     public List<Booking> book(Hotel hotel, String guestEmail, String guestName) {
         return db.book(hotel, guestEmail, guestName, options);
@@ -51,9 +49,8 @@ public class HotelController {
      * @param guestName  the name of the guest that will create the booking
      * @param options    a model class that contains a set of requirements
      *                   that hotels must fulfill
-     * @return a list of Booking objects and an empty list if database
-     * errors occur. A booking object is created for each booked room if
-     * multiple rooms must be booked to accommodate all guests
+     * @return a list of Booking objects representing the created bookings and an empty list if database errors occur.
+     * A booking object is created for each booked room if multiple rooms must be booked to accommodate all guests
      */
     public List<Booking> book(Hotel hotel, String guestEmail, String guestName, SearchOptions options) {
         return db.book(hotel, guestEmail, guestName, options);
@@ -78,9 +75,9 @@ public class HotelController {
      * @param guestName  the name of the guest that will create the booking
      * @param options    a model class that contains a set of requirements
      *                   that the new booking must fulfill
-     * @return a list of Booking objects and an empty list if database
-     * errors occur. A booking object is created for each booked room if
-     * multiple rooms must be booked to accommodate all guests
+     * @return a list of Booking objects representing the created bookings and an empty list if database
+     * errors occur. A booking is created for each booked room if multiple rooms must be booked to accommodate
+     * all guests
      */
     public List<Booking> modifyBooking(Hotel hotel, int bookingID, String guestEmail, String guestName,
                                        SearchOptions options) {
@@ -89,6 +86,16 @@ public class HotelController {
         }
 
         return new ArrayList<>();
+    }
+
+    /**
+     * Finds all bookings that were booked with the given information
+     *
+     * @param guestEmail the email that is associated with the bookings
+     * @return a list of Booking objects that are associated with the email and an empty list if database errors occur
+     */
+    public List<Booking> findBookings(String guestEmail) {
+        return db.findBookings(guestEmail);
     }
 
     public List<Hotel> orderByPriceAscending(List<Hotel> list) {

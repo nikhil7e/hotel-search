@@ -235,6 +235,12 @@ public class HotelDB implements DatabaseService {
         return true;
     }
 
+    /**
+     * Finds all bookings that were booked with the given information
+     *
+     * @param guestEmail the email that is associated with the bookings
+     * @return a list of Booking objects and an empty list if database errors occur
+     */
     @Override
     public List<Booking> findBookings(String guestEmail) {
         try {
