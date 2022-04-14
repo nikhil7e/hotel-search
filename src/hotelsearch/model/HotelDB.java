@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 /*
-To compile and run this file:
+To compile and run this file on the command line:
 Windows:
   javac Sample.java
   java -cp .;sqlite-jdbc-....jar HotelDB
@@ -20,70 +20,73 @@ Unix:
 public class HotelDB implements DatabaseService {
 
     /**
-     * Searches and returns all hotels that satisfy the
-     * given conditions
+     * Searches and returns all hotels that satisfy the given conditions
      *
-     * @param options a model class that contains a set of requirements
-     *                that hotels must fulfill
-     * @return a list of Hotel objects and an empty list if database
-     * errors occur
+     * @param options a model class that contains a set of requirements that hotels must fulfill
+     * @return a list of Hotel objects and an empty list if database errors occur
      */
     @Override
     public List<Hotel> search(SearchOptions options) {
-        // load the sqlite-JDBC driver using the current class loader
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
-        // create a database connection
         Connection connection;
         List<Hotel> hotelList = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // find hotels that contain enough available rooms to accommodate all guests
             PreparedStatement statement = connection.prepareStatement(
-                    "select * from Hotel where Hotel.nameOrLocation like ? and (" +
+                    "select * from Hotel where Hotel.address like ? and Hotel.name like ? and (" +
                             "select SUM(nrBeds) from (" +
                             "select * from Room where Room.hotelID = Hotel.hotelID and not exists(" +
                             "select * from Booking where Booking.hotelID = Hotel.hotelID and " +
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
-                            "Booking.checkOutDate > ?)))) >= ?");
+                            "Booking.checkOutDate > ?)))) >= ? order by Hotel.featured desc");
             statement.clearParameters();
-            statement.setString(1, options.getNameOrLocation() + "%");
-            statement.setString(2, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-            statement.setString(3, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-            statement.setString(4, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-            statement.setString(5, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-            statement.setString(6, java.sql.Date.valueOf(options.getCheckInDate()).toString());
-            statement.setString(7, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
-            statement.setInt(8, options.getNrGuests());
+
+            // use "% " instead of "%", since we use address format street, postal code city (notice the space)
+            statement.setString(1, "% " + options.getCity());
+            // allow the user to submit an empty string
+            if (options.getName() == null || options.getName().equals("")) {
+                statement.setString(2, "%");
+            } else {
+                statement.setString(2, options.getName() + "%");
+            }
+            statement.setString(3, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(4, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setString(5, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(6, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setString(7, java.sql.Date.valueOf(options.getCheckInDate()).toString());
+            statement.setString(8, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
+            statement.setInt(9, options.getNrGuests());
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
             System.out.println("Hotel search results:");
 
             while (rs.next()) {
-                // read the result set
                 Hotel hotel = new Hotel(rs.getInt("hotelID"),
-                        rs.getString("nameOrLocation"), rs.getInt("numberOfStars"),
+                        rs.getString("name"), rs.getString("address"), rs.getString("description"),
                         new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream(rs.getString("image")))),
-                        rs.getString("description"), rs.getDouble("startingRoomPrice"),
+                        rs.getInt("numberOfStars"), rs.getDouble("startingRoomPrice"),
                         rs.getDouble("distanceFromDowntown"), rs.getDouble("distanceFromSupermarket"),
-                        rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"), rs.getBoolean("bar"),
-                        rs.getBoolean("freeWifi"));
+                        rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"),
+                        rs.getBoolean("freeWifi"), rs.getBoolean("bar"), rs.getBoolean("featured"));
                 hotelList.add(hotel);
 
                 // TODO remove once testing is no longer needed
-                System.out.println("Name/location: " + rs.getString("nameOrLocation"));
+                System.out.println("Name: " + rs.getString("name"));
             }
 
             rs.close();
             connection.close();
         } catch (SQLException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
@@ -104,21 +107,19 @@ public class HotelDB implements DatabaseService {
      * multiple rooms must be booked to accommodate all guests
      */
     public List<Booking> book(Hotel hotel, String guestEmail, String guestName, SearchOptions options) {
-        // load the sqlite-JDBC driver using the current class loader
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
-        // create a database connection
         Connection connection;
         List<Booking> bookingList = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
-            // find available rooms
-            // TODO find a more efficient solution without over()?
+            // find rooms that don't contain a conflicting booking, making sure they have enough beds for all guests
+            // TODO order by nrBeds asc rather? Maybe even find a better solution?
             PreparedStatement statement = connection.prepareStatement(
                     "select * from (" +
                             "select *, sum(nrBeds) over() as summa from Room where Room.hotelID = ? and not exists(" +
@@ -144,7 +145,7 @@ public class HotelDB implements DatabaseService {
             // TODO remove once testing is no longer needed
             System.out.println("Booking results for hotel " + hotel.getName() + ":");
 
-            // get bookingID and bookingTransactionID
+            // get largest bookingID and bookingTransactionID to create new unique ones
             PreparedStatement idStatement = connection.prepareStatement(
                     "select max(bookingID) as maxBookingID, max(bookingTransactionID) as " +
                             "maxBookingTransactionID from Booking");
@@ -154,13 +155,12 @@ public class HotelDB implements DatabaseService {
             int bookingTransactionID = idRs.getInt("maxBookingTransactionID") + 1;
 
             while (rs.next() && guestsRemaining > 0) {
-                // read the result set
+                // insert the bookings into the DB
                 PreparedStatement update = connection.prepareStatement("insert into Booking values " +
                         "(?, ?, ?, ?, ?, ?, ?, ?)");
                 update.clearParameters();
                 update.setInt(1, hotel.getHotelID());
                 update.setInt(2, rs.getInt("roomID"));
-                // TODO figure out how to keep IDs unique
                 update.setInt(3, bookingID);
                 update.setInt(4, bookingTransactionID);
                 update.setString(5, guestEmail);
@@ -168,24 +168,24 @@ public class HotelDB implements DatabaseService {
                 update.setString(7, java.sql.Date.valueOf(options.getCheckInDate()).toString());
                 update.setString(8, java.sql.Date.valueOf(options.getCheckOutDate()).toString());
                 update.executeUpdate();
+
                 bookingList.add(new Booking(hotel.getHotelID(), rs.getInt("roomID"), bookingID, bookingTransactionID,
                         guestEmail, guestName, options.getCheckInDate(), options.getCheckOutDate()));
-
                 bookingID++;
                 guestsRemaining -= rs.getInt("nrBeds");
 
                 // TODO remove once testing is no longer needed
-                System.out.println("Booking added: HotelID " + hotel.getHotelID() + ", roomID " +
-                        rs.getInt("roomID") + ", bookingID " + (bookingID - 1) + ", bookingTransactionID " +
-                        bookingTransactionID + ", nrBeds " + rs.getInt("nrBeds") + ", total nrGuests to book "
-                        + options.getNrGuests());
+                System.out.println("Booking added: HotelID " + hotel.getHotelID() + ", name " + hotel.getName()
+                        + ", roomID " + rs.getInt("roomID") + ", bookingID " + (bookingID - 1) +
+                        ", bookingTransactionID " + bookingTransactionID + ", nrBeds " + rs.getInt("nrBeds") +
+                        ", total nrGuests to book " + options.getNrGuests());
             }
 
             rs.close();
             idRs.close();
             connection.close();
         } catch (SQLException e) {
-            System.err.println(e);
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
@@ -195,72 +195,124 @@ public class HotelDB implements DatabaseService {
     /**
      * Cancels a booking
      *
-     * @param hotelID   the ID of the hotel that was booked
      * @param bookingID the ID of the booking that will be canceled
-     * @throws SQLException if database errors occur
+     * @return true if the booking was cancelled, else false
      */
     @Override
-    public void cancelBooking(int hotelID, int bookingID) throws SQLException {
+    public boolean cancelBooking(int bookingID) {
         // load the sqlite-JDBC driver using the current class loader
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
-            System.err.println(e);
-            throw new SQLException();
+            e.printStackTrace();
+            return false;
         }
 
         // create a database connection
         Connection connection;
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
-
-            // TODO check if the booking exists first?
             PreparedStatement updateStatement =
-                    connection.prepareStatement("delete from Booking where hotelID = ? and bookingID = ?");
+                    connection.prepareStatement("delete from Booking where bookingID = ?");
             updateStatement.clearParameters();
-            updateStatement.setInt(1, hotelID);
-            updateStatement.setInt(2, bookingID);
-            updateStatement.executeUpdate();
+            updateStatement.setInt(1, bookingID);
+            int rowsAffected = updateStatement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                // TODO remove once testing is no longer needed
+                System.out.println("Booking cancellation failed, invalid ID/s");
+                return false;
+            }
 
             // TODO remove once testing is no longer needed
             System.out.println("Booking " + bookingID + " cancelled");
             connection.close();
         } catch (SQLException e) {
-            System.err.println(e);
-            throw new SQLException();
+            e.printStackTrace();
+            return false;
         }
 
+        return true;
+    }
+
+    /**
+     * Finds all bookings that were booked with the given information
+     *
+     * @param guestEmail the email that is associated with the bookings
+     * @return a list of Booking objects and an empty list if database errors occur
+     */
+    @Override
+    public List<Booking> findBookings(String guestEmail) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
+        Connection connection;
+        List<Booking> bookingList = new ArrayList<>();
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // TODO order by nrBeds asc rather? Maybe even find a better solution?
+            PreparedStatement statement = connection.prepareStatement(
+                    "select * from Booking where Booking.guestEmail = ?");
+            statement.clearParameters();
+            statement.setString(1, guestEmail);
+            ResultSet rs = statement.executeQuery();
+
+            // TODO remove once testing is no longer needed
+            System.out.println("Bookings found for email " + guestEmail + ":");
+
+            while (rs.next()) {
+                bookingList.add(new Booking(rs.getInt("hotelID"), rs.getInt("roomID"), rs.getInt("bookingID"),
+                        rs.getInt("bookingTransactionID"), guestEmail, rs.getString("guestName"),
+                        LocalDate.parse(rs.getString("checkInDate")),
+                        LocalDate.parse(rs.getString("checkOutDate"))));
+
+                // TODO remove once testing is no longer needed
+                System.out.println("HotelID " + rs.getInt("hotelID") + ", bookingID " + rs.getInt("bookingID"));
+            }
+
+            rs.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
+        return bookingList;
     }
 
     public static void main(String[] args) {
         HotelDB db = new HotelDB();
-        SearchOptions options = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 4);
-        SearchOptions options2 = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 4);
-        SearchOptions options3 = new SearchOptions("Test",
-                LocalDate.of(2022, 4, 16),
-                LocalDate.of(2022, 4, 17), 8);
+        SearchOptions options = new SearchOptions("Reykjavík", "",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 5, 17), 15);
+        SearchOptions options2 = new SearchOptions("Reykjavík", "",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 4);
+        SearchOptions options3 = new SearchOptions("Reykjavík", "",
+                LocalDate.of(2023, 4, 16),
+                LocalDate.of(2023, 4, 17), 8);
 
+        db.findBookings("email");
+        System.out.println();
         List<Hotel> list = db.search(options);
         System.out.println();
-
         if (list.size() != 0) {
-            db.book(list.get(0), "email", "name", options);
+            List<Booking> bookingList = db.book(list.get(0), "email", "name", options);
             System.out.println();
             db.book(list.get(0), "email", "name", options2);
             System.out.println();
             db.book(list.get(0), "email", "name", options3);
             System.out.println();
         }
-        try {
-            db.cancelBooking(3, 7669199);
-            System.out.println();
-        } catch (SQLException e) {
-            System.err.println(e);
-        }
+
+        db.cancelBooking(1);
+        System.out.println();
+        db.findBookings("email");
+        System.out.println();
     }
 
 }
