@@ -5,11 +5,11 @@
 
 <AnchorPane prefHeight="571.0" prefWidth="1034.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearch.gui.HotelGUIController">
    <children>
-      <TextField fx:id="fxLocation" layoutX="23.0" layoutY="22.0" prefHeight="25.0" prefWidth="100.0" promptText="Location" />
-      <Button fx:id="fxSearchButton" layoutX="372.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchHandler" prefHeight="25.0" prefWidth="109.0" text="Search" />
-      <DatePicker fx:id="fxDateIn" layoutX="126.0" layoutY="22.0" prefHeight="25.0" prefWidth="101.0" promptText="DateIn" />
-      <TextField fx:id="fxNrOfGuests" layoutX="334.0" layoutY="22.0" prefHeight="25.0" prefWidth="34.0" promptText="Nr" />
-      <DatePicker fx:id="fxDateOut" layoutX="230.0" layoutY="22.0" prefHeight="25.0" prefWidth="101.0" promptText="DateOut" />
+      <TextField fx:id="fxCity" layoutX="23.0" layoutY="22.0" prefHeight="25.0" prefWidth="100.0" promptText="City" />
+      <Button fx:id="fxSearchButton" layoutX="490.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchHandler" prefHeight="25.0" prefWidth="109.0" text="Search" />
+      <DatePicker fx:id="fxDateIn" layoutX="236.0" layoutY="22.0" prefHeight="25.0" prefWidth="101.0" promptText="DateIn" />
+      <TextField fx:id="fxNrOfGuests" layoutX="450.0" layoutY="22.0" prefHeight="25.0" prefWidth="34.0" promptText="Nr" />
+      <DatePicker fx:id="fxDateOut" layoutX="343.0" layoutY="22.0" prefHeight="25.0" prefWidth="101.0" promptText="DateOut" />
       <TableView fx:id="fxHotelTable" layoutX="24.0" layoutY="61.0" prefHeight="446.0" prefWidth="945.0">
         <columns>
           <TableColumn fx:id="fxImageColumn" prefWidth="75.0" text="Image" />
@@ -26,5 +26,6 @@
             <TableColumn fx:id="fxWifiColumn" prefWidth="51.0" text="Wifi" />
         </columns>
       </TableView>
+      <TextField fx:id="fxName" layoutX="130.0" layoutY="22.0" prefHeight="25.0" prefWidth="100.0" promptText="Name (optional)" />
    </children>
 </AnchorPane>

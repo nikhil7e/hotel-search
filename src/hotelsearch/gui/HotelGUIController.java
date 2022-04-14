@@ -1,5 +1,6 @@
 package hotelsearch.gui;
 
+import hotelsearch.controller.HotelController;
 import hotelsearch.model.Hotel;
 import hotelsearch.model.HotelDB;
 import hotelsearch.model.SearchOptions;
@@ -8,7 +9,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -30,11 +30,11 @@ public class HotelGUIController implements Initializable {
     @FXML
     private TextField fxNrOfGuests;
     @FXML
-    private TextField fxLocation;
+    private TextField fxCity;
+    @FXML
+    private TextField fxName;
     @FXML
     private TableView<Hotel> fxHotelTable;
-    @FXML
-    private Button fxSearchButton;
     @FXML
     private javafx.scene.control.TableColumn<Hotel, Image> fxImageColumn;
     @FXML
@@ -60,7 +60,7 @@ public class HotelGUIController implements Initializable {
     @FXML
     private javafx.scene.control.TableColumn<Hotel, Boolean> fxWifiColumn;
 
-    HotelDB test = new HotelDB();
+    HotelController controller = new HotelController(new HotelDB());
 
     ObservableList<Hotel> hotelObservableList = FXCollections.observableArrayList();
 
@@ -74,15 +74,19 @@ public class HotelGUIController implements Initializable {
         fxRoomPriceColumn.setCellValueFactory(new PropertyValueFactory<>("startingRoomPrice"));
         fxDFDowntownColumn.setCellValueFactory(new PropertyValueFactory<>("distanceFromDowntown"));
         fxDFSupermarketColumn.setCellValueFactory(new PropertyValueFactory<>("distanceFromSupermarket"));
+        fxRestaurantColumn.setCellValueFactory(new PropertyValueFactory<>("restaurant"));
+        fxBreakfastColumn.setCellValueFactory(new PropertyValueFactory<>("breakfastIncluded"));
+        fxBarColumn.setCellValueFactory(new PropertyValueFactory<>("bar"));
+        fxWifiColumn.setCellValueFactory(new PropertyValueFactory<>("freeWifi"));
     }
 
     public void searchHandler(ActionEvent actionEvent) throws SQLException {
         LocalDate dateIn = fxDateIn.getValue();
         LocalDate dateOut = fxDateOut.getValue();
-        String location = fxLocation.getText();
+        String city = fxCity.getText();
+        String name = fxName.getText();
         int nrOfGuests = Integer.parseInt(fxNrOfGuests.getText());
-        // TODO temporary fix in city parameter of SearchOptions, please fix
-        List<Hotel> list = test.search(new SearchOptions("Reykjavík", location, dateIn, dateOut, nrOfGuests));
+        List<Hotel> list = controller.search(new SearchOptions(city, name, dateIn, dateOut, nrOfGuests));
         hotelObservableList.addAll(list);
         fxHotelTable.setItems(hotelObservableList);
     }
