@@ -1,5 +1,6 @@
 package hotelsearch.controller;
 
+import hotelsearch.gui.HotelGUIController;
 import hotelsearch.model.*;
 import javafx.scene.image.Image;
 import org.junit.After;
@@ -105,7 +106,7 @@ public class HotelControllerTest {
 
     @Test
     public void testOrderByPriceAscending() {
-        HotelController hotelController = new HotelController(null);
+        HotelGUIController hotelController = new HotelGUIController();
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", "1st street, 101 Reykjavík", "D",
                 new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
@@ -131,7 +132,7 @@ public class HotelControllerTest {
 
     @Test
     public void testFilterByStars() {
-        HotelController hotelController = new HotelController(new SuccessfulDBSearchMock());
+        HotelGUIController hotelController = new HotelGUIController();
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", "1st street, 101 Reykjavík", "D",
                 new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
