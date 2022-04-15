@@ -66,15 +66,13 @@ public class HotelGUIController implements Initializable {
 
     private List<Hotel> list;
 
-    private boolean filterOn;
-
     HotelController controller = new HotelController(new HotelDB());
 
     ObservableList<Hotel> hotelObservableList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fxImageColumn.setCellValueFactory(new PropertyValueFactory<>("image"));
+        fxImageColumn.setCellValueFactory(new PropertyValueFactory<>("imageURL"));
         fxIDColumn.setCellValueFactory(new PropertyValueFactory<>("hotelID"));
         fxLocationColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         fxStarsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfStars"));
