@@ -1,5 +1,6 @@
 package hotelsearch.controller;
 
+import hotelsearch.gui.HotelGUIController;
 import hotelsearch.model.*;
 import org.junit.After;
 import org.junit.Before;
@@ -102,7 +103,7 @@ public class HotelControllerTest {
 
     @Test
     public void testOrderByPriceAscending() {
-        HotelController hotelController = new HotelController(null);
+        HotelGUIController hotelController = new HotelGUIController();
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", "1st street, 101 Reykjavík", "D",
                 "images/hotel1.jpg", 5, 2, 1,
@@ -125,7 +126,7 @@ public class HotelControllerTest {
 
     @Test
     public void testFilterByStars() {
-        HotelController hotelController = new HotelController(new SuccessfulDBSearchMock());
+        HotelGUIController hotelController = new HotelGUIController();
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", "1st street, 101 Reykjavík", "D",
                 "images/hotel1.jpg", 3, 2, 1,
