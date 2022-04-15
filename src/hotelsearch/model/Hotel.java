@@ -27,7 +27,7 @@ public class Hotel {
      *                                i.e. "1st street, 101 Reykjavík".
      * @param description             A description of the hotel.
      * @param imageURL                The path to the image of the hotel with format "images/x.imageType", where x is
-     *                                any image
+     *                                any image and imageType is the image type of the image.
      * @param numberOfStars           The rating of the hotel.
      * @param startingRoomPrice       The lowest room price for a night stay in the hotel.
      * @param distanceFromDowntown    The distance the hotel is from the downtown area in the city/town it is located.
