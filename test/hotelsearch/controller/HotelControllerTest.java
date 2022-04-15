@@ -1,7 +1,6 @@
 package hotelsearch.controller;
 
 import hotelsearch.model.*;
-import javafx.scene.image.Image;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +8,6 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.Assert.*;
 
@@ -67,10 +65,9 @@ public class HotelControllerTest {
          */
 
         List<Booking> bookingList = hotelController.book(new Hotel(123, "Test",
-                        "1st street, 101 Reykjavík", "Description",
-                        new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
-                        5, 2, 1,
-                        1, true, true, true, true, true),
+                        "1st street, 101 Reykjavík", "Description", "images/hotel1.jpg",
+                        5, 2, 1, 1, true,
+                        true, true, true, true),
                 "Test", "Reykjavík", new SearchOptions("Reykjavík", "Reykjavík",
                         LocalDate.of(2022, 4, 4),
                         LocalDate.of(2022, 4, 14), 2));
@@ -108,17 +105,14 @@ public class HotelControllerTest {
         HotelController hotelController = new HotelController(null);
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", "1st street, 101 Reykjavík", "D",
-                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
-                5, 2, 1, 1,
-                true, true, true, true, true));
+                "images/hotel1.jpg", 5, 2, 1,
+                1, true, true, true, true, true));
         hotelList.add(new Hotel(12, "Test2", "1st street, 101 Reykjavík", "D",
-                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
-                5, 1, 1, 1,
-                true, true, true, true, true));
+                "images/hotel1.jpg", 5, 1, 1,
+                1, true, true, true, true, true));
         hotelList.add(new Hotel(13, "Test3", "1st street, 101 Reykjavík", "D",
-                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
-                5, 3, 1, 1,
-                true, true, true, true, true));
+                "images/hotel1.jpg", 5, 3, 1,
+                1, true, true, true, true, true));
 
         List<Hotel> orderedHotelList = hotelController.orderByPriceAscending(hotelList);
         assertNotNull(hotelList);
@@ -134,17 +128,14 @@ public class HotelControllerTest {
         HotelController hotelController = new HotelController(new SuccessfulDBSearchMock());
         List<Hotel> hotelList = new ArrayList<>();
         hotelList.add(new Hotel(123, "Test", "1st street, 101 Reykjavík", "D",
-                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
-                3, 2, 1, 1,
-                true, true, true, true, true));
+                "images/hotel1.jpg", 3, 2, 1,
+                1, true, true, true, true, true));
         hotelList.add(new Hotel(123, "Test", "1st street, 101 Reykjavík", "D",
-                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
-                4, 2, 1, 1,
-                true, true, true, true, true));
+                "images/hotel1.jpg", 4, 2, 1,
+                1, true, true, true, true, true));
         hotelList.add(new Hotel(123, "Test", "1st street, 101 Reykjavík", "D",
-                new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream("/images/hotel1.jpg"))),
-                5, 2, 1, 1,
-                true, true, true, true, true));
+                "images/hotel1.jpg", 5, 2, 1,
+                1, true, true, true, true, true));
 
         List<Hotel> filteredList = hotelController.filterByStars(hotelList, 5);
         assertNotNull(hotelList);
