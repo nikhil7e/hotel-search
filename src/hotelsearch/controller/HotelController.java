@@ -185,6 +185,10 @@ public class HotelController {
         return newList;
     }
 
+    public void populateDatabase(int n, DatabaseService db) {
+
+    }
+
     public static void main(String[] args) {
         HotelController hc = new HotelController(new HotelDB());
 
