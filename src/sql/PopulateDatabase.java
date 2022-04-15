@@ -1,13 +1,10 @@
 package sql;
 
-import hotelsearch.model.Booking;
 import hotelsearch.model.Hotel;
 import hotelsearch.model.HotelDB;
 import hotelsearch.model.Room;
 
-import java.time.LocalDate;
 import java.util.Random;
-import java.util.UUID;
 
 public class PopulateDatabase {
 
@@ -32,7 +29,7 @@ public class PopulateDatabase {
             Room rm = new Room(
                     i,       // should just be = i
                     hotelID,
-                    rnd.nextInt(5) + 1, // between 1 and 4 bedds
+                    rnd.nextInt(5) + 1, // between 1 and 4 beds
                     (rnd.nextInt(50) + 3) * 100, // between 3000 - 40000 isk
                     bools(),bools(),bools()
             );
@@ -41,6 +38,7 @@ public class PopulateDatabase {
         }
     }
     public static void bookTheRoom(HotelDB db, int hotelID, int roomID) {
+        /*
         Random rnd = new Random();
         int uniqueID = UUID.randomUUID().hashCode();
         LocalDate loc = LocalDate.of(
@@ -58,6 +56,8 @@ public class PopulateDatabase {
                 loc.plusDays(rnd.nextInt(10) + 1) // between 1-10
         );
         db.insertBooking(book);
+
+       */
     }
     public static void makeHotels(int n, HotelDB db) {
         Random rnd = new Random();
@@ -67,15 +67,16 @@ public class PopulateDatabase {
                     "hotelName" + i,
                     "address" + i,
                     "description" + i,
-                    "src/images/hotel1.jpg",
-                    rnd.nextInt(5) + 1, // between 1-5 int
-                    ((rnd.nextDouble(50) + 3) * 100), // between 3000 - 50000 isk
-                     rnd.nextDouble(3), // between 1 - 3 km?
-                    rnd.nextDouble(3),
+                    "images/hotel1.jpg",
+                    rnd.nextInt(3), // between 1-5 int
+                    Math.round(((rnd.nextDouble(50) + 3) * 100)*10)/10, // between 3000 - 50000 isk
+                    Math.round(rnd.nextDouble(3)*10)/10, // between 1 - 3 km?
+                    Math.round(rnd.nextDouble(3)*10)/10,
                     bools(),bools(),bools(),bools(),bools()
             );
             db.insertHotel(ht);
             makeRooms(rnd.nextInt(291)+10,db,i);  // make all the rooms corresponding to the hotelID, between 10 and 300 rooms per hotel
+
         }
     }
     private static boolean bools() {
@@ -103,11 +104,14 @@ public class PopulateDatabase {
         return sb + "@gmail.com";
     }
     public static void main(String[] args) {
-        HotelDB db = new HotelDB();
-        makeHotels(10,db);
+       HotelDB db = new HotelDB();
+       makeHotels(10,db);
     }
 
 
-
+// double gildi med einn aukastaf, komid
+// profa ad nota book i stadinn fyrir insertBooking? eða sleppa booking ef það er of mikið vesen.
+//        "select max(bookingID) as maxBookingID, max(bookingTransactionID) as " +
+//                            "maxBookingTransactionID from Booking");
 
 }

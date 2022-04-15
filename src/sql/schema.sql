@@ -10,7 +10,7 @@ CREATE TABLE Hotel
     address                 varchar(1000),
     description             varchar(10000),
     imageURL                varchar(1000),
-    numberOfStars           int CHECK (numberOfStars IN (0, 5)),
+    numberOfStars           int,                     -- CHECK (numberOfStars IN (0, 5)),
     startingRoomPrice       double,
     distanceFromDowntown    double,
     distanceFromSupermarket double,
