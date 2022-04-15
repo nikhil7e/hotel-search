@@ -321,6 +321,39 @@ public class HotelDB implements DatabaseService {
         return true;
     }
 
+    boolean insertRoom(Room room) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // insert the bookings into the DB
+            PreparedStatement update = connection.prepareStatement("insert into Room values " +
+                    "(?, ?, ?, ?, ?, ?, ?)");
+            update.clearParameters();
+            update.setInt(1, room.getHotelID());
+            update.setInt(2, room.getRoomID());
+            update.setInt(3, room.getNrBeds());
+            update.setDouble(4, room.getPricePerNight());
+            update.setBoolean(5, room.getTv());
+            update.setBoolean(6, room.getCityView());
+            update.setBoolean(7, room.getPrivateBathroom());
+            update.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     // no modifier so package visible
     boolean insertBooking(Booking booking) {
         try {
@@ -386,12 +419,15 @@ public class HotelDB implements DatabaseService {
         db.findBookings("email");
         System.out.println();
 
-        Hotel test = new Hotel(123, "Tesvwegt",
-                "1st street, 101 Reykjavík", "Description", "images/hotel1.jpg",
-                5, 2, 1, 1, true,
-                true, true, true, true);
+        Hotel test = new Hotel(123, "Tesvwegt", "1st street, 101 Reykjavík",
+                "Description", "images/hotel1.jpg", 5, 2,
+                1, 1, true, true, true, true,
+                true);
+        Room room = new Room(135, 123, 6, 1, true, true,
+                true);
         db.insertHotel(test);
-        db.book(test, "seah@seg.is", "aseg",options);
+        db.insertRoom(room);
+        db.book(test, "seah@seg.is", "aseg", options);
     }
 
 }

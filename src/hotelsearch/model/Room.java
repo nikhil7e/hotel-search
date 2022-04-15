@@ -2,7 +2,6 @@ package hotelsearch.model;
 
 public class Room {
 
-    // Variables
     private final int roomID;
     private final int hotelID;
     private final int nrBeds;
@@ -11,12 +10,22 @@ public class Room {
     private final boolean privateBathroom;
     private final boolean cityView;
 
-    // Getters
+    public Room(int roomID, int hotelID, int nrBeds, int pricePerNight, boolean tv, boolean cityView,
+                boolean privateBathroom) {
+        this.roomID = roomID;
+        this.hotelID = hotelID;
+        this.nrBeds = nrBeds;
+        this.pricePerNight = pricePerNight;
+        this.tv = tv;
+        this.cityView = cityView;
+        this.privateBathroom = privateBathroom;
+    }
+
     public int getRoomID() {
         return roomID;
     }
 
-    public int gethotelID() {
+    public int getHotelID() {
         return hotelID;
     }
 
@@ -40,15 +49,4 @@ public class Room {
         return privateBathroom;
     }
 
-    // Constructor
-    public Room(int roomID, int hotelID, int nrBeds, int pricePerNight, boolean tv, boolean cityView,
-                boolean privateBathroom) {
-        this.roomID = roomID;
-        this.hotelID = hotelID;
-        this.nrBeds = nrBeds;
-        this.pricePerNight = pricePerNight;
-        this.tv = tv;
-        this.cityView = cityView;
-        this.privateBathroom = privateBathroom;
-    }
 }
