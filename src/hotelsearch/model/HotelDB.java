@@ -321,6 +321,41 @@ public class HotelDB implements DatabaseService {
         return true;
     }
 
+    // no modifier so package visible
+    boolean insertBooking(Booking booking) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // insert the bookings into the DB
+            PreparedStatement update = connection.prepareStatement("insert into Booking values " +
+                    "(?, ?, ?, ?, ?, ?, ?, ?)");
+            update.clearParameters();
+            update.setInt(1, booking.getHotelID());
+            update.setInt(2, booking.getRoomID());
+            update.setInt(3, booking.getBookingID());
+            update.setInt(4, booking.getBookingTransactionID());
+            update.setString(5, booking.getGuestEmail());
+            update.setString(6, booking.getGuestName());
+            update.setString(7, java.sql.Date.valueOf(booking.getCheckInDate()).toString());
+            update.setString(8, java.sql.Date.valueOf(booking.getCheckOutDate()).toString());
+            update.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
         HotelDB db = new HotelDB();
         SearchOptions options = new SearchOptions("Reykjavík", "",
@@ -351,11 +386,12 @@ public class HotelDB implements DatabaseService {
         db.findBookings("email");
         System.out.println();
 
-        db.insertHotel(new Hotel(123, "Tesvwegt",
-                "1st street, 101 Reykjavík", "Description",
-                "images/hotel1.jpg",
-                5, 2, 1,
-                1, true, true, true, true, true));
+        Hotel test = new Hotel(123, "Tesvwegt",
+                "1st street, 101 Reykjavík", "Description", "images/hotel1.jpg",
+                5, 2, 1, 1, true,
+                true, true, true, true);
+        db.insertHotel(test);
+        db.book(test, "seah@seg.is", "aseg",options);
     }
 
 }
