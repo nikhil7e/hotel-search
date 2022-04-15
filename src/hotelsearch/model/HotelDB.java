@@ -284,8 +284,50 @@ public class HotelDB implements DatabaseService {
         return bookingList;
     }
 
+    // no modifier so package visible
+    boolean insertHotel(Hotel hotel) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // insert the bookings into the DB
+            PreparedStatement update = connection.prepareStatement("insert into Hotel values " +
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            update.clearParameters();
+            update.setInt(1, hotel.getHotelID());
+            update.setString(2, hotel.getName());
+            update.setString(3, hotel.getAddress());
+            update.setString(4, hotel.getDescription());
+            update.setString(5, hotel.getImage().getUrl());
+            update.setInt(6, hotel.getNumberOfStars());
+            update.setDouble(7, hotel.getStartingRoomPrice());
+            update.setDouble(8, hotel.getDistanceFromDowntown());
+            update.setDouble(9, hotel.getDistanceFromSupermarket());
+            update.setBoolean(10, hotel.getRestaurant());
+            update.setBoolean(11, hotel.getBreakfastIncluded());
+            update.setBoolean(12, hotel.getBar());
+            update.setBoolean(13, hotel.getFreeWifi());
+            update.setBoolean(14, hotel.getFeatured());
+            update.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
         HotelDB db = new HotelDB();
+        /*
         SearchOptions options = new SearchOptions("Reykjavík", "",
                 LocalDate.of(2023, 4, 16),
                 LocalDate.of(2023, 5, 17), 15);
@@ -313,6 +355,13 @@ public class HotelDB implements DatabaseService {
         System.out.println();
         db.findBookings("email");
         System.out.println();
+         */
+        db.insertHotel(new Hotel(123, "Tesvwegt",
+                "1st street, 101 Reykjavík", "Description",
+                "images/hotel1.jpg",
+                5, 2, 1,
+                1, true, true, true, true, true));
+
     }
 
 }
