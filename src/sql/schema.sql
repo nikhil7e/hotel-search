@@ -9,7 +9,7 @@ CREATE TABLE Hotel
     name                    varchar(1000),
     address                 varchar(1000),
     description             varchar(10000),
-    image                   varchar(1000),
+    imageURL                varchar(1000),
     numberOfStars           int CHECK (numberOfStars IN (0, 5)),
     startingRoomPrice       double,
     distanceFromDowntown    double,
@@ -23,11 +23,11 @@ CREATE TABLE Hotel
 );
 
 insert into Hotel
-values (1, 'Test1', '1st street, 101 Reykjavík', 'desc', '/images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
+values (1, 'Test1', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
 insert into Hotel
-values (2, 'Test2', '1st street, 101 Reykjavík', 'desc', '/images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 1);
+values (2, 'Test2', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 1);
 insert into Hotel
-values (3, 'Test3', '1st street, 101 Reykjavík', 'desc', '/images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
+values (3, 'Test3', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
 
 CREATE TABLE Room
 (
@@ -47,15 +47,15 @@ values (1, 1, 4, 1, 1, 1, 1);
 insert into Room
 values (1, 2, 2, 1, 1, 1, 1);
 insert into Room
-values (2, 1, 4, 1, 1, 1, 1);
+values (2, 1, 2, 1, 1, 1, 1);
 insert into Room
-values (2, 2, 8, 1, 1, 1, 1);
+values (2, 2, 6, 1, 1, 1, 1);
 insert into Room
-values (2, 3, 2, 1, 1, 1, 1);
+values (2, 3, 4, 1, 1, 1, 1);
 insert into Room
-values (2, 4, 1, 1, 1, 1, 1);
+values (2, 4, 2, 1, 1, 1, 1);
 insert into Room
-values (3, 1, 1, 1, 1, 1, 1);
+values (3, 1, 2, 1, 1, 1, 1);
 insert into Room
 values (3, 2, 2, 1, 1, 1, 1);
 

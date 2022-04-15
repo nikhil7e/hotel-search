@@ -1,12 +1,9 @@
 package hotelsearch.model;
 
-import javafx.scene.image.Image;
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /*
 To compile and run this file on the command line:
@@ -72,8 +69,7 @@ public class HotelDB implements DatabaseService {
             while (rs.next()) {
                 Hotel hotel = new Hotel(rs.getInt("hotelID"),
                         rs.getString("name"), rs.getString("address"), rs.getString("description"),
-                        new Image(Objects.requireNonNull(HotelDB.class.getResourceAsStream(rs.getString("image")))),
-                        rs.getInt("numberOfStars"), rs.getDouble("startingRoomPrice"),
+                        rs.getString("imageURL"), rs.getInt("numberOfStars"), rs.getDouble("startingRoomPrice"),
                         rs.getDouble("distanceFromDowntown"), rs.getDouble("distanceFromSupermarket"),
                         rs.getBoolean("restaurant"), rs.getBoolean("breakfastIncluded"),
                         rs.getBoolean("freeWifi"), rs.getBoolean("bar"), rs.getBoolean("featured"));
@@ -119,7 +115,7 @@ public class HotelDB implements DatabaseService {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
             // find rooms that don't contain a conflicting booking, making sure they have enough beds for all guests
-            // TODO order by nrBeds asc rather? Maybe even find a better solution?
+            // TODO order by nrBeds desc rather? Maybe even find a better solution?
             PreparedStatement statement = connection.prepareStatement(
                     "select * from (" +
                             "select *, sum(nrBeds) over() as summa from Room where Room.hotelID = ? and not exists(" +
@@ -127,7 +123,7 @@ public class HotelDB implements DatabaseService {
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
                             "Booking.checkOutDate > ?)) " +
-                            "order by nrBeds desc) " +
+                            "order by nrBeds asc) " +
                             "where summa >= ?");
 
             statement.clearParameters();
@@ -284,11 +280,120 @@ public class HotelDB implements DatabaseService {
         return bookingList;
     }
 
+    // no modifier so package visible
+    boolean insertHotel(Hotel hotel) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // insert the bookings into the DB
+            PreparedStatement update = connection.prepareStatement("insert into Hotel values " +
+                    "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            update.clearParameters();
+            update.setInt(1, hotel.getHotelID());
+            update.setString(2, hotel.getName());
+            update.setString(3, hotel.getAddress());
+            update.setString(4, hotel.getDescription());
+            update.setString(5, hotel.getImageURL());
+            update.setInt(6, hotel.getNumberOfStars());
+            update.setDouble(7, hotel.getStartingRoomPrice());
+            update.setDouble(8, hotel.getDistanceFromDowntown());
+            update.setDouble(9, hotel.getDistanceFromSupermarket());
+            update.setBoolean(10, hotel.getRestaurant());
+            update.setBoolean(11, hotel.getBreakfastIncluded());
+            update.setBoolean(12, hotel.getBar());
+            update.setBoolean(13, hotel.getFreeWifi());
+            update.setBoolean(14, hotel.getFeatured());
+            update.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    boolean insertRoom(Room room) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // insert the bookings into the DB
+            PreparedStatement update = connection.prepareStatement("insert into Room values " +
+                    "(?, ?, ?, ?, ?, ?, ?)");
+            update.clearParameters();
+            update.setInt(1, room.getHotelID());
+            update.setInt(2, room.getRoomID());
+            update.setInt(3, room.getNrBeds());
+            update.setDouble(4, room.getPricePerNight());
+            update.setBoolean(5, room.getTv());
+            update.setBoolean(6, room.getCityView());
+            update.setBoolean(7, room.getPrivateBathroom());
+            update.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    // no modifier so package visible
+    boolean insertBooking(Booking booking) {
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        Connection connection;
+        try {
+            connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
+            // insert the bookings into the DB
+            PreparedStatement update = connection.prepareStatement("insert into Booking values " +
+                    "(?, ?, ?, ?, ?, ?, ?, ?)");
+            update.clearParameters();
+            update.setInt(1, booking.getHotelID());
+            update.setInt(2, booking.getRoomID());
+            update.setInt(3, booking.getBookingID());
+            update.setInt(4, booking.getBookingTransactionID());
+            update.setString(5, booking.getGuestEmail());
+            update.setString(6, booking.getGuestName());
+            update.setString(7, java.sql.Date.valueOf(booking.getCheckInDate()).toString());
+            update.setString(8, java.sql.Date.valueOf(booking.getCheckOutDate()).toString());
+            update.executeUpdate();
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
     public static void main(String[] args) {
         HotelDB db = new HotelDB();
         SearchOptions options = new SearchOptions("Reykjavík", "",
                 LocalDate.of(2023, 4, 16),
-                LocalDate.of(2023, 5, 17), 15);
+                LocalDate.of(2023, 5, 17), 6);
         SearchOptions options2 = new SearchOptions("Reykjavík", "",
                 LocalDate.of(2023, 4, 16),
                 LocalDate.of(2023, 4, 17), 4);
@@ -313,6 +418,16 @@ public class HotelDB implements DatabaseService {
         System.out.println();
         db.findBookings("email");
         System.out.println();
+
+        Hotel test = new Hotel(123, "Tesvwegt", "1st street, 101 Reykjavík",
+                "Description", "images/hotel1.jpg", 5, 2,
+                1, 1, true, true, true, true,
+                true);
+        Room room = new Room(135, 123, 6, 1, true, true,
+                true);
+        db.insertHotel(test);
+        db.insertRoom(room);
+        db.book(test, "seah@seg.is", "aseg", options);
     }
 
 }

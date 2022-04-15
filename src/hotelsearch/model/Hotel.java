@@ -2,14 +2,12 @@ package hotelsearch.model;
 
 import java.util.Comparator;
 
-import javafx.scene.image.Image;
-
 public class Hotel {
     private final int hotelID;
     private final String name;
     private final String address;
     private final int numberOfStars;
-    private final Image image;
+    private final String imageURL;
     private final String description;
     private final double startingRoomPrice;
     private final double distanceFromDowntown;
@@ -28,7 +26,8 @@ public class Hotel {
      * @param address                 The address of the hotel with format "street, ..., postal code  city",
      *                                i.e. "1st street, 101 Reykjavík".
      * @param description             A description of the hotel.
-     * @param image                   The path to the image of the hotel.
+     * @param imageURL                The path to the image of the hotel with format "images/x.imageType", where x is
+     *                                any image and imageType is the image type of the image.
      * @param numberOfStars           The rating of the hotel.
      * @param startingRoomPrice       The lowest room price for a night stay in the hotel.
      * @param distanceFromDowntown    The distance the hotel is from the downtown area in the city/town it is located.
@@ -40,7 +39,7 @@ public class Hotel {
      * @param featured                Indicates whether the hotel is featured
      */
     public Hotel(int hotelID, String name,
-                 String address, String description, Image image, int numberOfStars,
+                 String address, String description, String imageURL, int numberOfStars,
                  double startingRoomPrice, double distanceFromDowntown,
                  double distanceFromSupermarket, boolean restaurant,
                  boolean breakfastIncluded, boolean freeWifi, boolean bar, boolean featured) {
@@ -48,7 +47,7 @@ public class Hotel {
         this.name = name;
         this.address = address;
         this.numberOfStars = numberOfStars;
-        this.image = image;
+        this.imageURL = imageURL;
         this.description = description;
         this.startingRoomPrice = startingRoomPrice;
         this.distanceFromDowntown = distanceFromDowntown;
@@ -76,8 +75,8 @@ public class Hotel {
         return numberOfStars;
     }
 
-    public Image getImage() {
-        return image;
+    public String getImageURL() {
+        return imageURL;
     }
 
     public String getDescription() {
