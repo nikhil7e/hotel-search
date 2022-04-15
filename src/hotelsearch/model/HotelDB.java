@@ -281,7 +281,7 @@ public class HotelDB implements DatabaseService {
     }
 
     // no modifier so package visible
-    boolean insertHotel(Hotel hotel) {
+    public boolean insertHotel(Hotel hotel) {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -321,7 +321,7 @@ public class HotelDB implements DatabaseService {
         return true;
     }
 
-    boolean insertRoom(Room room) {
+    public boolean insertRoom(Room room) {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -355,7 +355,7 @@ public class HotelDB implements DatabaseService {
     }
 
     // no modifier so package visible
-    boolean insertBooking(Booking booking) {
+    public boolean insertBooking(Booking booking) {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -388,6 +388,8 @@ public class HotelDB implements DatabaseService {
 
         return true;
     }
+
+
 
     public static void main(String[] args) {
         HotelDB db = new HotelDB();
