@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import org.w3c.dom.html.HTMLObjectElement;
 
@@ -27,6 +28,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javafx.scene.input.MouseEvent;
 
 public class HotelGUIController implements Initializable {
 
@@ -69,6 +72,50 @@ public class HotelGUIController implements Initializable {
     @FXML
     private javafx.scene.control.TableColumn<Hotel, Boolean> fxWifiColumn;
 
+    @FXML
+    public void bookHandler() {
+        Hotel hotel = fxHotelTable.getSelectionModel().getSelectedItem();
+
+        LocalDate arraivalDate = fxDateIn.getValue();
+
+        LocalDate departureDate = fxDateOut.getValue();
+
+        String numberOfGuests = fxNrOfGuests.getText();
+
+
+
+
+
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("BookingGUI.fxml"));
+
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Parent root = loader.getRoot();
+
+        Scene scene = new Scene(root, 500, 300);
+        stage.setScene(scene);
+
+        HotelGUIController controller = loader.getController();
+
+        controller.fxBookingArraivalDate.setValue(arraivalDate);
+        controller.fxBookingDepartureDate.setValue(departureDate);
+        controller.fxBookingNumberGuestsTextfield.setText(numberOfGuests);
+
+        stage.showAndWait();
+
+
+        String[] info = controller.getUserInfo();
+        if (!(info[0].equals("") || info[1].equals(""))) {
+            test.book(hotel, info[0], info[1],new SearchOptions(hotel.getName(), arraivalDate, departureDate,Integer.parseInt(numberOfGuests)));
+        }
+    }
+
     // FXML Objects for HotelViewGUI.fxml
 
     @FXML
@@ -105,16 +152,59 @@ public class HotelGUIController implements Initializable {
     private Label fxStartingPrice;
 
     @FXML
-    private Button fxBook;
-
-    @FXML
     private Button fxBack;
 
 
+    // FXML Object for Booking.fxml
 
+    @FXML
+    private TextField fxBookingTextfieldEmail;
+
+    @FXML
+    private TextField fxBookingTextfieldName;
+
+    @FXML
+    private Label fxBookingLabelWarningEmail;
+
+    @FXML
+    private Label fxBookingLabelWarningName;
+
+    @FXML
+    private Label fxBookingLabelEmail;
+
+    @FXML
+    private Label fxBookingLabelName;
+
+    @FXML
+    private Button fxBookingButton;
+
+    @FXML
+    private DatePicker fxBookingArraivalDate;
+
+    @FXML
+    private DatePicker fxBookingDepartureDate;
+
+    @FXML
+    private Button fxBookingBack;
+
+    @FXML
+    private TextField fxBookingNumberGuestsTextfield;
+
+    @FXML
+    void bookingBookHandler(ActionEvent event) {
+        fxBookingTextfieldName.getScene().getWindow().hide();
+    }
+
+    @FXML
+    void bookingBackHandler(ActionEvent actionEvent) {
+        fxBookingTextfieldEmail.setText("");
+        fxBookingTextfieldName.setText("");
+        fxBookingTextfieldName.getScene().getWindow().hide();
+    }
 
 
     HotelDB test = new HotelDB();
+
 
 
 
@@ -130,7 +220,39 @@ public class HotelGUIController implements Initializable {
         fxRoomPriceColumn.setCellValueFactory(new PropertyValueFactory<>("startingRoomPrice"));
         fxDFDowntownColumn.setCellValueFactory(new PropertyValueFactory<>("distanceFromDowntown"));
         fxDFSupermarketColumn.setCellValueFactory(new PropertyValueFactory<>("distanceFromSupermarket"));
+
+        fxHotelTable.setOnMouseClicked((MouseEvent event) -> {
+            if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
+                Stage stage = new Stage();
+
+                Hotel hotel = fxHotelTable.getSelectionModel().getSelectedItem();
+
+
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("HotelViewGUI.fxml"));
+
+
+                try {
+                    loader.load();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                HotelGUIController controller = loader.getController();
+                Parent root = loader.getRoot();
+
+                controller.displayHotel(hotel);
+
+                Scene scene = new Scene(root, 550, 500);
+                stage.setScene(scene);
+                stage.showAndWait();
+            }
+        });
+
     }
+
+
+
+
 
     public void searchHandler(ActionEvent actionEvent) throws SQLException {
         LocalDate dateIn = fxDateIn.getValue();
@@ -142,42 +264,15 @@ public class HotelGUIController implements Initializable {
         fxHotelTable.setItems(hotelObservableList);
     }
 
-    public void bookHandler(ActionEvent actionEvent) {
-    }
+
 
     public void backHandler(ActionEvent actionEvent) {
         fxHotelName.getScene().getWindow().hide();
-
     }
 
-    public void showHotelHandler(ActionEvent actionEvent) {
-
-
-        Stage stage = new Stage();
-
-
-        Hotel hotel = fxHotelTable.getSelectionModel().getSelectedItem();
-
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("HotelViewGUI.fxml"));
-
-
-
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        HotelGUIController controller = loader.getController();
-        Parent root = loader.getRoot();
-
-        controller.displayHotel(hotel);
-
-
-
-        Scene scene = new Scene(root, 550, 500);
-        stage.setScene(scene);
-        Stage notPrimaryStage = stage;
-        notPrimaryStage.showAndWait();
+    public String[] getUserInfo() {
+        String[] string = {fxBookingTextfieldEmail.getText(), fxBookingTextfieldName.getText() };
+        return string;
     }
 
     public void displayHotel(Hotel hotel) {

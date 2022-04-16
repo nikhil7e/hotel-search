@@ -30,6 +30,6 @@
             <TableColumn fx:id="fxWifiColumn" prefWidth="51.0" text="Wifi" />
         </columns>
       </TableView>
-      <Button fx:id="fxLookButton" layoutX="497.0" layoutY="22.0" mnemonicParsing="false" onAction="#showHotelHandler" prefHeight="25.0" prefWidth="109.0" text="Look at hotel" />
+      <Button fx:id="fxBookHandler" layoutX="488.0" layoutY="21.0" mnemonicParsing="false" onAction="#bookHandler" prefHeight="26.0" prefWidth="110.0" text="Book" />
    </children>
 </AnchorPane>
