@@ -3,7 +3,9 @@ package sql;
 import hotelsearch.model.Hotel;
 import hotelsearch.model.HotelDB;
 import hotelsearch.model.Room;
+import hotelsearch.model.SearchOptions;
 
+import java.time.LocalDate;
 import java.util.Random;
 
 public class PopulateDatabase {
@@ -38,6 +40,19 @@ public class PopulateDatabase {
         }
     }
     public static void bookTheRoom(HotelDB db, int hotelID, int roomID) {
+        Random rnd = new Random();
+        LocalDate loc = LocalDate.of(
+                rnd.nextInt(6) + 2017, // between 2017 - 2022
+                rnd.nextInt(12) + 1,        // between 1-12
+                rnd.nextInt(28) + 1);       // between 1-28,
+        SearchOptions op = new SearchOptions(
+                randomString(rnd.nextInt(13) + 7),  //CITY
+                randomString(rnd.nextInt(13) + 7),  // NAME
+                loc,
+                loc.plusDays(rnd.nextInt(10) + 1),
+                rnd.nextInt(8)+1
+        );
+        //db.book();
         /*
         Random rnd = new Random();
         int uniqueID = UUID.randomUUID().hashCode();
@@ -67,8 +82,8 @@ public class PopulateDatabase {
                     "hotelName" + i,
                     "address" + i,
                     "description" + i,
-                    "images/hotel1.jpg",
-                    rnd.nextInt(3), // between 1-5 int
+                    "src/images/hotel" + rnd.nextInt(16) + ".jpg",
+                    rnd.nextInt(5)+1, // between 1-5 int
                     Math.round(((rnd.nextDouble(50) + 3) * 100)*10)/10, // between 3000 - 50000 isk
                     Math.round(rnd.nextDouble(3)*10)/10, // between 1 - 3 km?
                     Math.round(rnd.nextDouble(3)*10)/10,
@@ -109,9 +124,7 @@ public class PopulateDatabase {
     }
 
 
-// double gildi med einn aukastaf, komid
 // profa ad nota book i stadinn fyrir insertBooking? eða sleppa booking ef það er of mikið vesen.
-//        "select max(bookingID) as maxBookingID, max(bookingTransactionID) as " +
-//                            "maxBookingTransactionID from Booking");
+
 
 }
