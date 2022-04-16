@@ -14,17 +14,259 @@ public class PopulateDatabase {
     private HotelDB db;
 
 
-    //    public String[] hotelNames;         // webScraping ! eða handavinna
-    //    public String[] hotelAddressess;    // webScraping ! eða handavinna
-    //    public String[] hotelDescriptions;  // webScraping ! eða handavinna
+        public static String[] hotelNames;         // webScraping ! eða handavinna
+        public static String[] hotelAddressess;    // webScraping ! eða handavinna
+        public static String[] hotelDescriptions;  // webScraping ! eða handavinna
+        //public static String[] peopleNames;
 
 
     public PopulateDatabase(int n, HotelDB db) {
         this.n = n;
         this.db = db;
-    }
 
-    public static void makeRooms(int n, HotelDB db, int hotelID) {
+        hotelNames = new String[] {
+                "Sapphire Point Hotel",
+                "White Wolf Resort",
+                "King's Lodge Resort",
+                "Secret Camp Hotel",
+                "Primal Creek Resort",
+                "Oriental Seashore Hotel",
+                "Asylum Hotel & Spa",
+                "Rain Resort & Spa",
+                "Shoreline Resort",
+                "Seacoast Resort & Spa",
+                "Primal Market Hotel",
+                "Glorious Crown Hotel & Spa",
+                "Primal Landscape Hotel",
+                "Atlantic Ribbon Resort",
+                "Obsidian Carnaval Motel",
+                "Oracle Hotel",
+                "Travel Hotel",
+                "Prism Resort",
+                "Dual Grotto Hotel",
+                "Remote Nimbus Hotel",
+                "Autumn Tundra Resort",
+                "Northern Point Resort",
+                "Private Bazaar Resort",
+                "Golden Sanctum Hotel",
+                "Palace Hotel",
+                "Paragon Resort & Spa",
+                "Monolith Hotel & Spa",
+                "Panorama Motel",
+                "Twin Season Resort",
+                "Ebony Peaks Hotel",
+                "Rose Luxury Hotel",
+                "Elite Spa Resort & Spa",
+                "Autumn Petal Hotel",
+                "Outlook Hotel & Spa",
+                "Monolith Hotel",
+                "Expedition Hotel",
+                "Ebony Expanse Resort",
+                "White Haven Resort & Spa",
+                "Viridian Phoenix Resort",
+                "Grand Cosmos Resort",
+                "Elite Willow Resort",
+                "Amber Hotel & Spa",
+                "Baroque Hotel & Spa",
+                "Stargaze Hotel",
+                "Secluded Park Hotel",
+                "Ebony Rose Resort",
+                "Glorious Rose Hotel",
+                "Ancient Tropic Hotel",
+                "Modest Pool Resort & Spa",
+                "Harborview Resort & Spa",
+                "Paradise Hotel & Spa",
+                "Ocean Motel"
+        };
+        hotelAddressess = new String[] {
+                "777 Brockton Avenue",
+                "30 Memorial Drive",
+                "250 Hartford Avenue",
+                "700 Oak Street",
+                "66-4 Parkhurst Rd",
+                "591 Memorial Dr",
+                "55 Brooksby Village Way",
+                "137 Teaticket Hwy",
+                "42 Fairhaven Commons Way",
+                "374 William S Canning Blvd",
+                "121 Worcester Rd",
+                "677 Timpany Blvd",
+                "337 Russell St",
+                "295 Plymouth Street",
+                "1775 Washington St",
+                "280 Washington Street",
+                "20 Soojian Dr",
+                "11 Jungle Road",
+                "301 Massachusetts Ave",
+                "780 Lynnway",
+                "70 Pleasant Valley Street",
+                "830 Curran Memorial Hwy",
+                "1470 S Washington St",
+                "506 State Road",
+                "742 Main Street",
+                "72 Main St",
+                "200 Otis Street",
+                "180 North King Street",
+                "555 East Main St",
+                "555 Hubbard Ave-Suite 12",
+                "300 Colony Place",
+                "301 Falls Blvd",
+                "36 Paramount Drive",
+                "450 Highland Ave",
+                "1180 Fall River Avenue",
+                "1105 Boston Road",
+                "100 Charlton Road",
+                "262 Swansea Mall Dr",
+                "333 Main Street",
+                "550 Providence Hwy",
+                "352 Palmer Road",
+                "3005 Cranberry Hwy Rt 6 28",
+                "250 Rt 59","Airmont",
+                "141 Washington Ave Extension",
+                "13858 Rt 31 W",
+                "2055 Niagara Falls Blvd",
+                "101 Sanford Farm Shpg Center",
+                "297 Grant Avenue",
+                "4133 Veterans Memorial Drive",
+                "6265 Brockport Spencerport Rd",
+                "5399 W Genesse St",
+                "3191 County rd 10",
+                "30 Catskill",
+                "161 Centereach Mall",
+                "3018 East Ave",
+                "100 Thruway Plaza",
+                "8064 Brewerton Rd",
+                "5033 Transit Road",
+                "3949 Route 31",
+                "139 Merchant Place",
+                "85 Crooked Hill Road",
+                "872 Route 13",
+                "279 Troy Road",
+                "2465 Hempstead Turnpike",
+                "6438 Basile Rowe",
+                "25737 US Rt 11",
+                "901 Route 110",
+                "2400 Route 9",
+                "10401 Bennett Road",
+                "1818 State Route 3",
+                "4300 Lakeville Road",
+                "990 Route 5 20",
+                "311 RT 9W",
+                "200 Dutch Meadows Ln",
+                "100 Elm Ridge Center Dr",
+                "1549 Rt 9",
+                "5360 Southwestern Blvd",
+                "103 North Caroline St",
+                "1000 State Route 36",
+                "1400 County Rd 64",
+                "135 Fairgrounds Memorial Pkwy",
+                "2 Gannett Dr",
+                "233 5th Ave Ext",
+                "601 Frank Stottile Blvd",
+                "350 E Fairmount Ave",
+                "4975 Transit Rd",
+                "579 Troy-Schenectady Road",
+                "5783 So Transit Road",
+                "7155 State Rt 12 S",
+                "425 Route 31",
+                "3222 State Rt 11",
+                "200 Sunrise Mall",
+                "43 Stephenville St",
+                "750 Middle Country Road",
+                "470 Route 211 East",
+                "3133 E Main St",
+                "288 Larkin",
+                "41 Anawana Lake Road",
+                "4765 Commercial Drive",
+                "1201 Rt 300",
+                "255 W Main St",
+                "120 Commercial Parkway",
+                "1400 Farmington Ave",
+                "161 Berlin Road",
+                "67 Newton Rd",
+                "656 New Haven Ave",
+                "69 Prospect Hill Road",
+                "150 Gold Star Hwy",
+                "900 Boston Post Road",
+                "2300 Dixwell Ave",
+                "495 Flatbush Ave",
+        };
+
+        // bokstaflega bara rugl
+        hotelDescriptions = new String[] {
+                "Maintaining, repairing, or restoring your home as provided by this license includes the following:",
+        "Performing a home maintenance task: cleaning or repairing your kitchen or closets",
+        "Restoring any items or items stolen or lost during the storage of items held in your home",
+        "Removing items from your home",
+        "Removing items from unclaimed areas like bathrooms or closets.",
+                "Performing a home maintenance task at a place of worship or temple includes providing your house with a bath, spa, or public building.",
+        "Performing a home maintenance task at:",
+        "Any place or space that has a water supply system of a plumbing, sanitary, electric, heating or cooling type (see list below)",
+        "Any area that meets any of the requirements of Section 30.01 to 30.01",
+        "Any area that is required by Subpart D or Section 35.15, to provide adequate care for people who are homeless, injured, or blind or with epilepsy or a disability. (See list below)",
+        "Performing your home maintenance tasks at a community place or a church will prevent items from falling from the walls or ceiling, making it impossible to retrieve them if items are damaged or missing.",
+                "Removing items from your home (or from a place of worship) includes the following:",
+        "Removing items stored in or under a structure (including, but not limited to, a garage",
+                "My family had an excellent child while he was out there and we haven't tried to do anything to improve his. We've always looked for things to bring to him, some things to give him comfort and to help him think about what is in his heart. It's never been the same.",
+        "At first we never even thought about the idea of taking more children to school. But soon thereafter we realised that we could bring an opportunity to their lives by the way they were raised and that we had a big impact. I'm grateful that someone like me raised this generation of kids here and that the other people are seeing the same. They have given me a special responsibility to do what is right for my daughter and our country - I'm honored to be part of their lives.",
+        "We'll do our part to make sure that he's aware of the fact that kids are different to what they are. We won't wait for him to get his own home and to start loving the idea of education. And that was the first thing we did.",
+        "The concept behind BJJ will revolutionise education in India. The idea is to connect children with the teachers who will bring them a home and start their own. Everyone has to think about BJJ and they must think about their children. This will help them,"
+        };
+        /*
+        peopleNames = new String[] {
+                "erur cahe",
+                "ekhed hikhad",
+                "dallul Stouttrapper",
+                "grocrudd Crestgazer",
+                "pardef kask",
+                "hef glovrav",
+                "blarcun Highguard",
+                "grum Oatsky",
+                "kah-kiovid nenzipvikt",
+                "hiokad vindehr",
+                "gemorgouk gremzevzaka",
+                "jarvook rantamro",
+                "ho iaoy",
+                "tha kian",
+                "zatercul hisisqin",
+                "craintor gernoma",
+                "nehnim pudu",
+                "nisum shunon",
+                "agrim Featherbrace",
+                "dondim Dragonlance",
+                "egrim gron",
+                "vom velorsk",
+                "mogrom Ravenwhisper",
+                "rath Nosehammer",
+                "jemuziz jandrechuld"
+                "tiduf sathrab",
+                "drorloodjek gredzirgugi",
+                "bardet vatvelbe",
+                "ey zim",
+                "wap kun",
+                "chairtavier mosqadran",
+                "erte fovostes",
+                "eirdeim shake",
+                "nhabun khissar",
+                "gio Grandcrag",
+                "vigrirk Hawkbasher",
+                "agif rug",
+                "gal stirkadz",
+                "tradvar Moonhell",
+                "larth Shieldbluff",
+                "keovuek-dor dazuldruhr",
+                "tuhpu duldrud",
+                "kousvizaud rekivzomri",
+                "dethed zadovu",
+                "qiay pua",
+                "aw pue",
+                "craresti elalbu",
+                "chonchain mudrosqi"
+        };
+        */
+        }
+
+    public static void makeRooms(int n, HotelDB db, int hotelID, Hotel ht) {
         Random rnd = new Random();
         //int uniqueID = UUID.randomUUID().hashCode();
         for(int i = 0; i < n; i++) {
@@ -36,10 +278,11 @@ public class PopulateDatabase {
                     bools(),bools(),bools()
             );
             db.insertRoom(rm);
-            if (bools25()) bookTheRoom(db,hotelID,i);    // 25% of rooms are booked, can be adjusted
+            //if (bools25()) bookTheRoom(db,ht);    // 25% of rooms are booked, can be adjusted
         }
     }
-    public static void bookTheRoom(HotelDB db, int hotelID, int roomID) {
+
+    public static void bookTheRoom(HotelDB db, Hotel ht) {
         Random rnd = new Random();
         LocalDate loc = LocalDate.of(
                 rnd.nextInt(6) + 2017, // between 2017 - 2022
@@ -52,36 +295,21 @@ public class PopulateDatabase {
                 loc.plusDays(rnd.nextInt(10) + 1),
                 rnd.nextInt(8)+1
         );
-        //db.book();
-        /*
-        Random rnd = new Random();
-        int uniqueID = UUID.randomUUID().hashCode();
-        LocalDate loc = LocalDate.of(
-                rnd.nextInt(6) + 2017, // between 2017 - 2022
-                rnd.nextInt(12) + 1,        // between 1-12
-                rnd.nextInt(28) + 1);       // between 1-28,
-        Booking book = new Booking(
-                hotelID,
-                roomID,
-                uniqueID,
-                uniqueID,
+        db.book(
+                ht,
                 randomString(rnd.nextInt(13) + 7) + "@gmail.com",
-                randomString(rnd.nextInt(12) + 5),
-                loc,
-                loc.plusDays(rnd.nextInt(10) + 1) // between 1-10
-        );
-        db.insertBooking(book);
-
-       */
+                randomString(rnd.nextInt(13) + 7),
+                op
+                );
     }
     public static void makeHotels(int n, HotelDB db) {
         Random rnd = new Random();
         for(int i = 0; i < n; i++) {
             Hotel ht = new Hotel(
                     i,
-                    "hotelName" + i,
-                    "address" + i,
-                    "description" + i,
+                    hotelNames[rnd.nextInt(hotelNames.length)],
+                    hotelAddressess[rnd.nextInt(hotelAddressess.length)],
+                    hotelDescriptions[rnd.nextInt(hotelDescriptions.length)],
                     "src/images/hotel" + rnd.nextInt(16) + ".jpg",
                     rnd.nextInt(5)+1, // between 1-5 int
                     Math.round(((rnd.nextDouble(50) + 3) * 100)*10)/10, // between 3000 - 50000 isk
@@ -90,7 +318,7 @@ public class PopulateDatabase {
                     bools(),bools(),bools(),bools(),bools()
             );
             db.insertHotel(ht);
-            makeRooms(rnd.nextInt(291)+10,db,i);  // make all the rooms corresponding to the hotelID, between 10 and 300 rooms per hotel
+            makeRooms(rnd.nextInt(291)+10,db,i,ht);  // make all the rooms corresponding to the hotelID, between 10 and 300 rooms per hotel
 
         }
     }
@@ -100,7 +328,6 @@ public class PopulateDatabase {
         if (var == 1) return true;
         else return false;
     }
-
     private static boolean bools25() {
         Random rnd = new Random();
         int var = rnd.nextInt(4);
@@ -108,7 +335,7 @@ public class PopulateDatabase {
         else return false;
     }   // 25% chance we get true
     private static String randomString(int n) {
-        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
         for(int i = 0; i < n; i++) {
@@ -116,15 +343,11 @@ public class PopulateDatabase {
             char randomChar = alphabet.charAt(index);
             sb.append(randomChar);
         }
-        return sb + "@gmail.com";
+        return sb.toString();
     }
     public static void main(String[] args) {
        HotelDB db = new HotelDB();
-       makeHotels(10,db);
+       PopulateDatabase pop = new PopulateDatabase(100,db);    // til ad initializa oll nöfnin
+        pop.makeHotels(10,db);
     }
-
-
-// profa ad nota book i stadinn fyrir insertBooking? eða sleppa booking ef það er of mikið vesen.
-
-
 }
