@@ -464,9 +464,9 @@ public class PopulateDatabase {
                     hotelDescriptions[rnd.nextInt(hotelDescriptions.length)],
                     "src/images/hotel" + rnd.nextInt(16) + ".jpg",
                     rnd.nextInt(5)+1, // between 1-5 int
-                    Math.round(((rnd.nextDouble(50) + 3) * 100)*10)/10, // between 3000 - 50000 isk
-                    Math.round(rnd.nextDouble(3)*10)/10, // between 1 - 3 km?
-                    Math.round(rnd.nextDouble(3)*10)/10,
+                    (rnd.nextInt(47000) + 3000) , // between 3000 - 50000 isk       alltaf .0 í endann
+                    Math.round(rnd.nextDouble(3)*10.0)/10.0, // between 1 - 3 km?
+                    Math.round(rnd.nextDouble(3)*10.0)/10.0,
                     bools(),bools(),bools(),bools(),bools()
             );
             db.insertHotel(ht);
