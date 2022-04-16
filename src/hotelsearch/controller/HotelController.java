@@ -1,7 +1,6 @@
 package hotelsearch.controller;
 
 import hotelsearch.model.*;
-import sql.PopulateDatabase;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -97,12 +96,6 @@ public class HotelController {
      */
     public List<Booking> findBookings(String guestEmail) {
         return db.findBookings(guestEmail);
-    }
-
-    public void populateDatabase() {
-        PopulateDatabase pop = new PopulateDatabase(5, new HotelDB());      // feels wrong
-
-
     }
 
     public List<Hotel> orderByPriceAscending(List<Hotel> list) {
