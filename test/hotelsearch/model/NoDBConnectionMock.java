@@ -1,6 +1,5 @@
 package hotelsearch.model;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +17,13 @@ public class NoDBConnectionMock implements DatabaseService {
     }
 
     @Override
-    public void cancelBooking(int hotelID, int bookingID) throws SQLException {
-        throw new SQLException();
+    public boolean cancelBooking(int bookingID) {
+        return false;
     }
+
+    @Override
+    public List<Booking> findBookings(String guestEmail) {
+        return new ArrayList<>();
+    }
+
 }

@@ -16,7 +16,13 @@ public class UnsuccessfulDBSearchMock implements DatabaseService {
     }
 
     @Override
-    public void cancelBooking(int hotelID, int bookingID) {
+    public boolean cancelBooking(int bookingID) {
+        return false;
+    }
+
+    @Override
+    public List<Booking> findBookings(String guestEmail) {
+        return new ArrayList<>();
     }
 
 }

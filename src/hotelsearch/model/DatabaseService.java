@@ -1,6 +1,5 @@
 package hotelsearch.model;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface DatabaseService {
@@ -9,6 +8,8 @@ public interface DatabaseService {
 
     List<Booking> book(Hotel hotel, String guestEmail, String guestName, SearchOptions options);
 
-    void cancelBooking(int hotelID, int bookingID) throws SQLException;
+    boolean cancelBooking(int bookingID);
+
+    List<Booking> findBookings(String guestEmail);
 
 }
