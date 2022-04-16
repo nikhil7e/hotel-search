@@ -24,7 +24,7 @@ public class PopulateDatabase {
     public PopulateDatabase(int n, HotelDB db) {
         this.n = n;
         this.db = db;
-        String[] iceland_zipCode_city = new String[]{
+        iceland_zipCode_city= new String[]{
                 "101 Reykjavík",
                 "102 Reykjavík",
                 "103 Reykjavík",
@@ -460,7 +460,7 @@ public class PopulateDatabase {
             Hotel ht = new Hotel(
                     i,
                     hotelNames[rnd.nextInt(hotelNames.length)],
-                    hotelAddressess[rnd.nextInt(hotelAddressess.length)] + iceland_zipCode_city[rnd.nextInt(iceland_zipCode_city.length)],
+                    hotelAddressess[rnd.nextInt(hotelAddressess.length)] + ", " + iceland_zipCode_city[rnd.nextInt(iceland_zipCode_city.length)],
                     hotelDescriptions[rnd.nextInt(hotelDescriptions.length)],
                     "src/images/hotel" + rnd.nextInt(16) + ".jpg",
                     rnd.nextInt(5)+1, // between 1-5 int
