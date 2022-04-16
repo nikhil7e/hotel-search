@@ -247,9 +247,11 @@ public class HotelDB implements DatabaseService {
 
         List<Hotel> list = db.search(options);
         System.out.println();
-
+        /*
         HotelViewGUIMain h = new HotelViewGUIMain();
         h.showHotel(list.get(0));
+        */
+
 
         if (list.size() != 0) {
             db.book(list.get(0), "email", "name", options);

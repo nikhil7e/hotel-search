@@ -32,6 +32,7 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -41,9 +42,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearch.gui.HotelViewGUIController">
+<VBox prefHeight="500.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelsearch.gui.HotelGUIController">
     <AnchorPane prefHeight="500.0" prefWidth="550.0" VBox.vgrow="ALWAYS">
-        <Label fx:id="fxHotelName" alignment="CENTER" layoutX="14.0" layoutY="25.0" prefHeight="50.0" prefWidth="523.0" style="&#10;" text="fxHotelName" textAlignment="CENTER" textFill="#9f9f9f">
+        <Label fx:id="fxHotelName" alignment="CENTER" layoutX="-2.0" layoutY="25.0" prefHeight="50.0" prefWidth="238.0" style="&#10;" text="fxHotelName" textAlignment="CENTER" textFill="#9f9f9f">
             <font>
                 <Font size="18.0" />
             </font>
@@ -99,8 +100,18 @@
       </SplitPane>
       <Pane layoutX="299.0" layoutY="90.0" prefHeight="30.0" prefWidth="238.0">
          <children>
-            <Label prefHeight="30.0" prefWidth="240.0" text="Starting Price" />
+            <Label fx:id="fxStartingPrice" prefHeight="30.0" prefWidth="240.0" text="Starting Price" />
          </children>
       </Pane>
+      <Button fx:id="fxBook" layoutX="395.0" layoutY="28.0" mnemonicParsing="false" onAction="#bookHandler" prefHeight="41.0" prefWidth="142.0" text="Book" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+      <Button fx:id="fxBack" layoutX="237.0" layoutY="28.0" mnemonicParsing="false" onAction="#backHandler" prefHeight="41.0" prefWidth="142.0" text="Back" textAlignment="CENTER">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
     </AnchorPane>
 </VBox>

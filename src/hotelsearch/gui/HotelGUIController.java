@@ -30,6 +30,8 @@ import java.util.ResourceBundle;
 
 public class HotelGUIController implements Initializable {
 
+    // FXML Objects for HotelGUI.fxml
+
     @FXML
     private DatePicker fxDateIn;
     @FXML
@@ -67,7 +69,54 @@ public class HotelGUIController implements Initializable {
     @FXML
     private javafx.scene.control.TableColumn<Hotel, Boolean> fxWifiColumn;
 
+    // FXML Objects for HotelViewGUI.fxml
+
+    @FXML
+    private Label fxHotelName;
+
+    @FXML
+    private Label fxHotelReview;
+
+    @FXML
+    private ImageView fxHotelImage;
+
+    @FXML
+    private ImageView fxStars;
+
+    @FXML
+    private Label fxDownTown;
+
+    @FXML
+    private Label fxSuperMarket;
+
+    @FXML
+    private CheckBox fxRestaurant;
+
+    @FXML
+    private CheckBox fxBreakfast;
+
+    @FXML
+    private CheckBox fxBar;
+
+    @FXML
+    private CheckBox fxFreeWifi;
+
+    @FXML
+    private Label fxStartingPrice;
+
+    @FXML
+    private Button fxBook;
+
+    @FXML
+    private Button fxBack;
+
+
+
+
+
     HotelDB test = new HotelDB();
+
+
 
     ObservableList<Hotel> hotelObservableList = FXCollections.observableArrayList();
 
@@ -93,26 +142,100 @@ public class HotelGUIController implements Initializable {
         fxHotelTable.setItems(hotelObservableList);
     }
 
+    public void bookHandler(ActionEvent actionEvent) {
+    }
+
+    public void backHandler(ActionEvent actionEvent) {
+        fxHotelName.getScene().getWindow().hide();
+
+    }
+
     public void showHotelHandler(ActionEvent actionEvent) {
-        Hotel hotel = fxHotelTable.getSelectionModel().getSelectedItem();
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("HotelViewGUI.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        HotelViewGUIController controller = loader.getController();
-
-        controller.displayHotel(hotel);
 
         Stage stage = new Stage();
 
-        stage.setTitle("HotelSearch");
+
+        Hotel hotel = fxHotelTable.getSelectionModel().getSelectedItem();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("HotelViewGUI.fxml"));
+
+
+
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        HotelGUIController controller = loader.getController();
+        Parent root = loader.getRoot();
+
+        controller.displayHotel(hotel);
+
+
+
         Scene scene = new Scene(root, 550, 500);
         stage.setScene(scene);
-        stage.show();
+        Stage notPrimaryStage = stage;
+        notPrimaryStage.showAndWait();
     }
+
+    public void displayHotel(Hotel hotel) {
+        if (hotel.getName() != null) {
+            fxHotelName.setText(hotel.getName());
+        }
+        if (hotel.getDescription() != null) {
+            fxHotelReview.setText(hotel.getDescription());
+        }
+        if (hotel.getImage() != null) {
+            fxHotelImage.setImage(hotel.getImage());
+        }
+        if (hotel.getNumberOfStars() >= 1 && hotel.getNumberOfStars() <= 5) {
+            switch (hotel.getNumberOfStars()) {
+                case 1:
+                    fxStars.setImage(new Image("/images/OneStar.png"));
+                    break;
+                case 2:
+                    fxStars.setImage(new Image("/images/TwoStars.png"));
+                    break;
+                case 3:
+                    fxStars.setImage(new Image("/images/ThreeStars.png"));
+                    break;
+                case 4:
+                    fxStars.setImage(new Image("/images/FourStars.png"));
+                    break;
+                case 5:
+                    fxStars.setImage(new Image("/images/FiveStars.png"));
+                    break;
+            }
+        }
+        if (hotel.getRestaurant()) {
+            fxRestaurant.setSelected(true);
+        }
+        fxRestaurant.setDisable(true);
+        if (hotel.getBreakfastIncluded()) {
+            fxBreakfast.setSelected(true);
+        }
+        fxBreakfast.setDisable(true);
+        if (hotel.getBar()) {
+            fxBar.setSelected(true);
+        }
+        fxBar.setDisable(true);
+        if (hotel.getFreeWifi()) {
+            fxFreeWifi.setSelected(true);
+        }
+        fxFreeWifi.setDisable(true);
+
+
+        if (hotel.getDistanceFromDowntown() >= 0) {
+            fxDownTown.setText("Distance from down town is " + hotel.getDistanceFromDowntown() + " Km");
+        }
+        if (hotel.getDistanceFromSupermarket() >= 0) {
+            fxSuperMarket.setText("Distance from the supermarket is " + hotel.getDistanceFromSupermarket() + " Km");
+        }
+        if (hotel.getStartingRoomPrice() > 0) {
+            fxStartingPrice.setText("The starting price for a room here is " + hotel.getStartingRoomPrice() + " ISK");
+        }
+    }
+
 }
