@@ -14,7 +14,7 @@ public class HotelGUIMain extends Application {
         Parent root = loader.load();
         HotelGUIController sc = loader.getController();
         primaryStage.setTitle("HotelSearch");
-        Scene scene = new Scene(root, 1000, 550);
+        Scene scene = new Scene(root, 1150, 700);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
