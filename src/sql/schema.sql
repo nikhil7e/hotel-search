@@ -10,7 +10,7 @@ CREATE TABLE Hotel
     address                 varchar(1000),
     description             varchar(10000),
     imageURL                varchar(1000),
-    numberOfStars           int CHECK (numberOfStars IN (0, 5)),
+    numberOfStars           int,                     -- CHECK (numberOfStars IN (0, 5)),
     startingRoomPrice       double,
     distanceFromDowntown    double,
     distanceFromSupermarket double,
@@ -21,14 +21,14 @@ CREATE TABLE Hotel
     featured                BOOLEAN CHECK (featured IN (0, 1)),
     primary key (hotelID)
 );
-
+/*
 insert into Hotel
 values (1, 'Test1', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
 insert into Hotel
 values (2, 'Test2', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 1);
 insert into Hotel
 values (3, 'Test3', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
-
+*/
 CREATE TABLE Room
 (
     hotelID         int,
@@ -41,7 +41,7 @@ CREATE TABLE Room
     primary key (hotelID, roomID),
     foreign key (hotelID) references Hotel (hotelID)
 );
-
+/*
 insert into Room
 values (1, 1, 4, 1, 1, 1, 1);
 insert into Room
@@ -58,6 +58,8 @@ insert into Room
 values (3, 1, 2, 1, 1, 1, 1);
 insert into Room
 values (3, 2, 2, 1, 1, 1, 1);
+*/
+
 
 CREATE TABLE Booking
 (
@@ -73,6 +75,7 @@ CREATE TABLE Booking
     foreign key (hotelID, roomID) references Room (hotelID, roomID)
 );
 
+/*
 insert into Booking
 values (1, 1, 1, 1, 'a', 'test', date('2022-04-01'), date('2022-04-28'));
 insert into Booking
@@ -83,7 +86,7 @@ insert into Booking
 values (2, 1, 4, 2, 'd', 'test', date('2022-04-16'), date('2022-04-28'));
 insert into Booking
 values (3, 2, 5, 3, 'e', 'test', date('2022-06-01'), date('2022-06-15'));
-
+*/
 
 /* SQL search query with example parameters
 select * from Hotel where Hotel.address like '% Reykjavík' and Hotel.name like '%' and (
