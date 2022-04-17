@@ -421,7 +421,14 @@ public class PopulateDatabase {
     public static void makeRooms(int n, HotelDB db, int hotelID, Hotel ht, int startingRoomPrice) {
         Random rnd = new Random();
         //int uniqueID = UUID.randomUUID().hashCode();
-        for(int i = 0; i < n; i++) {
+        db.insertRoom(new Room(
+                0,       // should just be = i
+                hotelID,
+                rnd.nextInt(5) + 1, // between 1 and 4 beds
+                startingRoomPrice,
+                bools(),bools(),bools()
+        ));
+        for(int i = 1; i < n; i++) {
             Room rm = new Room(
                     i,       // should just be = i
                     hotelID,
