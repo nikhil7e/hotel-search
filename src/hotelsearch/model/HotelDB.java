@@ -281,7 +281,7 @@ public class HotelDB implements DatabaseService {
     }
 
     // no modifier so package visible
-    boolean insertHotel(Hotel hotel) {
+    public boolean insertHotel(Hotel hotel) {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -321,7 +321,7 @@ public class HotelDB implements DatabaseService {
         return true;
     }
 
-    boolean insertRoom(Room room) {
+    public boolean insertRoom(Room room) {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -355,7 +355,7 @@ public class HotelDB implements DatabaseService {
     }
 
     // no modifier so package visible
-    boolean insertBooking(Booking booking) {
+    public boolean insertBooking(Booking booking) {
         try {
             Class.forName("org.sqlite.JDBC");
         } catch (ClassNotFoundException e) {
@@ -389,7 +389,9 @@ public class HotelDB implements DatabaseService {
         return true;
     }
 
+
     public static void main(String[] args) {
+        /*
         HotelDB db = new HotelDB();
         SearchOptions options = new SearchOptions("Reykjavík", "",
                 LocalDate.of(2023, 4, 16),
@@ -405,6 +407,7 @@ public class HotelDB implements DatabaseService {
         System.out.println();
         List<Hotel> list = db.search(options);
         System.out.println();
+
         if (list.size() != 0) {
             List<Booking> bookingList = db.book(list.get(0), "email", "name", options);
             System.out.println();
@@ -419,6 +422,7 @@ public class HotelDB implements DatabaseService {
         db.findBookings("email");
         System.out.println();
 
+
         Hotel test = new Hotel(123, "Tesvwegt", "1st street, 101 Reykjavík",
                 "Description", "images/hotel1.jpg", 5, 2,
                 1, 1, true, true, true, true,
@@ -428,6 +432,7 @@ public class HotelDB implements DatabaseService {
         db.insertHotel(test);
         db.insertRoom(room);
         db.book(test, "seah@seg.is", "aseg", options);
+    */
     }
 
 }

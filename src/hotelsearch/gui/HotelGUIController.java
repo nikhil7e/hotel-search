@@ -1,6 +1,7 @@
 package hotelsearch.gui;
 
 import hotelsearch.controller.HotelController;
+import hotelsearch.model.Booking;
 import hotelsearch.model.Hotel;
 import hotelsearch.model.HotelDB;
 import hotelsearch.model.SearchOptions;
@@ -8,15 +9,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -25,6 +30,11 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class HotelGUIController implements Initializable {
+
+    // FXML Objects for HotelGUI.fxml
+
+    @FXML
+    private Button fxSearchButton;
     @FXML
     private DatePicker fxDateIn;
     @FXML
@@ -64,6 +74,80 @@ public class HotelGUIController implements Initializable {
     @FXML
     private javafx.scene.control.TableColumn<Hotel, Boolean> fxFeaturedColumn;
 
+    // FXML Objects for HotelViewGUI.fxml
+
+    @FXML
+    private Label fxHotelName;
+
+    @FXML
+    private Label fxHotelReview;
+
+    @FXML
+    private ImageView fxHotelImage;
+
+    @FXML
+    private ImageView fxStars;
+
+    @FXML
+    private Label fxDownTown;
+
+    @FXML
+    private Label fxSuperMarket;
+
+    @FXML
+    private CheckBox fxRestaurant;
+
+    @FXML
+    private CheckBox fxBreakfast;
+
+    @FXML
+    private CheckBox fxBar;
+
+    @FXML
+    private CheckBox fxFreeWifi;
+
+    @FXML
+    private Label fxStartingPrice;
+
+    @FXML
+    private Button fxBack;
+
+
+    // FXML Object for Booking.fxml
+
+    @FXML
+    private TextField fxBookingTextfieldEmail;
+
+    @FXML
+    private TextField fxBookingTextfieldName;
+
+    @FXML
+    private Label fxBookingLabelWarningEmail;
+
+    @FXML
+    private Label fxBookingLabelWarningName;
+
+    @FXML
+    private Label fxBookingLabelEmail;
+
+    @FXML
+    private Label fxBookingLabelName;
+
+    @FXML
+    private Button fxBookingButton;
+
+    @FXML
+    private DatePicker fxBookingArraivalDate;
+
+    @FXML
+    private DatePicker fxBookingDepartureDate;
+
+
+    @FXML
+    private TextField fxBookingNumberGuestsTextfield;
+
+    HotelDB test = new HotelDB();
+
     private List<Hotel> list;
 
     HotelController controller = new HotelController(new HotelDB());
@@ -72,28 +156,109 @@ public class HotelGUIController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fxImageColumn.setCellValueFactory(new PropertyValueFactory<>("imageURL"));
-        fxIDColumn.setCellValueFactory(new PropertyValueFactory<>("hotelID"));
-        fxLocationColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        fxStarsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfStars"));
-        fxDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-        fxRoomPriceColumn.setCellValueFactory(new PropertyValueFactory<>("startingRoomPrice"));
-        fxDFDowntownColumn.setCellValueFactory(new PropertyValueFactory<>("distanceFromDowntown"));
-        fxDFSupermarketColumn.setCellValueFactory(new PropertyValueFactory<>("distanceFromSupermarket"));
-        fxRestaurantColumn.setCellValueFactory(new PropertyValueFactory<>("restaurant"));
-        fxBreakfastColumn.setCellValueFactory(new PropertyValueFactory<>("breakfastIncluded"));
-        fxBarColumn.setCellValueFactory(new PropertyValueFactory<>("bar"));
-        fxWifiColumn.setCellValueFactory(new PropertyValueFactory<>("freeWifi"));
-        fxFeaturedColumn.setCellValueFactory(new PropertyValueFactory<>("featured"));
-
-        fxHotelTable.setOnMouseClicked((MouseEvent event) -> {
-            if(event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2){
-                //TODO - Láta þetta sýna viðeigandi Hotel Scene.
-                System.out.println("Working");
-            }
-        });
+        if (fxHotelTable != null) {
+            fxImageColumn.setCellValueFactory(new PropertyValueFactory<>("imageURL"));
+            fxIDColumn.setCellValueFactory(new PropertyValueFactory<>("hotelID"));
+            fxLocationColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            fxStarsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfStars"));
+            fxDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+            fxRoomPriceColumn.setCellValueFactory(new PropertyValueFactory<>("startingRoomPrice"));
+            fxDFDowntownColumn.setCellValueFactory(new PropertyValueFactory<>("distanceFromDowntown"));
+            fxDFSupermarketColumn.setCellValueFactory(new PropertyValueFactory<>("distanceFromSupermarket"));
+            fxRestaurantColumn.setCellValueFactory(new PropertyValueFactory<>("restaurant"));
+            fxBreakfastColumn.setCellValueFactory(new PropertyValueFactory<>("breakfastIncluded"));
+            fxBarColumn.setCellValueFactory(new PropertyValueFactory<>("bar"));
+            fxWifiColumn.setCellValueFactory(new PropertyValueFactory<>("freeWifi"));
+            fxFeaturedColumn.setCellValueFactory(new PropertyValueFactory<>("featured"));
+        }
+        if (fxHotelTable != null) {
+            fxHotelTable.setOnMouseClicked((MouseEvent event) -> {
+                if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
+                    Stage stage = new Stage();
+                    Hotel hotel = fxHotelTable.getSelectionModel().getSelectedItem();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("HotelViewGUI.fxml"));
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    HotelGUIController controller = loader.getController();
+                    Parent root = loader.getRoot();
+                    controller.displayHotel(hotel);
+                    Scene scene = new Scene(root, 550, 500);
+                    stage.setScene(scene);
+                    stage.showAndWait();
+                }
+            });
+        }
     }
 
+    // Handlers for BookingGUI.fxml
+
+    @FXML
+    void bookingBookHandler(ActionEvent event) {
+        fxBookingTextfieldName.getScene().getWindow().hide();
+    }
+
+    @FXML
+    void bookingBackHandler(ActionEvent actionEvent) {
+        fxBookingTextfieldEmail.setText("");
+        fxBookingTextfieldName.setText("");
+        fxBookingTextfieldName.getScene().getWindow().hide();
+    }
+
+    // Handler for HotelGUI.fxml
+    @FXML
+    public void bookHandler() {
+        Hotel hotel = fxHotelTable.getSelectionModel().getSelectedItem();
+        /*
+        LocalDate arrivalDate = fxDateIn.getValue();
+        LocalDate departureDate = fxDateOut.getValue();
+        String numberOfGuests = fxNrOfGuests.getText();
+         */
+        Stage stage = new Stage();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("BookingGUI.fxml"));
+
+
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Parent root = loader.getRoot();
+
+        Scene scene = new Scene(root, 500, 300);
+        stage.setScene(scene);
+
+        HotelGUIController controller = loader.getController();
+        /*
+        controller.fxBookingArraivalDate.setValue(arrivalDate);
+        controller.fxBookingDepartureDate.setValue(departureDate);
+        controller.fxBookingNumberGuestsTextfield.setText(numberOfGuests);
+         */
+
+        stage.showAndWait();
+
+
+        if (!(controller.fxBookingTextfieldEmail.getText().equals("") || controller.fxBookingTextfieldName.getText().equals(""))) {
+            test.book(
+                    hotel,
+                    controller.fxBookingTextfieldEmail.getText(),
+                    controller.fxBookingTextfieldName.getText(),
+                    new SearchOptions(hotel.getAddress(),
+                    hotel.getName(),
+                    controller.fxBookingArraivalDate.getValue(),
+                    controller.fxBookingDepartureDate.getValue(),
+                    Integer.parseInt(controller.fxBookingNumberGuestsTextfield.getText()))
+            );
+        }
+        fxSearchButton.fire();
+    }
+
+    // Handlers for HotelGUI
+    @FXML
     public void searchHandler(ActionEvent actionEvent) throws SQLException {
         LocalDate dateIn = fxDateIn.getValue();
         LocalDate dateOut = fxDateOut.getValue();
@@ -104,6 +269,73 @@ public class HotelGUIController implements Initializable {
         hotelObservableList.clear();
         hotelObservableList.addAll(list);
         fxHotelTable.setItems(hotelObservableList);
+    }
+
+    // Handler for HotelViewGUI
+    @FXML
+    public void backHandler(ActionEvent actionEvent) {
+        fxHotelName.getScene().getWindow().hide();
+    }
+
+    // General methods
+
+    public void displayHotel(Hotel hotel) {
+        if (hotel.getName() != null) {
+            fxHotelName.setText(hotel.getName());
+        }
+        if (hotel.getDescription() != null) {
+            fxHotelReview.setText(hotel.getDescription());
+        }
+        if (hotel.getImageURL() != null) {
+            fxHotelImage.setImage(new Image(hotel.getImageURL()));
+            System.out.println(hotel.getImageURL());
+        }
+        if (hotel.getNumberOfStars() >= 1 && hotel.getNumberOfStars() <= 5) {
+            switch (hotel.getNumberOfStars()) {
+                case 1:
+                    fxStars.setImage(new Image("images/OneStar.png"));
+                    break;
+                case 2:
+                    fxStars.setImage(new Image("images/TwoStars.png"));
+                    break;
+                case 3:
+                    fxStars.setImage(new Image("images/ThreeStars.png"));
+                    break;
+                case 4:
+                    fxStars.setImage(new Image("images/FourStars.png"));
+                    break;
+                case 5:
+                    fxStars.setImage(new Image("images/FiveStars.png"));
+                    break;
+            }
+        }
+        if (hotel.getRestaurant()) {
+            fxRestaurant.setSelected(true);
+        }
+        fxRestaurant.setDisable(true);
+        if (hotel.getBreakfastIncluded()) {
+            fxBreakfast.setSelected(true);
+        }
+        fxBreakfast.setDisable(true);
+        if (hotel.getBar()) {
+            fxBar.setSelected(true);
+        }
+        fxBar.setDisable(true);
+        if (hotel.getFreeWifi()) {
+            fxFreeWifi.setSelected(true);
+        }
+        fxFreeWifi.setDisable(true);
+
+
+        if (hotel.getDistanceFromDowntown() >= 0) {
+            fxDownTown.setText("Distance from down town is " + hotel.getDistanceFromDowntown() + " Km");
+        }
+        if (hotel.getDistanceFromSupermarket() >= 0) {
+            fxSuperMarket.setText("Distance from the supermarket is " + hotel.getDistanceFromSupermarket() + " Km");
+        }
+        if (hotel.getStartingRoomPrice() > 0) {
+            fxStartingPrice.setText("The starting price for a room here is " + hotel.getStartingRoomPrice() + " ISK");
+        }
     }
 
     public List<Hotel> orderByPriceAscending(List<Hotel> list) {
@@ -290,4 +522,5 @@ public class HotelGUIController implements Initializable {
         hotelObservableList.addAll(newList);
         fxHotelTable.setItems(hotelObservableList);
     }
+
 }
