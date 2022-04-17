@@ -418,7 +418,7 @@ public class PopulateDatabase {
         */
         }
 
-    public static void makeRooms(int n, HotelDB db, int hotelID, Hotel ht) {
+    public static void makeRooms(int n, HotelDB db, int hotelID, Hotel ht, int startingRoomPrice) {
         Random rnd = new Random();
         //int uniqueID = UUID.randomUUID().hashCode();
         for(int i = 0; i < n; i++) {
@@ -426,7 +426,7 @@ public class PopulateDatabase {
                     i,       // should just be = i
                     hotelID,
                     rnd.nextInt(5) + 1, // between 1 and 4 beds
-                    (rnd.nextInt(50) + 3) * 100, // between 3000 - 40000 isk
+                    startingRoomPrice + (rnd.nextInt(50) + 3) * 100, // startingroom + between 3000 - 500000 isk
                     bools(),bools(),bools()
             );
             db.insertRoom(rm);
@@ -456,7 +456,9 @@ public class PopulateDatabase {
     }
     public static void makeHotels(int n, HotelDB db) {
         Random rnd = new Random();
+        int startingRoomPrice;
         for(int i = 0; i < n; i++) {
+            startingRoomPrice = rnd.nextInt(rnd.nextInt(47000) + 3000);
             Hotel ht = new Hotel(
                     i,
                     hotelNames[rnd.nextInt(hotelNames.length)],
@@ -464,13 +466,13 @@ public class PopulateDatabase {
                     hotelDescriptions[rnd.nextInt(hotelDescriptions.length)],
                     "src/images/hotel" + rnd.nextInt(16) + ".jpg",
                     rnd.nextInt(5)+1, // between 1-5 int
-                    (rnd.nextInt(47000) + 3000) , // between 3000 - 50000 isk       alltaf .0 í endann
+                    startingRoomPrice,
                     Math.round((rnd.nextDouble()+1)*10.0+3)/10.0, // between 1 - 3 km?
                     Math.round((rnd.nextDouble()+1)*10.0+3)/10.0,
                     bools(),bools(),bools(),bools(),bools()
             );
             db.insertHotel(ht);
-            makeRooms(rnd.nextInt(291)+10,db,i,ht);  // make all the rooms corresponding to the hotelID, between 10 and 300 rooms per hotel
+            makeRooms(rnd.nextInt(291)+10,db,i,ht,startingRoomPrice);  // make all the rooms corresponding to the hotelID, between 10 and 300 rooms per hotel
 
         }
     }
