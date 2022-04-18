@@ -64,7 +64,7 @@ public class HotelDB implements DatabaseService {
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
-            System.out.println("Hotel search results:");
+            // System.out.println("Hotel search results:");
 
             while (rs.next()) {
                 Hotel hotel = new Hotel(rs.getInt("hotelID"),
@@ -76,7 +76,7 @@ public class HotelDB implements DatabaseService {
                 hotelList.add(hotel);
 
                 // TODO remove once testing is no longer needed
-                System.out.println("Name: " + rs.getString("name"));
+                // System.out.println("Name: " + rs.getString("name"));
             }
 
             rs.close();
@@ -138,7 +138,7 @@ public class HotelDB implements DatabaseService {
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
-            System.out.println("Booking results for hotel " + hotel.getName() + ":");
+            // System.out.println("Booking results for hotel " + hotel.getName() + ":");
 
             // get largest bookingID and bookingTransactionID to create new unique ones
             PreparedStatement idStatement = connection.prepareStatement(
@@ -170,10 +170,12 @@ public class HotelDB implements DatabaseService {
                 guestsRemaining -= rs.getInt("nrBeds");
 
                 // TODO remove once testing is no longer needed
+                /*
                 System.out.println("Booking added: HotelID " + hotel.getHotelID() + ", name " + hotel.getName()
                         + ", roomID " + rs.getInt("roomID") + ", bookingID " + (bookingID - 1) +
                         ", bookingTransactionID " + bookingTransactionID + ", nrBeds " + rs.getInt("nrBeds") +
                         ", total nrGuests to book " + options.getNrGuests());
+                 */
             }
 
             rs.close();
@@ -249,7 +251,6 @@ public class HotelDB implements DatabaseService {
         List<Booking> bookingList = new ArrayList<>();
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:src/sql/hotel-search.db");
-            // TODO order by nrBeds asc rather? Maybe even find a better solution?
             PreparedStatement statement = connection.prepareStatement(
                     "select * from Booking where Booking.guestEmail = ?");
             statement.clearParameters();
