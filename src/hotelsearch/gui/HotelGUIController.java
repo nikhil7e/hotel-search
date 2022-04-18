@@ -1,7 +1,6 @@
 package hotelsearch.gui;
 
 import hotelsearch.controller.HotelController;
-import hotelsearch.model.Booking;
 import hotelsearch.model.Hotel;
 import hotelsearch.model.HotelDB;
 import hotelsearch.model.SearchOptions;
@@ -23,7 +22,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,10 +107,6 @@ public class HotelGUIController implements Initializable {
     @FXML
     private Label fxStartingPrice;
 
-    @FXML
-    private Button fxBack;
-
-
     // FXML Object for Booking.fxml
 
     @FXML
@@ -122,22 +116,7 @@ public class HotelGUIController implements Initializable {
     private TextField fxBookingTextfieldName;
 
     @FXML
-    private Label fxBookingLabelWarningEmail;
-
-    @FXML
-    private Label fxBookingLabelWarningName;
-
-    @FXML
-    private Label fxBookingLabelEmail;
-
-    @FXML
-    private Label fxBookingLabelName;
-
-    @FXML
-    private Button fxBookingButton;
-
-    @FXML
-    private DatePicker fxBookingArraivalDate;
+    private DatePicker fxBookingArrivalDate;
 
     @FXML
     private DatePicker fxBookingDepartureDate;
@@ -249,7 +228,7 @@ public class HotelGUIController implements Initializable {
                     controller.fxBookingTextfieldName.getText(),
                     new SearchOptions(hotel.getAddress(),
                     hotel.getName(),
-                    controller.fxBookingArraivalDate.getValue(),
+                    controller.fxBookingArrivalDate.getValue(),
                     controller.fxBookingDepartureDate.getValue(),
                     Integer.parseInt(controller.fxBookingNumberGuestsTextfield.getText()))
             );
@@ -259,7 +238,7 @@ public class HotelGUIController implements Initializable {
 
     // Handlers for HotelGUI
     @FXML
-    public void searchHandler(ActionEvent actionEvent) throws SQLException {
+    public void searchHandler(ActionEvent actionEvent) {
         LocalDate dateIn = fxDateIn.getValue();
         LocalDate dateOut = fxDateOut.getValue();
         String city = fxCity.getText();

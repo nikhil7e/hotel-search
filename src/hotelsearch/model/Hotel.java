@@ -21,17 +21,17 @@ public class Hotel {
     /**
      * Constructor for the class Hotel.
      *
-     * @param hotelID                 The ID of the hotel.
-     * @param name                    The name of the hotel.
+     * @param hotelID                 The ID of the hotel
+     * @param name                    The name of the hotel
      * @param address                 The address of the hotel with format "street, ..., postal code  city",
-     *                                i.e. "1st street, 101 Reykjavík".
-     * @param description             A description of the hotel.
+     *                                i.e. "1st street, 101 Reykjavík"
+     * @param description             A description of the hotel
      * @param imageURL                The path to the image of the hotel with format "images/x.imageType", where x is
      *                                any image and imageType is the image type of the image.
-     * @param numberOfStars           The rating of the hotel.
+     * @param numberOfStars           The rating of the hotel
      * @param startingRoomPrice       The lowest room price for a night stay in the hotel.
      * @param distanceFromDowntown    The distance the hotel is from the downtown area in the city/town it is located.
-     * @param distanceFromSupermarket The distance the hotel is from the nearest supermarket.
+     * @param distanceFromSupermarket The distance the hotel is from the nearest supermarket
      * @param restaurant              Indicates whether the hotel contains a restaurant
      * @param breakfastIncluded       Indicates whether the breakfast cost is included for the hotel
      * @param freeWifi                Indicates whether the hotel offers Wi-Fi free of charge

@@ -11,20 +11,18 @@ import java.util.Random;
 public class PopulateDatabase {
 
     private int n;
-    private HotelDB db;
 
 
-        public static String[] hotelNames;         // webScraping ! eða handavinna
-        public static String[] hotelAddressess;    // webScraping ! eða handavinna
-        public static String[] hotelDescriptions;  // webScraping ! eða handavinna
-        //public static String[] peopleNames;
+    public static String[] hotelNames;
+    public static String[] hotelAddressess;
+    public static String[] hotelDescriptions;
+    //public static String[] peopleNames;
 
-        public static String[] iceland_zipCode_city;
+    public static String[] iceland_zipCode_city;
 
-    public PopulateDatabase(int n, HotelDB db) {
+    public PopulateDatabase(int n) {
         this.n = n;
-        this.db = db;
-        iceland_zipCode_city= new String[]{
+        iceland_zipCode_city = new String[]{
                 "101 Reykjavík",
                 "102 Reykjavík",
                 "103 Reykjavík",
@@ -176,7 +174,7 @@ public class PopulateDatabase {
                 "902 Vestmannaeyjar",
         };
 
-        hotelNames = new String[] {
+        hotelNames = new String[]{
                 "Sapphire Point Hotel",
                 "White Wolf Resort",
                 "King's Lodge Resort",
@@ -230,7 +228,7 @@ public class PopulateDatabase {
                 "Paradise Hotel & Spa",
                 "Ocean Motel"
         };
-        hotelAddressess = new String[] {
+        hotelAddressess = new String[]{
                 "777 Brockton Avenue,",
                 "30 Memorial Drive,",
                 "250 Hartford Avenue",
@@ -273,7 +271,7 @@ public class PopulateDatabase {
                 "550 Providence Hwy",
                 "352 Palmer Road",
                 "3005 Cranberry Hwy Rt 6 28",
-                "250 Rt 59","Airmont",
+                "250 Rt 59", "Airmont",
                 "141 Washington Ave Extension",
                 "13858 Rt 31 W",
                 "2055 Niagara Falls Blvd",
@@ -345,24 +343,24 @@ public class PopulateDatabase {
         };
 
         // bokstaflega bara rugl
-        hotelDescriptions = new String[] {
+        hotelDescriptions = new String[]{
                 "Maintaining, repairing, or restoring your home as provided by this license includes the following:",
-        "Performing a home maintenance task: cleaning or repairing your kitchen or closets",
-        "Restoring any items or items stolen or lost during the storage of items held in your home",
-        "Removing items from your home",
-        "Removing items from unclaimed areas like bathrooms or closets.",
+                "Performing a home maintenance task: cleaning or repairing your kitchen or closets",
+                "Restoring any items or items stolen or lost during the storage of items held in your home",
+                "Removing items from your home",
+                "Removing items from unclaimed areas like bathrooms or closets.",
                 "Performing a home maintenance task at a place of worship or temple includes providing your house with a bath, spa, or public building.",
-        "Performing a home maintenance task at:",
-        "Any place or space that has a water supply system of a plumbing, sanitary, electric, heating or cooling type (see list below)",
-        "Any area that meets any of the requirements of Section 30.01 to 30.01",
-        "Any area that is required by Subpart D or Section 35.15, to provide adequate care for people who are homeless, injured, or blind or with epilepsy or a disability. (See list below)",
-        "Performing your home maintenance tasks at a community place or a church will prevent items from falling from the walls or ceiling, making it impossible to retrieve them if items are damaged or missing.",
+                "Performing a home maintenance task at:",
+                "Any place or space that has a water supply system of a plumbing, sanitary, electric, heating or cooling type (see list below)",
+                "Any area that meets any of the requirements of Section 30.01 to 30.01",
+                "Any area that is required by Subpart D or Section 35.15, to provide adequate care for people who are homeless, injured, or blind or with epilepsy or a disability. (See list below)",
+                "Performing your home maintenance tasks at a community place or a church will prevent items from falling from the walls or ceiling, making it impossible to retrieve them if items are damaged or missing.",
                 "Removing items from your home (or from a place of worship) includes the following:",
-        "Removing items stored in or under a structure (including, but not limited to, a garage",
+                "Removing items stored in or under a structure (including, but not limited to, a garage",
                 "My family had an excellent child while he was out there and we haven't tried to do anything to improve his. We've always looked for things to bring to him, some things to give him comfort and to help him think about what is in his heart. It's never been the same.",
-        "At first we never even thought about the idea of taking more children to school. But soon thereafter we realised that we could bring an opportunity to their lives by the way they were raised and that we had a big impact. I'm grateful that someone like me raised this generation of kids here and that the other people are seeing the same. They have given me a special responsibility to do what is right for my daughter and our country - I'm honored to be part of their lives.",
-        "We'll do our part to make sure that he's aware of the fact that kids are different to what they are. We won't wait for him to get his own home and to start loving the idea of education. And that was the first thing we did.",
-        "The concept behind BJJ will revolutionise education in India. The idea is to connect children with the teachers who will bring them a home and start their own. Everyone has to think about BJJ and they must think about their children. This will help them,"
+                "At first we never even thought about the idea of taking more children to school. But soon thereafter we realised that we could bring an opportunity to their lives by the way they were raised and that we had a big impact. I'm grateful that someone like me raised this generation of kids here and that the other people are seeing the same. They have given me a special responsibility to do what is right for my daughter and our country - I'm honored to be part of their lives.",
+                "We'll do our part to make sure that he's aware of the fact that kids are different to what they are. We won't wait for him to get his own home and to start loving the idea of education. And that was the first thing we did.",
+                "The concept behind BJJ will revolutionise education in India. The idea is to connect children with the teachers who will bring them a home and start their own. Everyone has to think about BJJ and they must think about their children. This will help them,"
         };
         /*
         peopleNames = new String[] {
@@ -416,25 +414,25 @@ public class PopulateDatabase {
                 "chonchain mudrosqi"
         };
         */
-        }
+    }
 
     public static void makeRooms(int n, HotelDB db, int hotelID, Hotel ht, int startingRoomPrice) {
         Random rnd = new Random();
-        //int uniqueID = UUID.randomUUID().hashCode();
+        // int uniqueID = UUID.randomUUID().hashCode();
         db.insertRoom(new Room(
                 0,       // should just be = i
                 hotelID,
                 rnd.nextInt(5) + 1, // between 1 and 4 beds
                 startingRoomPrice,
-                bools(),bools(),bools()
+                bools(), bools(), bools()
         ));
-        for(int i = 1; i < n; i++) {
+        for (int i = 1; i < n; i++) {
             Room rm = new Room(
                     i,       // should just be = i
                     hotelID,
                     rnd.nextInt(5) + 1, // between 1 and 4 beds
                     startingRoomPrice + (rnd.nextInt(50) + 3) * 100, // startingroom + between 3000 - 500000 isk
-                    bools(),bools(),bools()
+                    bools(), bools(), bools()
             );
             db.insertRoom(rm);
             //if (bools25()) bookTheRoom(db,ht);    // 25% of rooms are booked, can be adjusted
@@ -452,63 +450,66 @@ public class PopulateDatabase {
                 randomString(rnd.nextInt(13) + 7),  // NAME
                 loc,
                 loc.plusDays(rnd.nextInt(10) + 1),
-                rnd.nextInt(8)+1
+                rnd.nextInt(8) + 1
         );
         db.book(
                 ht,
                 randomString(rnd.nextInt(13) + 7) + "@gmail.com",
                 randomString(rnd.nextInt(13) + 7),
                 op
-                );
+        );
     }
+
     public static void makeHotels(int n, HotelDB db) {
         Random rnd = new Random();
         int startingRoomPrice;
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             startingRoomPrice = rnd.nextInt(rnd.nextInt(47000) + 3000);
             Hotel ht = new Hotel(
                     i,
                     hotelNames[rnd.nextInt(hotelNames.length)],
                     hotelAddressess[rnd.nextInt(hotelAddressess.length)] + ", " + iceland_zipCode_city[rnd.nextInt(iceland_zipCode_city.length)],
                     hotelDescriptions[rnd.nextInt(hotelDescriptions.length)],
-                    "src/images/hotel" + rnd.nextInt(16) + ".jpg",
-                    rnd.nextInt(5)+1, // between 1-5 int
+                    "images/hotel" + rnd.nextInt(17) + ".jpeg",
+                    rnd.nextInt(5) + 1, // between 1-5 int
                     startingRoomPrice,
-                    Math.round((rnd.nextDouble()+1)*10.0+3)/10.0, // between 1 - 3 km?
-                    Math.round((rnd.nextDouble()+1)*10.0+3)/10.0,
-                    bools(),bools(),bools(),bools(),bools()
+                    Math.round((rnd.nextDouble() + 1) * 10.0 + 3) / 10.0, // between 1 - 3 km?
+                    Math.round((rnd.nextDouble() + 1) * 10.0 + 3) / 10.0,
+                    bools(), bools(), bools(), bools(), bools()
             );
             db.insertHotel(ht);
-            makeRooms(rnd.nextInt(291)+10,db,i,ht,startingRoomPrice);  // make all the rooms corresponding to the hotelID, between 10 and 300 rooms per hotel
-
+            makeRooms(rnd.nextInt(291) + 10, db, i, ht, startingRoomPrice);  // make all the rooms corresponding to the hotelID, between 10 and 300 rooms per hotel
         }
     }
+
     private static boolean bools() {
         Random rnd = new Random();
         int var = rnd.nextInt(2);
-        if (var == 1) return true;
-        else return false;
+        return var == 1;
     }
+
     private static boolean bools25() {
         Random rnd = new Random();
         int var = rnd.nextInt(4);
-        if (var == 0) return true;
-        else return false;
+        return var == 0;
     }   // 25% chance we get true
+
     private static String randomString(int n) {
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         StringBuilder sb = new StringBuilder();
         Random random = new Random();
-        for(int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             int index = random.nextInt(alphabet.length());
             char randomChar = alphabet.charAt(index);
             sb.append(randomChar);
         }
         return sb.toString();
     }
+
     public static void main(String[] args) {
-       HotelDB db = new HotelDB();
-       PopulateDatabase pop = new PopulateDatabase(100,db);    // til ad initializa oll nöfnin
-        pop.makeHotels(10,db);
+        HotelDB db = new HotelDB();
+        PopulateDatabase pop = new PopulateDatabase(100);    // til ad initializa oll nöfnin
+        makeHotels(pop.n, db);
     }
+
 }

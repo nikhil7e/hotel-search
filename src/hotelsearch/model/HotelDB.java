@@ -19,8 +19,8 @@ public class HotelDB implements DatabaseService {
     /**
      * Searches and returns all hotels that satisfy the given conditions
      *
-     * @param options a model class that contains a set of requirements that hotels must fulfill
-     * @return a list of Hotel objects and an empty list if database errors occur
+     * @param options an object that contains a set of conditions that searched hotels must fulfill
+     * @return a list of Hotel objects that fulfill the conditions and an empty list if database errors occur
      */
     @Override
     public List<Hotel> search(SearchOptions options) {
@@ -90,17 +90,16 @@ public class HotelDB implements DatabaseService {
     }
 
     /**
-     * Books an appropriate number of rooms in the given hotel so
-     * that all guests can be accommodated.
+     * Books an appropriate number of rooms in the given hotel so that all guests can be accommodated
      *
      * @param hotel      the hotel which will contain the rooms to be booked
      * @param guestEmail the email of the guest that will create the booking
      * @param guestName  the name of the guest that will create the booking
-     * @param options    a model class that contains a set of requirements
-     *                   that hotels must fulfill
+     * @param options    an object that contains a set of conditions that hotels must fulfill. The city and name
+     *                   tied to the object have no effect on the booking
      * @return a list of Booking objects and an empty list if database
-     * errors occur. A booking object is created for each booked room if
-     * multiple rooms must be booked to accommodate all guests
+     * errors occur. A booking object is created for each booked room if multiple rooms must be booked to accommodate
+     * all guests
      */
     public List<Booking> book(Hotel hotel, String guestEmail, String guestName, SearchOptions options) {
         try {
@@ -123,7 +122,7 @@ public class HotelDB implements DatabaseService {
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
                             "Booking.checkOutDate > ?)) " +
-                            "order by nrBeds asc) " +
+                            "order by nrBeds) " +
                             "where summa >= ?");
 
             statement.clearParameters();
@@ -391,7 +390,6 @@ public class HotelDB implements DatabaseService {
 
 
     public static void main(String[] args) {
-        /*
         HotelDB db = new HotelDB();
         SearchOptions options = new SearchOptions("Reykjavík", "",
                 LocalDate.of(2023, 4, 16),
@@ -432,7 +430,6 @@ public class HotelDB implements DatabaseService {
         db.insertHotel(test);
         db.insertRoom(room);
         db.book(test, "seah@seg.is", "aseg", options);
-    */
     }
 
 }
