@@ -316,7 +316,7 @@ public class HotelGUIController implements Initializable {
             fxSuperMarket.setText("Distance from the supermarket is " + hotel.getDistanceFromSupermarket() + " Km");
         }
         if (hotel.getStartingRoomPrice() > 0) {
-            fxStartingPrice.setText("The starting price for a room here is " + hotel.getStartingRoomPrice() + " ISK");
+            fxStartingPrice.setText("Starting room price: " + hotel.getStartingRoomPrice() + " ISK");
         }
     }
 
