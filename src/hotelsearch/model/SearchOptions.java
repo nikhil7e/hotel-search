@@ -18,7 +18,9 @@ public class SearchOptions {
         this.nrGuests = nrGuests;
     }
 
-    public String getCity() { return city; }
+    public String getCity() {
+        return city;
+    }
 
     public String getName() {
         return name;

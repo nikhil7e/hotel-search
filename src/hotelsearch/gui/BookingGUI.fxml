@@ -55,7 +55,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <DatePicker fx:id="fxBookingArraivalDate" layoutX="16.0" layoutY="40.0" />
+            <DatePicker fx:id="fxBookingArrivalDate" layoutX="16.0" layoutY="40.0" />
             <DatePicker fx:id="fxBookingDepartureDate" layoutX="16.0" layoutY="93.0" />
             <Label layoutX="17.0" layoutY="25.0" prefHeight="18.0" prefWidth="86.0" text="Arrival date" />
             <Button fx:id="fxBookingBack" layoutX="11.0" layoutY="188.0" mnemonicParsing="false" onAction="#bookingBackHandler" prefHeight="74.0" prefWidth="86.0" text="Back">

@@ -123,7 +123,7 @@ public class HotelDB implements DatabaseService {
                             "Booking.roomID = Room.roomID and (Booking.checkInDate between ? and ? or " +
                             "Booking.checkOutDate between ? and ? or Booking.checkInDate < ? and " +
                             "Booking.checkOutDate > ?)) " +
-                            "order by nrBeds asc) " +
+                            "order by nrBeds) " +
                             "where summa >= ?");
 
             statement.clearParameters();

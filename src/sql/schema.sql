@@ -1,4 +1,4 @@
-/* REMEMBER TO REMOVE */
+/* ATTENTION DROP TABLE */
 DROP TABLE Hotel;
 DROP TABLE Room;
 DROP TABLE Booking;
@@ -21,6 +21,7 @@ CREATE TABLE Hotel
     featured                BOOLEAN CHECK (featured IN (0, 1)),
     primary key (hotelID)
 );
+
 /*
 insert into Hotel
 values (1, 'Test1', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
@@ -29,6 +30,7 @@ values (2, 'Test2', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5
 insert into Hotel
 values (3, 'Test3', '1st street, 101 Reykjavík', 'desc', 'images/hotel1.jpg', 5, 1, 1, 1, 1, 1, 1, 1, 0);
 */
+
 CREATE TABLE Room
 (
     hotelID         int,
@@ -41,6 +43,7 @@ CREATE TABLE Room
     primary key (hotelID, roomID),
     foreign key (hotelID) references Hotel (hotelID)
 );
+
 /*
 insert into Room
 values (1, 1, 4, 1, 1, 1, 1);
@@ -59,7 +62,6 @@ values (3, 1, 2, 1, 1, 1, 1);
 insert into Room
 values (3, 2, 2, 1, 1, 1, 1);
 */
-
 
 CREATE TABLE Booking
 (
