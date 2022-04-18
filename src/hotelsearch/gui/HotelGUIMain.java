@@ -13,7 +13,8 @@ public class HotelGUIMain extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("HotelGUI.fxml"));
         Parent root = loader.load();
         primaryStage.setTitle("HotelSearch");
-        Scene scene = new Scene(root, 1150, 700);
+        HotelGUIController sc = loader.getController();
+        Scene scene = new Scene(root, 1200, 700);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
