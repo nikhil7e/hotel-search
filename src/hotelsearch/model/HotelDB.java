@@ -217,12 +217,12 @@ public class HotelDB implements DatabaseService {
 
             if (rowsAffected == 0) {
                 // TODO remove once testing is no longer needed
-                System.out.println("Booking cancellation failed, invalid ID/s");
+                // System.out.println("Booking cancellation failed, invalid ID/s");
                 return false;
             }
 
             // TODO remove once testing is no longer needed
-            System.out.println("Booking " + bookingID + " cancelled");
+            // System.out.println("Booking " + bookingID + " cancelled");
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -258,7 +258,7 @@ public class HotelDB implements DatabaseService {
             ResultSet rs = statement.executeQuery();
 
             // TODO remove once testing is no longer needed
-            System.out.println("Bookings found for email " + guestEmail + ":");
+            // System.out.println("Bookings found for email " + guestEmail + ":");
 
             while (rs.next()) {
                 bookingList.add(new Booking(rs.getInt("hotelID"), rs.getInt("roomID"), rs.getInt("bookingID"),
@@ -267,7 +267,7 @@ public class HotelDB implements DatabaseService {
                         LocalDate.parse(rs.getString("checkOutDate"))));
 
                 // TODO remove once testing is no longer needed
-                System.out.println("HotelID " + rs.getInt("hotelID") + ", bookingID " + rs.getInt("bookingID"));
+                // System.out.println("HotelID " + rs.getInt("hotelID") + ", bookingID " + rs.getInt("bookingID"));
             }
 
             rs.close();
