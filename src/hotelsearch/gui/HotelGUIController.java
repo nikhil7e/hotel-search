@@ -50,7 +50,7 @@ public class HotelGUIController implements Initializable {
     @FXML
     private javafx.scene.control.TableColumn<Hotel, Integer> fxIDColumn;
     @FXML
-    private javafx.scene.control.TableColumn<Hotel, String> fxCityColumn;
+    private javafx.scene.control.TableColumn<Hotel, String> fxNameColumn;
     @FXML
     private javafx.scene.control.TableColumn<Hotel, Integer> fxStarsColumn;
     @FXML
@@ -140,7 +140,7 @@ public class HotelGUIController implements Initializable {
         if (fxHotelTable != null) {
             fxImageColumn.setCellValueFactory(new PropertyValueFactory<>("imageURL"));
             fxIDColumn.setCellValueFactory(new PropertyValueFactory<>("hotelID"));
-            fxCityColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+            fxNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
             fxAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
             fxStarsColumn.setCellValueFactory(new PropertyValueFactory<>("numberOfStars"));
             fxDescriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
