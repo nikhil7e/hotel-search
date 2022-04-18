@@ -18,8 +18,7 @@ public class HotelController {
     /**
      * Searches and returns all hotels that satisfy the given conditions
      *
-     * @param options a model class that contains a set of requirements
-     *                that hotels must fulfill
+     * @param options an object that contains a set of conditions that searched hotels must fulfill
      * @return a list of Hotel objects that satisfy the conditions and an empty list if database errors occur
      */
     public List<Hotel> search(SearchOptions options) {
@@ -42,13 +41,14 @@ public class HotelController {
     }
 
     /**
-     * Books an appropriate number of rooms in the given hotel so that all guests can be accommodated.
+     * Books an appropriate number of rooms in the given hotel that satisfy the given conditions so that all guests can
+     * be accommodated
      *
      * @param hotel      the hotel which will contain the rooms to be booked
      * @param guestEmail the email of the guest that will create the booking
      * @param guestName  the name of the guest that will create the booking
-     * @param options    a model class that contains a set of requirements
-     *                   that hotels must fulfill
+     * @param options    an object that contains a set of conditions that rooms must fulfill. The city and name
+     *                   tied to the object have no effect on the booking
      * @return a list of Booking objects representing the created bookings and an empty list if database errors occur.
      * A booking object is created for each booked room if multiple rooms must be booked to accommodate all guests
      */
@@ -57,24 +57,25 @@ public class HotelController {
     }
 
     /**
-     * Cancels a booking
+     * Removes a booking from the database
      *
-     * @param bookingID the ID of the booking that will be canceled
-     * @return true if the booking was cancelled, else false
+     * @param bookingID the ID of the booking that will be removed
+     * @return true if the booking was removed, else false
      */
     public boolean cancelBooking(int bookingID) {
         return db.cancelBooking(bookingID);
     }
 
     /**
-     * Removes the specified booking and adds a new one containing the given parameters
+     * Removes the specified booking and creates an appropriate number of bookings containing the given parameters in
+     * the given hotel so that all guests can be accommodated
      *
-     * @param hotel      the ID of the hotel that was booked
+     * @param hotel      the hotel that was booked
      * @param bookingID  the ID of the booking that will be canceled
      * @param guestEmail the email of the guest that will create the booking
      * @param guestName  the name of the guest that will create the booking
-     * @param options    a model class that contains a set of requirements
-     *                   that the new booking must fulfill
+     * @param options    an object that contains a set of conditions that hotels must fulfill. The city and name
+     *                   tied to the object have no effect on the booking
      * @return a list of Booking objects representing the created bookings and an empty list if database
      * errors occur. A booking is created for each booked room if multiple rooms must be booked to accommodate
      * all guests
